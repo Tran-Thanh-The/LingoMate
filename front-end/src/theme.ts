@@ -17,21 +17,21 @@ const customTheme: ThemeOptions = createTheme({
     secondary: {
       main: '#00429d',
       light: '#e1effe',
-      dark: '#0071f9', 
+      dark: '#0071f9',
       contrastText: '#fff',
     },
     info: {
       main: '#e1effe',
       contrastText: '#00429d',
       dark: '#e1effe',
-    }
+    },
   },
 
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: '"Inter", "Helvetica", "Arial", sans-serif', 
+          fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
           textTransform: 'none',
           borderWidth: '0.5px',
           '&:hover': { borderWidth: '0.5px' },
@@ -43,7 +43,7 @@ const customTheme: ThemeOptions = createTheme({
           borderRadius: '0.75rem',
         },
         sizeLarge: {
-          fontSize:'1rem',
+          fontSize: '1rem',
           fontWeight: 700,
           padding: '1rem 2rem',
           borderRadius: '2rem',
@@ -58,10 +58,10 @@ const customTheme: ThemeOptions = createTheme({
           borderColor: '#fff',
           borderWidth: '2px',
           color: '#fff',
-          backgroundColor:'#0047ff',
+          backgroundColor: '#0047ff',
           '&:hover': {
             borderWidth: '2px',
-            backgroundColor:'#0047ee',
+            backgroundColor: '#0047ee',
           },
         },
       },
@@ -102,7 +102,7 @@ const customTheme: ThemeOptions = createTheme({
         },
       },
     },
-    
+
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -120,7 +120,7 @@ const customTheme: ThemeOptions = createTheme({
           '&.Mui-focused fieldset': {
             borderColor: '#007bff !important',
             borderWidth: '1px !important',
-            boxShadow: '0 0 5px rgba(0, 123, 255, 0.5)', 
+            boxShadow: '0 0 5px rgba(0, 123, 255, 0.5)',
           },
         },
       },
@@ -135,7 +135,7 @@ const customTheme: ThemeOptions = createTheme({
             borderBottom: 'none !important',
           },
           '&::after': {
-            borderBottom: 'none !important', 
+            borderBottom: 'none !important',
           },
           '& input': {
             color: '#333',
@@ -145,12 +145,12 @@ const customTheme: ThemeOptions = createTheme({
             },
           },
           '&.Mui-focused': {
-            backgroundColor: '#fff', 
+            backgroundColor: '#fff',
             borderColor: '#007bff !important',
             borderWidth: '1px !important',
             outline: '4px solid rgb(225, 239, 254)',
             boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)',
-            outlineOffset: '1px'
+            outlineOffset: '1px',
           },
           '&:hover': {
             backgroundColor: '#fff',
@@ -166,7 +166,7 @@ const customTheme: ThemeOptions = createTheme({
         },
       },
     },
-    
+
     MuiTextField: {
       styleOverrides: {
         root: {
