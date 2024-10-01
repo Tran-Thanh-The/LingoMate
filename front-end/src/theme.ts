@@ -15,7 +15,7 @@ declare module '@mui/material/Button' {
 }
 const customTheme: ThemeOptions = createTheme({
   typography: {
-    fontFamily: '"Poppins", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
     fontSize: 16,
   },
 
@@ -208,7 +208,7 @@ const customTheme: ThemeOptions = createTheme({
         },
         outlined: {
           '& .MuiSelect-select': {
-            padding: '1rem', 
+            padding: '1rem',
             color: '#333',
           },
           '& fieldset': {
@@ -226,7 +226,7 @@ const customTheme: ThemeOptions = createTheme({
         },
         filled: {
           '& .MuiSelect-select': {
-            padding: '1rem', 
+            padding: '1rem',
             backgroundColor: '#fff',
             color: '#333',
           },
