@@ -1,6 +1,6 @@
 import { Box, Typography, Button, Paper } from '@mui/material';
 
-const LoginCard = () => {
+const LoginCard = ({ onUsernameClick, onPhoneClick }) => {
   return (
     <Paper
       elevation={3}
@@ -32,10 +32,22 @@ const LoginCard = () => {
       >
         Tham gia ngay cùng Nền tảng học và Luyện thi thông minh
       </Typography>
-      <Button variant="contained" color="primary" fullWidth sx={{ mb: 2 }}>
+      <Button
+        variant="contained"
+        onClick={onPhoneClick}
+        color="primary"
+        fullWidth
+        sx={{ mb: 2 }}
+      >
         Tiếp tục với số điện thoại
       </Button>
-      <Button variant="outlined" color="primary" fullWidth sx={{ mb: 2 }}>
+      <Button
+        variant="outlined"
+        onClick={onUsernameClick}
+        color="primary"
+        fullWidth
+        sx={{ mb: 2 }}
+      >
         Tiếp tục bằng username
       </Button>
       <Typography variant="caption" align="center" sx={{ mt: 3 }}>

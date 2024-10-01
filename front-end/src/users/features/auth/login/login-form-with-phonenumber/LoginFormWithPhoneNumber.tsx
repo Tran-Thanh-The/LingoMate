@@ -11,7 +11,7 @@ const schema = yup.object().shape({
     .matches(/^[0-9]{10}$/, 'Số điện thoại phải có đúng 10 chữ số'),
 });
 
-const LoginFormWithPhoneNumber = () => {
+const LoginFormWithPhoneNumber = ({ onBackClick }) => {
   const {
     register,
     handleSubmit,
@@ -51,6 +51,7 @@ const LoginFormWithPhoneNumber = () => {
         }}
       >
         <ArrowBackIosIcon
+          onClick={onBackClick}
           sx={{ position: 'absolute', left: '4', cursor: 'pointer' }}
         />
         <Typography

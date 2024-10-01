@@ -13,7 +13,7 @@ const schema = yup.object().shape({
     .min(6, 'Password must be at least 6 characters long'),
 });
 
-const LoginFormWithUsername = () => {
+const LoginFormWithUsername = ({ onBackClick }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -62,6 +62,7 @@ const LoginFormWithUsername = () => {
         }}
       >
         <ArrowBackIosIcon
+          onClick={onBackClick}
           sx={{ position: 'absolute', left: '4', cursor: 'pointer' }}
         />
         <Typography

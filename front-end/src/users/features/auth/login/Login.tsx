@@ -7,12 +7,17 @@ import {
   Paper,
   ThemeProvider,
 } from '@mui/material';
+import { useState } from 'react';
 import customTheme from '@/theme';
 import LoginCard from './login-card/LoginCard';
 import LoginFormWithUsername from './login-form-with-username/LoginFormWithUsername';
 import LoginFormWithPhoneNumber from './login-form-with-phonenumber/LoginFormWithPhoneNumber';
 
 const Login = () => {
+  const [currentForm, setCurrentForm] = useState<
+    'loginCard' | 'username' | 'phone'
+  >('loginCard');
+
   return (
     <ThemeProvider theme={customTheme}>
       <Box
@@ -25,7 +30,7 @@ const Login = () => {
       >
         <Container
           sx={{
-            maxWidth: 'lg',
+            maxWidth: 'xl',
             width: '100%',
             minHeight: '90vh',
             display: 'flex',
@@ -39,8 +44,6 @@ const Login = () => {
               xs: '0px',
               md: '30px',
             },
-            py: 2,
-            px: 0,
           }}
         >
           <Grid container spacing={2} alignItems="center">
@@ -72,9 +75,22 @@ const Login = () => {
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LoginCard />
-              {/* <LoginFormWithUsername /> */}
-              {/* <LoginFormWithPhoneNumber /> */}
+              {currentForm === 'loginCard' && (
+                <LoginCard
+                  onUsernameClick={() => setCurrentForm('username')}
+                  onPhoneClick={() => setCurrentForm('phone')}
+                />
+              )}
+              {currentForm === 'username' && (
+                <LoginFormWithUsername
+                  onBackClick={() => setCurrentForm('loginCard')}
+                />
+              )}
+              {currentForm === 'phone' && (
+                <LoginFormWithPhoneNumber
+                  onBackClick={() => setCurrentForm('loginCard')}
+                />
+              )}
             </Grid>
           </Grid>
         </Container>
