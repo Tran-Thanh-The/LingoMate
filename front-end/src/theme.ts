@@ -1,5 +1,18 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
+declare module '@mui/material/styles' {
+  interface Palette {
+    customColor: Palette['primary'];
+  }
+  interface PaletteOptions {
+    customColor?: PaletteOptions['primary'];
+  }
+}
 
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    customColor: true;
+  }
+}
 const customTheme: ThemeOptions = createTheme({
   typography: {
     fontFamily: '"Poppins", "Helvetica", "Arial", sans-serif',
@@ -25,6 +38,12 @@ const customTheme: ThemeOptions = createTheme({
       contrastText: '#00429d',
       dark: '#e1effe',
     },
+    customColor: {
+      main: '#f3f4f6',
+      light: '#f5f6fa',
+      dark: '#c1c2c7',
+      contrastText: '#23242d',
+    },
   },
 
   components: {
@@ -35,6 +54,7 @@ const customTheme: ThemeOptions = createTheme({
           textTransform: 'none',
           borderWidth: '0.5px',
           '&:hover': { borderWidth: '0.5px' },
+          width: '100%',
         },
         sizeSmall: {
           padding: '0.75rem 1.25rem',
@@ -55,13 +75,10 @@ const customTheme: ThemeOptions = createTheme({
           borderRadius: '0.5rem',
         },
         outlined: {
-          borderColor: '#fff',
           borderWidth: '2px',
-          color: '#fff',
-          backgroundColor: '#0047ff',
           '&:hover': {
             borderWidth: '2px',
-            backgroundColor: '#0047ee',
+            opacity: '0.9',
           },
         },
       },
@@ -107,6 +124,7 @@ const customTheme: ThemeOptions = createTheme({
       styleOverrides: {
         root: {
           fontSize: '1rem',
+          width: '100%',
           '& input': {
             color: '#333',
             '&::placeholder': {
@@ -130,6 +148,7 @@ const customTheme: ThemeOptions = createTheme({
       styleOverrides: {
         root: {
           fontSize: '1rem',
+          width: '100%',
           backgroundColor: '#fff',
           '&::before': {
             borderBottom: 'none !important',
@@ -171,6 +190,62 @@ const customTheme: ThemeOptions = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '0.75rem!important',
+        },
+      },
+    },
+
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
+          width: '100%',
+          '& .MuiSelect-select': {
+            padding: '1rem 0.875rem',
+            display: 'flex',
+            alignItems: 'center',
+            color: '#333',
+          },
+        },
+        outlined: {
+          '& .MuiSelect-select': {
+            padding: '1rem', 
+            color: '#333',
+          },
+          '& fieldset': {
+            borderColor: 'rgb(229, 231, 235)',
+            borderWidth: '1px',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: '#007bff !important',
+            borderWidth: '1px !important',
+            boxShadow: '0 0 5px rgba(0, 123, 255, 0.5)',
+          },
+          '&:hover fieldset': {
+            borderColor: '#007bff !important',
+          },
+        },
+        filled: {
+          '& .MuiSelect-select': {
+            padding: '1rem', 
+            backgroundColor: '#fff',
+            color: '#333',
+          },
+          '&:before': {
+            borderBottom: 'none',
+          },
+          '&:after': {
+            borderBottom: 'none',
+          },
+          '&.Mui-focused': {
+            backgroundColor: '#fff',
+            borderColor: '#007bff !important',
+            borderWidth: '1px !important',
+            outline: '4px solid rgb(225, 239, 254)',
+            boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)',
+          },
+          '&:hover': {
+            backgroundColor: '#fff',
+          },
         },
       },
     },
