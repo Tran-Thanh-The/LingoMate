@@ -1,15 +1,14 @@
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from '@/routes/AppRoutes';
-import HeaderVisibility from './routes/HeaderVisibility';
-import Footer from './components/Footer/Footer';
+import LayoutVisibility from './routes/LayoutVisibility';
 
 function App() {
   return (
     <BrowserRouter>
-      <HeaderVisibility />
-      <AppRoutes />
-      <Footer />
+      <LayoutVisibility>
+        <AppRoutes />
+      </LayoutVisibility>
     </BrowserRouter>
   );
 }

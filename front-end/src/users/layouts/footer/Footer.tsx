@@ -23,7 +23,11 @@ export default function Footer() {
       sx={{ padding: '2.5rem 0', backgroundColor: '#f9fafb', color: '#6b7280' }}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={{xs: '20px', sm: '20px', md: 7}} justifyContent="center">
+        <Grid
+          container
+          spacing={{ xs: '20px', sm: '20px', md: 7 }}
+          justifyContent="center"
+        >
           <Grid
             size={{ xs: 12, sm: 10, md: 3 }}
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
@@ -58,8 +62,17 @@ export default function Footer() {
               Đ.Hoàng Quốc Việt, P.Cổ Nhuế 1, Q.Bắc Từ Liêm, TP.Hà Nội.
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 4, md: 3 }} sx={{ order: { xs: 2, sm: 3, md: 0 } }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: {md: '8px', lg: '20px'} }}>
+          <Grid
+            size={{ xs: 12, sm: 4, md: 3 }}
+            sx={{ order: { xs: 2, sm: 3, md: 0 } }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: { md: '8px', lg: '20px' },
+              }}
+            >
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -97,8 +110,17 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} sx={{ order: { xs: 3, sm: 2, md: 0 } }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: {md: '8px', lg: '20px'} }}>
+          <Grid
+            size={{ xs: 12, sm: 6, md: 3 }}
+            sx={{ order: { xs: 3, sm: 2, md: 0 } }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: { md: '8px', lg: '20px' },
+              }}
+            >
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -140,8 +162,17 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 10, md: 3 }} sx={{ order: { xs: 4, sm: 4} }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', ap: {md: '8px', lg: '20px'} }}>
+          <Grid
+            size={{ xs: 12, sm: 10, md: 3 }}
+            sx={{ order: { xs: 4, sm: 4 } }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                ap: { md: '8px', lg: '20px' },
+              }}
+            >
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -150,14 +181,23 @@ export default function Footer() {
               >
                 Tải ứng dụng trên điện thoại
               </Typography>
-              <Box sx={{display: 'flex', flexWrap: {sm:'nowrap', md: 'wrap'}, gap: '1rem', mt: {xs:'20px', sm: '20px'}}}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: { sm: 'nowrap', md: 'wrap' },
+                  gap: '1rem',
+                  mt: { xs: '20px', sm: '20px' },
+                }}
+              >
                 <Link href="#" underline="none" width={160}>
                   <Box
                     component="img"
-                    sx={{ height: 'auto',
+                    sx={{
+                      height: 'auto',
                       width: '100%',
                       maxWidth: 160,
-                      flexShrink: 1, }}
+                      flexShrink: 1,
+                    }}
                     alt="appStore"
                     src={appStore}
                   />
@@ -165,10 +205,12 @@ export default function Footer() {
                 <Link href="#" underline="none" width={160}>
                   <Box
                     component="img"
-                    sx={{ height: 'auto',
+                    sx={{
+                      height: 'auto',
                       width: '100%',
                       maxWidth: 160,
-                      flexShrink: 1,}}
+                      flexShrink: 1,
+                    }}
                     alt="googlePlay"
                     src={googlePlay}
                   />
