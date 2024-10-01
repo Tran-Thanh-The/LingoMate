@@ -23,9 +23,9 @@ export default function Footer() {
       sx={{ padding: '2.5rem 0', backgroundColor: '#f9fafb', color: '#6b7280' }}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={7} justifyContent="center">
+        <Grid container spacing={{xs: '20px', sm: '20px', md: 7}} justifyContent="center">
           <Grid
-            size={{ xs: 12, sm: 10, md: 6, lg: 3 }}
+            size={{ xs: 12, sm: 10, md: 3 }}
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
           >
             <Box
@@ -58,8 +58,8 @@ export default function Footer() {
               Đ.Hoàng Quốc Việt, P.Cổ Nhuế 1, Q.Bắc Từ Liêm, TP.Hà Nội.
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 10, md: 6, lg: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Grid size={{ xs: 12, sm: 4, md: 3 }} sx={{ order: { xs: 2, sm: 3, md: 0 } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: {md: '8px', lg: '20px'} }}>
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -88,17 +88,17 @@ export default function Footer() {
               </Typography>
               <Typography variant="caption">
                 <Link href="#" mr={'0.5rem'} color="inherit" underline="none">
-                  <FacebookRoundedIcon sx={{ width: '24px', height: '24px' }} />
+                  <FacebookRoundedIcon sx={{ fontSize: 24 }} />
                 </Link>
                 <Link href="#" color="inherit" underline="none">
-                  <Mail sx={{ width: '24px', height: '24px' }} />
+                  <Mail sx={{ fontSize: 24 }} />
                 </Link>
               </Typography>
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 10, md: 6, lg: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} sx={{ order: { xs: 3, sm: 2, md: 0 } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: {md: '8px', lg: '20px'} }}>
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -140,8 +140,8 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 10, md: 6, lg: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <Grid size={{ xs: 12, sm: 10, md: 3 }} sx={{ order: { xs: 4, sm: 4} }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', ap: {md: '8px', lg: '20px'} }}>
               <Typography
                 variant="caption"
                 fontWeight={600}
@@ -150,29 +150,37 @@ export default function Footer() {
               >
                 Tải ứng dụng trên điện thoại
               </Typography>
-              <Link href="#" underline="none" width={160}>
-                <Box
-                  component="img"
-                  sx={{ height: 'auto', width: 160 }}
-                  alt="appStore"
-                  src={appStore}
-                />
-              </Link>
-              <Link href="#" underline="none" width={160}>
-                <Box
-                  component="img"
-                  sx={{ height: 'auto', width: 160 }}
-                  alt="googlePlay"
-                  src={googlePlay}
-                />
-              </Link>
+              <Box sx={{display: 'flex', flexWrap: {sm:'nowrap', md: 'wrap'}, gap: '1rem', mt: {xs:'20px', sm: '20px'}}}>
+                <Link href="#" underline="none" width={160}>
+                  <Box
+                    component="img"
+                    sx={{ height: 'auto',
+                      width: '100%',
+                      maxWidth: 160,
+                      flexShrink: 1, }}
+                    alt="appStore"
+                    src={appStore}
+                  />
+                </Link>
+                <Link href="#" underline="none" width={160}>
+                  <Box
+                    component="img"
+                    sx={{ height: 'auto',
+                      width: '100%',
+                      maxWidth: 160,
+                      flexShrink: 1,}}
+                    alt="googlePlay"
+                    src={googlePlay}
+                  />
+                </Link>
+              </Box>
             </Box>
           </Grid>
         </Grid>
         <Divider sx={{ marginTop: '1.5rem', marginBottom: '1.5rem' }} />
         <Grid container spacing={7} justifyContent="center">
           <Grid
-            size={{ xs: 12, sm: 10, md: 6, lg: 6 }}
+            size={{ xs: 12, sm: 10, md: 6 }}
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
           >
             <Typography
@@ -200,7 +208,7 @@ export default function Footer() {
               31 tháng 07 năm 2023 do Sở Giáo dục và Đào tạo Hà Nội cấp
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 10, md: 6, lg: 6 }}>
+          <Grid size={{ xs: 12, sm: 10, md: 6 }}>
             <Box>
               <Typography
                 variant="body2"
