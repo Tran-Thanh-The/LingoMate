@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const schema = yup.object().shape({
   username: yup.string().required('Username is required'),
@@ -49,16 +50,31 @@ const LoginFormWithUsername = () => {
         },
         width: '100%',
         borderRadius: '30px',
+        position: 'relative',
       }}
     >
-      <Typography
-        variant="subtitle2"
-        gutterBottom
-        align="center"
-        fontWeight={'600'}
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: '20px',
+        }}
       >
-        Đăng nhập bằng username
-      </Typography>
+        <ArrowBackIosIcon
+          sx={{ position: 'absolute', left: '4', cursor: 'pointer' }}
+        />
+        <Typography
+          variant="h6"
+          sx={{
+            flexGrow: 1,
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}
+        >
+          Đăng nhập bằng usename
+        </Typography>
+      </Box>
       <Typography
         variant="caption"
         align="center"
@@ -102,7 +118,6 @@ const LoginFormWithUsername = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ width: '100%' }}
       >
-        {/* Username Field */}
         <Typography
           variant="body2"
           sx={{

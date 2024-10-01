@@ -10,6 +10,7 @@ import {
 import customTheme from '@/theme';
 import LoginCard from './login-card/LoginCard';
 import LoginFormWithUsername from './login-form-with-username/LoginFormWithUsername';
+import LoginFormWithPhoneNumber from './login-form-with-phonenumber/LoginFormWithPhoneNumber';
 
 const Login = () => {
   return (
@@ -71,8 +72,9 @@ const Login = () => {
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ paddingLeft: 0, paddingRight: 0 }}>
-              {/* <LoginCard /> */}
-              <LoginFormWithUsername />
+              <LoginCard />
+              {/* <LoginFormWithUsername /> */}
+              {/* <LoginFormWithPhoneNumber /> */}
             </Grid>
           </Grid>
         </Container>
