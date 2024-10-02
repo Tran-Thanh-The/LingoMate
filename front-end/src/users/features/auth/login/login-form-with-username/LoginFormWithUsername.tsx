@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormData {
   email?: string;
@@ -25,6 +26,8 @@ const LoginFormWithUsername = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -43,6 +46,10 @@ const LoginFormWithUsername = ({
 
   const onSubmit = (data: LoginFormData) => {
     console.log(data);
+  };
+
+  const handleRouterRegister = () => {
+    navigate('/register');
   };
 
   return (
@@ -190,6 +197,16 @@ const LoginFormWithUsername = ({
           disabled={!isValid}
         >
           Đăng nhập
+        </Button>
+
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 3 }}
+          onClick={handleRouterRegister}
+        >
+          Đăng ký
         </Button>
       </Box>
     </Paper>
