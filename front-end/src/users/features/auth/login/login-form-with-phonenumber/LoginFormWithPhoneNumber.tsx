@@ -4,6 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+interface LoginFormPhoneData {
+  phoneNumber?: string;
+}
+
 const schema = yup.object().shape({
   phoneNumber: yup
     .string()
@@ -11,17 +15,21 @@ const schema = yup.object().shape({
     .matches(/^[0-9]{10}$/, 'Số điện thoại phải có đúng 10 chữ số'),
 });
 
-const LoginFormWithPhoneNumber = ({ onBackClick }) => {
+const LoginFormWithPhoneNumber = ({
+  onBackClick,
+}: {
+  onBackClick: () => void;
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<LoginFormPhoneData>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: LoginFormPhoneData) => {
     console.log(data);
   };
 

@@ -5,15 +5,24 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+interface LoginFormData {
+  email?: string;
+  password?: string;
+}
+
 const schema = yup.object().shape({
-  username: yup.string().required('Username is required'),
+  email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
   password: yup
     .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters long'),
+    .required('Password là bắt buộc')
+    .min(6, 'Password phải có ít nhất 6 ký tự'),
 });
 
-const LoginFormWithUsername = ({ onBackClick }) => {
+const LoginFormWithUsername = ({
+  onBackClick,
+}: {
+  onBackClick: () => void;
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -27,12 +36,12 @@ const LoginFormWithUsername = ({ onBackClick }) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: LoginFormData) => {
     console.log(data);
   };
 
@@ -73,7 +82,7 @@ const LoginFormWithUsername = ({ onBackClick }) => {
             fontWeight: 'bold',
           }}
         >
-          Đăng nhập bằng usename
+          Đăng nhập bằng username
         </Typography>
       </Box>
       <Typography
@@ -82,7 +91,7 @@ const LoginFormWithUsername = ({ onBackClick }) => {
         sx={{ mt: 1 }}
         color="#374151"
       >
-        Hình thức này chỉ áp dụng với các học viên được cung cấp username <br />{' '}
+        Hình thức này chỉ áp dụng với các học viên được cung cấp <br></br> email
         khác với số điện thoại.
       </Typography>
       <Typography
@@ -91,7 +100,8 @@ const LoginFormWithUsername = ({ onBackClick }) => {
         sx={{ mb: 4 }}
         color="#374151"
       >
-        Trong trường hợp bạn đã dùng số điện thoại để đăng ký <br /> vui lòng{' '}
+        Trong trường hợp bạn đã dùng số điện thoại để đăng ký, <br></br> vui
+        lòng{' '}
         <Box
           component="span"
           sx={{
@@ -126,16 +136,16 @@ const LoginFormWithUsername = ({ onBackClick }) => {
             fontWeight: '500',
           }}
         >
-          Username <span style={{ color: 'red' }}>*</span>
+          Email <span style={{ color: 'red' }}>*</span>
         </Typography>
         <TextField
           fullWidth
-          placeholder="Nhập username"
+          placeholder="Nhập email"
           margin="normal"
           variant="outlined"
-          {...register('username')}
-          error={!!errors.username}
-          helperText={errors.username?.message}
+          {...register('email')}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           InputProps={{
             sx: {
               borderRadius: '8px',
