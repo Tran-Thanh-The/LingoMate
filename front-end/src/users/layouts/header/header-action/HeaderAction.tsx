@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,13 @@ import Grid from '@mui/material/Grid2'
 import * as React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+// const user = {
+//   name: 'Trần Thanh Thế',
+//   email: 'tranthanh@gmail.com',
+// };
+// localStorage.setItem('user', JSON.stringify(user));
+const storedUser = localStorage.getItem('user');
+const user = storedUser ? JSON.parse(storedUser) : null;
 const HeaderAction = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -22,44 +29,67 @@ const HeaderAction = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   return (
     <Grid container alignItems="center" justifyContent="flex-end" spacing={2}>
         <Grid>
             <Button variant='contained' color='primary' size='small' sx={{ witdh: '130px', height: '44px'}}>Bắt đầu học</Button>
         </Grid>
 
-        <Grid >
-            <Box>
+        {user && (
+        <Grid>
+          <Box>
             <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <AccountCircleIcon sx={{ color: '#0071f9', fontSize: '48px' }} />
-                </IconButton>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <AccountCircleIcon sx={{ color: '#0071f9', fontSize: '48px' }} />
+              </IconButton>
             </Tooltip>
             <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
+              }}
+              keepMounted
+              transformOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-                {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+              <Grid>
+                <MenuItem sx={{ padding: '12px' }}>
+                  <Link href="/" sx={{ padding: '8px', textDecoration: 'none', color: '#23242d', display: 'flex', justifyContent: 'space-between', '&:hover': { backgroundColor: '#ebf5ff' }, borderRadius: '6px' }}>
+                    <AccountCircleIcon sx={{ color: '#0071f9', fontSize: '48px' }} />
+                    <Grid>
+                      <Typography variant='caption' sx={{ fontWeight: 700 }}>{user.name}</Typography>
+                      <Typography sx={{ fontSize: '12px' }}>{user.email}</Typography>
+                    </Grid>
+                  </Link>
                 </MenuItem>
-                ))}
+
+                <MenuItem>
+                  <Link href="/" sx={{ fontSize: '0.875rem', color: 'inherit' }}>
+                    Trao đổi về bài chấm chữa
+                  </Link>
+                </MenuItem>
+                <MenuItem sx={{ fontSize: '0.875rem', color: 'inherit' }}>
+                  <Link href="/">
+                    Cài đặt
+                  </Link>
+                </MenuItem>
+                <MenuItem sx={{ fontSize: '0.875rem', color: '#e20d2c' }}>
+                  <Link href="/">
+                    Đăng xuất
+                  </Link>
+                </MenuItem>
+              </Grid>
             </Menu>
-            </Box>
+          </Box>
         </Grid>
+      )}
     </Grid>
     
   );

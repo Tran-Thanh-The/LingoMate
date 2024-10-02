@@ -1,4 +1,5 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
+
 declare module '@mui/material/styles' {
   interface Palette {
     customColor: Palette['primary'];
@@ -13,6 +14,7 @@ declare module '@mui/material/Button' {
     customColor: true;
   }
 }
+
 const customTheme: ThemeOptions = createTheme({
   typography: {
     fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
@@ -254,6 +256,7 @@ const customTheme: ThemeOptions = createTheme({
       styleOverrides: {
         root: {
           padding: 0,
+          minWidth: '226px',
         },
       },
     },
@@ -261,13 +264,25 @@ const customTheme: ThemeOptions = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          color: '#23342d',
+          color: '#23242d',
           fontSize: '1rem',
           fontWeight: 600,
-          padding: '12px',
+          padding: '8px 20px',
+          margin: '8px',
+          backgroundColor:'transparent',
           '&:hover': {
-            backgroundColor: 'inherit',
+            backgroundColor: '#ebf5ff',
           },
+          minWidth: '200px',
+        },
+      },
+    },
+
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+          color: 'inherit',
         },
       },
     },
