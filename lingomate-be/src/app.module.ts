@@ -1,29 +1,70 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { EnvModule } from './configs/env.module';
-import { LoggerMiddleware } from './application/middlewares/logger.middleware';
-import { DatabaseModule } from './infra/database/database.module';
-import { AuthModule } from './application/api/auth/auth.module';
-import { UserModule } from './application/api/user/user.module';
-import { UserService } from './application/services/user/user.service';
-import { AuthService } from './application/services/auth/auth.service';
+import { Module } from "@nestjs/common";
+import { UsersModule } from "./users/users.module";
+import { FilesModule } from "./files/files.module";
+import { AuthModule } from "./auth/auth.module";
+import databaseConfig from "./database/config/database.config";
+import authConfig from "./auth/config/auth.config";
+import appConfig from "./config/app.config";
+import mailConfig from "./mail/config/mail.config";
+import fileConfig from "./files/config/file.config";
+import path from "path";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { I18nModule } from "nestjs-i18n/dist/i18n.module";
+import { HeaderResolver } from "nestjs-i18n";
+import { TypeOrmConfigService } from "./database/typeorm-config.service";
+import { MailModule } from "./mail/mail.module";
+import { HomeModule } from "./home/home.module";
+import { DataSource, DataSourceOptions } from "typeorm";
+import { AllConfigType } from "./config/config.type";
+import { SessionModule } from "./session/session.module";
+import { MailerModule } from "./mailer/mailer.module";
+
+const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
+  useClass: TypeOrmConfigService,
+  dataSourceFactory: async (options: DataSourceOptions) => {
+    return new DataSource(options).initialize();
+  },
+});
 
 @Module({
   imports: [
-    EnvModule,
-    DatabaseModule.register({
-      type: 'postgres',
-      global: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
+      envFilePath: [".env"],
     }),
+    infrastructureDatabaseModule,
+    I18nModule.forRootAsync({
+      useFactory: (configService: ConfigService<AllConfigType>) => ({
+        fallbackLanguage: configService.getOrThrow("app.fallbackLanguage", {
+          infer: true,
+        }),
+        loaderOptions: { path: path.join(__dirname, "/i18n/"), watch: true },
+      }),
+      resolvers: [
+        {
+          use: HeaderResolver,
+          useFactory: (configService: ConfigService<AllConfigType>) => {
+            return [
+              configService.get("app.headerLanguage", {
+                infer: true,
+              }),
+            ];
+          },
+          inject: [ConfigService],
+        },
+      ],
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
+    UsersModule,
+    FilesModule,
     AuthModule,
-    UserModule,
+    SessionModule,
+    MailModule,
+    MailerModule,
+    HomeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, UserService, AuthService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}
