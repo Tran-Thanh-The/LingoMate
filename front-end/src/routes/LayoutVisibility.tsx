@@ -8,10 +8,9 @@ interface LayoutVisibilityProps {
 
 const LayoutVisibility: React.FC<LayoutVisibilityProps> = ({ children }) => {
   const location = useLocation();
-  console.log(location);
 
-  const hideHeaderPaths: string[] = ['/login', ];
-  const hideFooterPaths: string[] = ['/login', ];
+  const hideHeaderPaths: string[] = ['/login', '/register'];
+  const hideFooterPaths: string[] = ['/login', '/register'];
 
   const showHeader = !hideHeaderPaths.includes(location.pathname);
   const showFooter = !hideFooterPaths.includes(location.pathname);
