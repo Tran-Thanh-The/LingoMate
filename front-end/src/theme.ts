@@ -249,6 +249,28 @@ const customTheme: ThemeOptions = createTheme({
         },
       },
     },
+
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
+      },
+    },
+
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          color: '#23342d',
+          fontSize: '1rem',
+          fontWeight: 600,
+          padding: '12px',
+          '&:hover': {
+            backgroundColor: 'inherit',
+          },
+        },
+      },
+    },
   },
 });
 
