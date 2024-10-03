@@ -1,16 +1,20 @@
+export const arrowDownIconStyle = {
+  ml: { md: 0, lg: 1 },
+  flexShrink: 0,
+  fontSize: '1rem'
+}
+
 export const textStyle = {
   display: 'flex',
   alignItems: 'center',
   borderRadius: '24px',
   color: '#233876',
-  fontWeight: 600,
   '&:hover': {
     backgroundColor: '#ebf5ff',
   },
   fontSize: {
     xs: '12px',
     md: '13px',
-    lg: '16px',
   },
   padding: {
     md: '4px',
@@ -23,15 +27,18 @@ export const linkStyle = {
   alignItems: 'center',
   flexShrink: 1,
   minWidth: 0,
-  fontWeight: 600,
-  '&:hover': {
-    backgroundColor: '#ebf5ff',
-  },
   padding: {
     md: '8px 12px',
     lg: '8px 20px',
   },
 };
+
+export const menuItemStyle = {
+  fontSize: {
+    xs: '12px',
+    md: '13px',
+  },
+}
 
 export const containerStyles = {
   display: 'flex',

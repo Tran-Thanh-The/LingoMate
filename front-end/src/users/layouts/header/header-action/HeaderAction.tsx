@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid2';
 import * as React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -31,16 +31,25 @@ const HeaderAction = () => {
   };
   return (
     <Grid container alignItems="center" justifyContent="flex-end" spacing={2}>
-        <Grid>
-            <Button variant='contained' color='primary' size='small' sx={{ witdh: '130px', height: '44px'}}>Bắt đầu học</Button>
-        </Grid>
+      <Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          sx={{ witdh: '130px', height: '44px' }}
+        >
+          Bắt đầu học
+        </Button>
+      </Grid>
 
-        {user && (
+      {user && (
         <Grid>
           <Box>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircleIcon sx={{ color: '#0071f9', fontSize: '48px' }} />
+                <AccountCircleIcon
+                  sx={{ color: '#0071f9', fontSize: '48px' }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -60,30 +69,46 @@ const HeaderAction = () => {
               onClose={handleCloseUserMenu}
             >
               <Grid>
-                <MenuItem sx={{ padding: '12px' }}>
-                  <Link href="/" sx={{ padding: '8px', textDecoration: 'none', color: '#23242d', display: 'flex', justifyContent: 'space-between', '&:hover': { backgroundColor: '#ebf5ff' }, borderRadius: '6px' }}>
-                    <AccountCircleIcon sx={{ color: '#0071f9', fontSize: '48px' }} />
+                <MenuItem >
+                <Tooltip title={`${user.name} ${user.email}`}>
+                  <Link
+                    href="/"
+                    sx={{
+                      padding: '8px',
+                      textDecoration: 'none',
+                      color: '#23242d',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <AccountCircleIcon
+                      sx={{ color: '#0071f9', fontSize: '48px' }}
+                    />
                     <Grid>
-                      <Typography variant='caption' sx={{ fontWeight: 700 }}>{user.name}</Typography>
-                      <Typography sx={{ fontSize: '12px' }}>{user.email}</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 700 }}>
+                        {user.name}
+                      </Typography>
+                      <Typography sx={{ fontSize: '12px' }}>
+                        {user.email}
+                      </Typography>
                     </Grid>
                   </Link>
+                  </Tooltip>
                 </MenuItem>
 
-                <MenuItem>
-                  <Link href="/" sx={{ fontSize: '0.875rem', color: 'inherit' }}>
+                <MenuItem sx={{ borderTop: '1px solid #6b7280' }}>
+                  <Link
+                    href="/"
+                    sx={{ fontSize: '0.875rem', color: 'inherit' }}
+                  >
                     Trao đổi về bài chấm chữa
                   </Link>
                 </MenuItem>
-                <MenuItem sx={{ fontSize: '0.875rem', color: 'inherit' }}>
-                  <Link href="/">
-                    Cài đặt
-                  </Link>
+                <MenuItem sx={{ fontSize: '0.875rem', color: 'inherit', borderBottom: '1px solid #6b7280' }}>
+                  <Link href="/">Cài đặt</Link>
                 </MenuItem>
                 <MenuItem sx={{ fontSize: '0.875rem', color: '#e20d2c' }}>
-                  <Link href="/">
-                    Đăng xuất
-                  </Link>
+                  <Link href="/">Đăng xuất</Link>
                 </MenuItem>
               </Grid>
             </Menu>
@@ -91,7 +116,6 @@ const HeaderAction = () => {
         </Grid>
       )}
     </Grid>
-    
   );
 };
 

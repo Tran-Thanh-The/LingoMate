@@ -88,6 +88,9 @@ const customTheme: ThemeOptions = createTheme({
 
     MuiTypography: {
       styleOverrides: {
+        root: {
+          transition: 'color 0.3s ease'
+        },
         h1: {
           fontSize: '4rem',
           fontWeight: 700,
@@ -115,6 +118,7 @@ const customTheme: ThemeOptions = createTheme({
         },
         body2: {
           fontSize: '1rem',
+          fontWeight: 600
         },
         caption: {
           fontSize: '0.875rem',
@@ -283,6 +287,9 @@ const customTheme: ThemeOptions = createTheme({
         root: {
           textDecoration: 'none',
           color: 'inherit',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
         },
       },
     },

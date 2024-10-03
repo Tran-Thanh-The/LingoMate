@@ -67,29 +67,29 @@ const HeaderNavigation = () => {
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
           <MenuItem onClick={handleCloseNavMenu}>
-            <Typography textAlign="center" sx={{ ...navStyles.textStyle }}>
+            <Typography textAlign="center" sx={{ ...navStyles.textStyle }} variant='body2'>
               Trang chủ
             </Typography>
           </MenuItem>
           <MenuItem
             onClick={(event) => handleMenuOpen(event, setAnchorElCourses)}
           >
-            <Typography textAlign="center" sx={{ ...navStyles.textStyle }}>
+            <Typography textAlign="center" sx={{ ...navStyles.textStyle }} variant='body2'>
               Khóa học <ArrowDropDownIcon />
             </Typography>
           </MenuItem>
           <MenuItem onClick={handleCloseNavMenu}>
-            <Typography textAlign="center" sx={{ ...navStyles.textStyle }}>
+            <Typography textAlign="center" sx={{ ...navStyles.textStyle }} variant='body2'>
               Kiểm tra đầu vào
             </Typography>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuOpen(event, setAnchorElBlog)}>
-            <Typography textAlign="center" sx={{ ...navStyles.textStyle }}>
+            <Typography textAlign="center" sx={{ ...navStyles.textStyle }} variant='body2'>
               Blog <ArrowDropDownIcon />
             </Typography>
           </MenuItem>
           <MenuItem onClick={(event) => handleMenuOpen(event, setAnchorElNews)}>
-            <Typography textAlign="center" sx={{ ...navStyles.textStyle }}>
+            <Typography textAlign="center" sx={{ ...navStyles.textStyle }} variant='body2'>
               Tin tức <ArrowDropDownIcon />
             </Typography>
           </MenuItem>
@@ -106,6 +106,7 @@ const HeaderNavigation = () => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
+            variant='body2'
           >
             Trang chủ
           </Typography>
@@ -123,9 +124,10 @@ const HeaderNavigation = () => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
+            variant='body2'
           >
             Khóa học{' '}
-            <ArrowDropDownIcon sx={{ ml: { md: 0, lg: 1 }, flexShrink: 0 }} />
+            <ArrowDropDownIcon sx={{ ...navStyles.arrowDownIconStyle }} />
           </Typography>
         </Link>
 
@@ -137,6 +139,7 @@ const HeaderNavigation = () => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
+            variant='body2'
           >
             Kiểm tra đầu vào
           </Typography>
@@ -154,9 +157,10 @@ const HeaderNavigation = () => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
+            variant='body2'
           >
             Blog{' '}
-            <ArrowDropDownIcon sx={{ ml: { md: 0, lg: 1 }, flexShrink: 0 }} />
+            <ArrowDropDownIcon sx={{ ...navStyles.arrowDownIconStyle }} />
           </Typography>
         </Link>
 
@@ -172,9 +176,10 @@ const HeaderNavigation = () => {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}
+            variant='body2'
           >
             Tin tức{' '}
-            <ArrowDropDownIcon sx={{ ml: { md: 0, lg: 1 }, flexShrink: 0 }} />
+            <ArrowDropDownIcon sx={{ ...navStyles.arrowDownIconStyle }} />
           </Typography>
         </Link>
       </Box>
@@ -186,10 +191,10 @@ const HeaderNavigation = () => {
         onClose={() => handleMenuClose(setAnchorElCourses)}
       >
         <MenuItem component={Link} href="/ielts">
-          Luyện thi Ielts
+          <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}> Luyện thi Ielts</Typography>
         </MenuItem>
         <MenuItem component={Link} href="/toeic">
-          Luyện thi Toeic
+          <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}>Luyện thi Toeic</Typography>
         </MenuItem>
       </Menu>
 
@@ -199,10 +204,11 @@ const HeaderNavigation = () => {
         onClose={() => handleMenuClose(setAnchorElBlog)}
       >
         <MenuItem component={Link} href="/">
-          Học Ielts
+        <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}>Học Ielts</Typography>
+          
         </MenuItem>
         <MenuItem component={Link} href="/">
-          Học Toeic
+        <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}>Học Toeic</Typography>
         </MenuItem>
       </Menu>
 
@@ -212,13 +218,13 @@ const HeaderNavigation = () => {
         onClose={() => handleMenuClose(setAnchorElNews)}
       >
         <MenuItem component={Link} href="/">
-          Vinh danh học viên
+        <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}>Vinh danh học viên</Typography>
         </MenuItem>
         <MenuItem component={Link} href="/">
-          Sự kiện khuyến mãi
+        <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}> Sự kiện khuyến mãi</Typography>
         </MenuItem>
         <MenuItem component={Link} href="/">
-          Tuyển dụng
+        <Typography variant='body2' sx={{ ...navStyles.menuItemStyle }}>Tuyển dụng</Typography>
         </MenuItem>
       </Menu>
     </Box>

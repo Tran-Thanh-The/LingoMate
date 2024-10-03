@@ -5,7 +5,10 @@ const HeaderLogo = () => {
     <Box
       sx={{
         backgroundColor: '#ffffff',
-        padding: ' 1rem 1.25rem',
+        padding: {
+          xs: '12px',
+          lg: '16px 20px',
+        },
         borderRadius: '24px',
       }}
     >
