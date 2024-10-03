@@ -1,4 +1,5 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
+
 declare module '@mui/material/styles' {
   interface Palette {
     customColor: Palette['primary'];
@@ -13,6 +14,7 @@ declare module '@mui/material/Button' {
     customColor: true;
   }
 }
+
 const customTheme: ThemeOptions = createTheme({
   typography: {
     fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
@@ -86,6 +88,9 @@ const customTheme: ThemeOptions = createTheme({
 
     MuiTypography: {
       styleOverrides: {
+        root: {
+          transition: 'color 0.3s ease'
+        },
         h1: {
           fontSize: '4rem',
           fontWeight: 700,
@@ -113,6 +118,7 @@ const customTheme: ThemeOptions = createTheme({
         },
         body2: {
           fontSize: '1rem',
+          fontWeight: 600
         },
         caption: {
           fontSize: '0.875rem',
@@ -245,6 +251,44 @@ const customTheme: ThemeOptions = createTheme({
           },
           '&:hover': {
             backgroundColor: '#fff',
+          },
+        },
+      },
+    },
+
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+          minWidth: '226px',
+        },
+      },
+    },
+
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          color: '#23242d',
+          fontSize: '1rem',
+          fontWeight: 600,
+          padding: '8px 20px',
+          margin: '8px',
+          backgroundColor:'transparent',
+          '&:hover': {
+            backgroundColor: '#ebf5ff',
+          },
+          minWidth: '200px',
+        },
+      },
+    },
+
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+          color: 'inherit',
+          '&:hover': {
+            backgroundColor: 'transparent',
           },
         },
       },
