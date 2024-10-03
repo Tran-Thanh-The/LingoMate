@@ -8,7 +8,7 @@ import {
   ThemeProvider,
 } from '@mui/material';
 import customTheme from '@/theme';
-import RegisterForm from './register-form/RegisterForm';
+import RegisterForm from './components/register-form/RegisterForm';
 
 const Register = () => {
   return (

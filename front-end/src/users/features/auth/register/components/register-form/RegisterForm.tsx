@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '@/utils/formatter/DateFormat';
+import { formatDate } from '@/utils/formatter/format-date';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 interface RegisterFormData {
