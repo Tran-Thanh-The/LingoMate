@@ -1,14 +1,20 @@
 import { AppBar, Box, Container, Toolbar } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import HeaderAction from './header-action/HeaderAction';
-import HeaderLogo from './header-logo/HeaderLogo';
-import HeaderNavigation from './header-navigation/HeaderNavigation';
+import HeaderAction from './components/header-action/HeaderAction';
+import HeaderLogo from './components/header-logo/HeaderLogo';
+import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 
 const Header = () => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#f9fafb'}}>
+    <AppBar position="sticky" sx={{ backgroundColor: '#f9fafb', top: 0 }}>
     <Toolbar disableGutters>
-      <Container maxWidth="xl" sx={{ padding: '16px 0'}}>
+      <Container maxWidth="xl"
+          sx={{ 
+            padding: {
+              xs: '16px 16px', 
+              sm: '16px 24px', 
+              md: '16px 0', 
+            }
+          }}>
         <Box sx={{display: 'flex', alignItems:'center', justifyContent: {md: 'space-between'}}}>
           <Box sx={{display: {xs: 'none', sm: 'block'}}}>
             <HeaderLogo />

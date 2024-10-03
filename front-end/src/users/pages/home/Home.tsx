@@ -1,4 +1,3 @@
-import React from 'react';
 import Banner from './components/Banner/Banner';
 import Prize from './components/prize/Prize';
 import Trademark from './components/trademark/Trademark';

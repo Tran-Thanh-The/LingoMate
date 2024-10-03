@@ -1,4 +1,7 @@
-export const arrowDownIconStyle = {
+import { SxProps } from '@mui/system';
+
+
+export const arrowDownIconStyle: SxProps = {
   ml: { md: 0, lg: 1 },
   flexShrink: 0,
   fontSize: '1rem'
@@ -9,12 +12,13 @@ export const textStyle = {
   alignItems: 'center',
   borderRadius: '24px',
   color: '#233876',
+  lineHeight: '1.5rem',
   '&:hover': {
     backgroundColor: '#ebf5ff',
   },
   fontSize: {
-    xs: '12px',
-    md: '13px',
+    xs: '13px',
+    lg:'16px'
   },
   padding: {
     md: '4px',
@@ -22,7 +26,7 @@ export const textStyle = {
   },
 };
 
-export const linkStyle = {
+export const boxStyle = {
   display: 'flex',
   alignItems: 'center',
   flexShrink: 1,
@@ -32,11 +36,18 @@ export const linkStyle = {
     lg: '8px 20px',
   },
 };
+export const activeStyle = {
+  color: '#0071f9',
+};
+  
+export const navLinkStyle = {
+  textDecoration: 'none',
+  display: 'inline-flex',
+};
 
 export const menuItemStyle = {
   fontSize: {
-    xs: '12px',
-    md: '13px',
+    xs: '13px',
   },
 }
 
@@ -46,12 +57,6 @@ export const containerStyles = {
   backgroundColor: '#ffffff',
   borderRadius: '24px',
   overflow: 'hidden',
-};
-
-export const mobileMenuStyles = {
-  display: { xs: 'flex', md: 'none' },
-  flexGrow: 1,
-  justifyContent: 'center',
 };
 
 export const desktopMenuStyles = {
