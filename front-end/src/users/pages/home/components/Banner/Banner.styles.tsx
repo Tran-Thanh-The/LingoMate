@@ -8,14 +8,14 @@ export const containerBanner: SxProps = {
   justifyContent: 'center',
   flexDirection: 'column',
   position: 'relative',
-  marginBottom: '25vh',
+  marginBottom: '18vh',
   '@media (max-width: 600px)': {
     p: 2,
-    marginBottom: '15vh',
+    marginBottom: '5vh',
   },
   '@media (max-width: 960px)': {
     p: 3,
-    marginBottom: '20vh',
+    marginBottom: '5vh',
   },
 };
 
