@@ -4,8 +4,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import TranslateIcon from '@mui/icons-material/Translate';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import LearningFlatform from './learning-flatform/LearningFlatform';
-import * as styles from '@/users/pages/home/Banner/Banner.styles';
+import LearningFlatform from './components/learning-flatform/LearningFlatform';
+import * as styles from '@/users/pages/home/components/Banner/Banner.styles';
 
 const Banner = () => {
   const theme = useTheme();
