@@ -29,7 +29,7 @@ export default function Footer() {
           justifyContent="center"
         >
           <Grid
-            size={{ xs: 12, sm: 10, md: 3 }}
+            size={{ xs: 12, md: 3 }}
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
           >
             <Box
@@ -63,7 +63,7 @@ export default function Footer() {
             </Typography>
           </Grid>
           <Grid
-            size={{ xs: 12, sm: 4, md: 3 }}
+            size={{ xs: 12, sm: 5, md: 3 }}
             sx={{ order: { xs: 2, sm: 3, md: 0 } }}
           >
             <Box
@@ -111,7 +111,7 @@ export default function Footer() {
           </Grid>
 
           <Grid
-            size={{ xs: 12, sm: 6, md: 3 }}
+            size={{ xs: 12, sm: 7, md: 3 }}
             sx={{ order: { xs: 3, sm: 2, md: 0 } }}
           >
             <Box
@@ -163,7 +163,7 @@ export default function Footer() {
           </Grid>
 
           <Grid
-            size={{ xs: 12, sm: 10, md: 3 }}
+            size={{ xs: 12, md: 3 }}
             sx={{ order: { xs: 4, sm: 4 } }}
           >
             <Box
@@ -222,7 +222,7 @@ export default function Footer() {
         <Divider sx={{ marginTop: '1.5rem', marginBottom: '1.5rem' }} />
         <Grid container spacing={7} justifyContent="center">
           <Grid
-            size={{ xs: 12, sm: 10, md: 6 }}
+            size={{ xs: 12, md: 6 }}
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
           >
             <Typography
@@ -250,7 +250,7 @@ export default function Footer() {
               31 tháng 07 năm 2023 do Sở Giáo dục và Đào tạo Hà Nội cấp
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 10, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box>
               <Typography
                 variant="body2"

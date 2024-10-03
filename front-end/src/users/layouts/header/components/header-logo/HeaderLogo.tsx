@@ -1,5 +1,6 @@
-import { Box, Link } from '@mui/material';
 import logo from '@/assets/logo.svg';
+import { Box } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 const HeaderLogo = () => {
   return (
     <Box
@@ -12,7 +13,7 @@ const HeaderLogo = () => {
         borderRadius: '24px',
       }}
     >
-      <Link href="#" underline="none" display={'flex'} alignItems={'center'}>
+      <NavLink to="#" style={{ textDecoration: 'none', display: 'flex', alignItems:'center'}}>
         <Box
           component="img"
           sx={{
@@ -22,7 +23,7 @@ const HeaderLogo = () => {
           alt="header-logo"
           src={logo}
         />
-      </Link>
+      </NavLink>
     </Box>
   );
 };

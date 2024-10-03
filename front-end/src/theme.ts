@@ -271,9 +271,10 @@ const customTheme: ThemeOptions = createTheme({
           color: '#23242d',
           fontSize: '1rem',
           fontWeight: 600,
-          padding: '8px 20px',
-          margin: '8px',
           backgroundColor:'transparent',
+          '&:focus': {
+            backgroundColor: 'transparent',
+          },
           '&:hover': {
             backgroundColor: '#ebf5ff',
           },
@@ -293,6 +294,15 @@ const customTheme: ThemeOptions = createTheme({
         },
       },
     },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: '#ebf5ff',
+          },
+        }
+      }
+    }
   },
 });
 

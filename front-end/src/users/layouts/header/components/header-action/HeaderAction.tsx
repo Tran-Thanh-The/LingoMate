@@ -9,12 +9,15 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid2';
 import * as React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import * as navStyles from './HeaderAction.style';
 // const user = {
 //   name: 'Trần Thanh Thế',
 //   email: 'tranthanh@gmail.com',
 // };
 // localStorage.setItem('user', JSON.stringify(user));
+
 const storedUser = localStorage.getItem('user');
 const user = storedUser ? JSON.parse(storedUser) : null;
 const HeaderAction = () => {
@@ -29,6 +32,10 @@ const HeaderAction = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const navigate = useNavigate();
+  const handleRouterLogin = () => {
+    navigate('/login');
+  };
   return (
     <Grid container alignItems="center" justifyContent="flex-end" spacing={2}>
       <Grid>
@@ -36,7 +43,8 @@ const HeaderAction = () => {
           variant="contained"
           color="primary"
           size="small"
-          sx={{ witdh: '130px', height: '44px' }}
+          sx={{ height: '44px' }}
+          onClick={handleRouterLogin}
         >
           Bắt đầu học
         </Button>
@@ -71,12 +79,11 @@ const HeaderAction = () => {
               <Grid>
                 <MenuItem >
                 <Tooltip title={`${user.name} ${user.email}`}>
-                  <Link
-                    href="/"
-                    sx={{
+                  <NavLink
+                    to="#"
+                    style={{
+                      ...navStyles.navLinkStyle,
                       padding: '8px',
-                      textDecoration: 'none',
-                      color: '#23242d',
                       display: 'flex',
                       justifyContent: 'space-between',
                     }}
@@ -92,23 +99,23 @@ const HeaderAction = () => {
                         {user.email}
                       </Typography>
                     </Grid>
-                  </Link>
+                  </NavLink>
                   </Tooltip>
                 </MenuItem>
 
                 <MenuItem sx={{ borderTop: '1px solid #6b7280' }}>
-                  <Link
-                    href="/"
-                    sx={{ fontSize: '0.875rem', color: 'inherit' }}
+                  <NavLink
+                    to="#"
+                    style={{...navStyles.navLinkStyle, fontSize: '0.875rem' }}
                   >
                     Trao đổi về bài chấm chữa
-                  </Link>
+                  </NavLink>
                 </MenuItem>
-                <MenuItem sx={{ fontSize: '0.875rem', color: 'inherit', borderBottom: '1px solid #6b7280' }}>
-                  <Link href="/">Cài đặt</Link>
+                <MenuItem sx={{ fontSize: '0.875rem',  borderBottom: '1px solid #6b7280' }}>
+                  <NavLink to="#" style={{...navStyles.navLinkStyle}}>Cài đặt</NavLink>
                 </MenuItem>
-                <MenuItem sx={{ fontSize: '0.875rem', color: '#e20d2c' }}>
-                  <Link href="/">Đăng xuất</Link>
+                <MenuItem sx={{ fontSize: '0.875rem',}}>
+                  <NavLink to="#" style={{...navStyles.navLinkStyle, color: '#e20d2c'}}>Đăng xuất</NavLink>
                 </MenuItem>
               </Grid>
             </Menu>

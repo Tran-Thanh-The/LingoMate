@@ -1,8 +1,12 @@
+import Banner from './components/Banner/Banner';
+import Prize from './components/prize/Prize';
+
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <Banner />
+      <Prize />
+    </>
   );
 };
 

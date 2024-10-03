@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import customTheme from '@/theme';
-import LoginCard from './login-card/LoginCard';
-import LoginFormWithUsername from './login-form-with-username/LoginFormWithUsername';
-import LoginFormWithPhoneNumber from './login-form-with-phonenumber/LoginFormWithPhoneNumber';
+import LoginCard from './components/login-card/LoginCard';
+import LoginFormWithUsername from './components/login-form-with-username/LoginFormWithUsername';
+import LoginFormWithPhoneNumber from './components/login-form-with-phonenumber/LoginFormWithPhoneNumber';
 
 const Login = () => {
   const [currentForm, setCurrentForm] = useState<
