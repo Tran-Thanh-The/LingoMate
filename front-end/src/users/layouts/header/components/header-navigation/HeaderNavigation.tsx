@@ -88,12 +88,12 @@ const HeaderNavigation = () => {
       open={menuState[menu.key]}
       anchorEl={menuRefs[menu.key].current}
       placement="bottom-start"
-      style={{ zIndex: 1000 }}
+      style={{ zIndex: 9999 }}
       modifiers={[
         {
           name: 'offset',
           options: {
-            offset: [0, -16],
+            offset: [0, -8],
           },
         },
       ]}
