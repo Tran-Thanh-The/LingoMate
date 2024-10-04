@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import SliderCard from "./components/SliderCard";
+import SliderCard from "./components/slider-card/SliderCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import RandomDots from '@/users/components/random-dots/RandomDots';
 interface SliderInstance extends Slider {
     slickGoTo: (slide: number) => void;
   }
@@ -135,7 +136,7 @@ const CustomSlider = () => {
     };
 
     return(
-        <Container disableGutters maxWidth={false}  sx={{backgroundColor: 'rgb(245 246 250)', pb: 3}}>
+        <Container disableGutters maxWidth={false}  sx={{backgroundColor: 'rgb(245 246 250)', pb: 3, position:'relative'}}>
             <Container maxWidth="xl" sx={{ pt: 12, pb: 6}}>
                 <Typography variant="h5" component="h2" align="center">
                     100% giáo viên trên LingoMate đạt{' '}
@@ -160,6 +161,13 @@ const CustomSlider = () => {
                     goToSlide={goToSlide}
                 />
             </Container>
+            
+            <RandomDots 
+                count={6}
+                colors={['#FF5722', '#4CAF50', '#2196F3', '#FFC107']} 
+                sizeRange={[4, 16]} 
+                positionRange={[1, 100]}
+            />
 
         </Container>
     );
