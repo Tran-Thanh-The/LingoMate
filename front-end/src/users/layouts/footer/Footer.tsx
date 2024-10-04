@@ -3,12 +3,12 @@ import Grid from '@mui/material/Grid2';
 import { Box, Container, Typography, Link } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import Mail from '@mui/icons-material/Mail';
-import appStore from '@/assets/app-store-n.svg';
-import googlePlay from '@/assets/gg-play-n.svg';
+import appStore from '@/assets/footer-image/app-store-n.svg';
+import googlePlay from '@/assets/footer-image/gg-play-n.svg';
 import prepLogo from '@/assets/logo.svg';
-import bct from '@/assets/bct.png';
-import sectigo from '@/assets/sectigo.png';
-import badge from '@/assets/_dmca_premi_badge_4.png';
+import bct from '@/assets/footer-image/bct.png';
+import sectigo from '@/assets/footer-image/sectigo.png';
+import badge from '@/assets/footer-image/_dmca_premi_badge_4.png';
 import Divider from '@mui/material/Divider';
 
 const StyledBox = styled(Box)(({ theme }) => ({

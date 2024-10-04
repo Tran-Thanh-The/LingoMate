@@ -1,44 +1,42 @@
 import { SxProps } from '@mui/system';
 
 export const containerBanner: SxProps = {
-  p: 3,
+  mb: -15,
+};
+
+export const mainBanner : SxProps = {
+  pt: { xs: 20, md: 10},
+  pb: 30,
   backgroundColor: 'rgb(245 246 250)',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  position: 'relative',
-  marginBottom: '18vh',
-  '@media (max-width: 600px)': {
-    p: 2,
-    marginBottom: '5vh',
-  },
-  '@media (max-width: 960px)': {
-    p: 3,
-    marginBottom: '5vh',
-  },
 };
 
 export const rowFlatForm: SxProps = {
   display: 'flex',
   justifyContent: 'center',
-  position: 'absolute',
-  left: '0',
-  bottom: '0px',
-  transform: 'translate(0%, 30%)',
-  '@media (max-width: 960px)': {
-    position: 'relative',
-    transform: 'none',
-    marginTop: '20px',
-  },
-  '@media (max-width: 600px)': {
-    flexDirection: 'column',
-    marginTop: '10px',
+  alignItems: 'center',
+  width: '100%',
+  padding: {
+    xs: '0 24px',
+    md: '0 48px',
   },
 };
 
 export const textTitle: SxProps = {
-  '@media (max-width: 900px)': {
-    fontSize: 'h4.fontSize',
-  },
+  fontSize: {
+    xs: '24px',
+    sm: '36px',
+    md: '48px'
+  }
+};
+
+export const flatformWrapper: SxProps = {
+  mt: { xs: 4, sm: 6, md: 8 },
+  transform: 'translateY(-150px)',
+};
+
+export const flatformTitle: SxProps = {
+  display: { xs: 'block', sm: 'none' },
+  mb: 10,
+  mt: -10,
+  textAlign: 'center',
 };

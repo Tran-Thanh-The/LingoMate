@@ -107,6 +107,10 @@ const customTheme: ThemeOptions = createTheme({
           fontSize: '2.5rem',
           fontWeight: 700,
         },
+        h5: {
+          fontSize: '1.5rem',
+          fontWeight: 600
+        },
         subtitle1: {
           fontSize: '1.75rem',
         },
