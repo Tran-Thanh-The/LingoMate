@@ -11,19 +11,28 @@ import {
   Typography
 } from '@mui/material';
 import {
-  Menu as MenuIcon,
   ArrowDropDown as ArrowDropDownIcon,
   ArrowRight as ArrowRightIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
 import * as navStyles from './HeaderNavigation.styles';
+import Grid from '@mui/material/Grid2';
+import logo from '@/assets/logo.svg';
 
 const MobileMenu = ({ openDrawer, handleCloseNavMenu, routes }) => {
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState({});
 
   const handleToggleSubmenu = (key) => {
-    setOpenSubmenu(prev => ({ ...prev, [key]: !prev[key] }));
+    setOpenSubmenu(prev => {
+      return {
+        ...Object.keys(prev).reduce((acc, curr) => {
+          acc[curr] = false; 
+          return acc;
+        }, {}),
+        [key]: !prev[key]
+      };
+    });
   };
 
   const isActive = (menu) => {
@@ -86,8 +95,18 @@ const MobileMenu = ({ openDrawer, handleCloseNavMenu, routes }) => {
   return (
     <>
       <Drawer anchor="left" open={openDrawer} onClose={handleCloseNavMenu}>
-        <Box sx={{ width: 250 }} role="presentation">
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Grid sx={{ width: {xs:250, sm: 450} }} role="presentation">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '8px' }}>
+          <Box
+          component="img"
+          sx={{
+            height: 'auto',
+            width: 70,
+            paddingLeft: '8px',
+          }}
+          alt="header-logo"
+          src={logo}
+        />
             <IconButton onClick={handleCloseNavMenu}>
               <CloseIcon />
             </IconButton>
@@ -109,7 +128,7 @@ const MobileMenu = ({ openDrawer, handleCloseNavMenu, routes }) => {
               </React.Fragment>
             ))}
           </List>
-        </Box>
+        </Grid>
       </Drawer>
     </>
   );
