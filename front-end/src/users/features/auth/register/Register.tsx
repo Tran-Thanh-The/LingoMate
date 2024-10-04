@@ -1,16 +1,22 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Container,
-  Grid,
-  Paper,
-  ThemeProvider,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Container, Grid, ThemeProvider } from '@mui/material';
 import customTheme from '@/theme';
 import RegisterForm from './components/register-form/RegisterForm';
+import VerifyOTP from './components/verify-email/VerifyEmail';
 
-const Register = () => {
+const Register: React.FC = () => {
+  const [showOTP, setShowOTP] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const handleRegisterSubmit = (submittedEmail: string) => {
+    setEmail(submittedEmail);
+    setShowOTP(true);
+  };
+
+  const handleBackClick = () => {
+    setShowOTP(false);
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
       <Box
@@ -69,7 +75,11 @@ const Register = () => {
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ paddingLeft: 0, paddingRight: 0 }}>
-              <RegisterForm />
+              {showOTP ? (
+                <VerifyOTP onBackClick={handleBackClick} email={email} />
+              ) : (
+                <RegisterForm onSubmitOtp={handleRegisterSubmit} />
+              )}
             </Grid>
           </Grid>
         </Container>

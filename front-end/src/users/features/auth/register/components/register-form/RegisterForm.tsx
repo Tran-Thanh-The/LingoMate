@@ -48,7 +48,11 @@ const schema = yup.object().shape({
     .required('Xác nhận mật khẩu là bắt buộc'),
 });
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+  onSubmitOtp: (email: string) => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitOtp }) => {
   const {
     register,
     handleSubmit,
@@ -74,11 +78,12 @@ const RegisterForm = () => {
       dob: formatDate(data.dob),
     };
     console.log(formattedData);
-    navigate('/login');
+    onSubmitOtp(data.email || '');
+    // navigate('/login');
   };
 
   const handleRouteLogin = () => {
-    navigate('/login');
+    // navigate('/login');
   };
 
   return (

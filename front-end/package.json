@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
@@ -19,6 +20,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.7",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "front-end": "file:",
     "moment": "^2.30.1",
