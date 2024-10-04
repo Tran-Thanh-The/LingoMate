@@ -1,6 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 import { AwardCard } from './components/award-card/AwardCard';
 import Grid from '@mui/material/Grid2';
+import awardImage from '@/assets/prize-image/award.svg';
 
 const Prize = () => {
   const awards = [
@@ -22,11 +23,11 @@ const Prize = () => {
   ];
 
   return (
-    <Container maxWidth="xl" sx={{ mx: 'auto', p: '0 20px',mt : 7 }}>
+    <Container maxWidth="lg" sx={{ mx: 'auto', p: '0 20px',mt : 7 }}>
       <Box sx={{ textAlign: 'center', mb: 3 }}>
         <Box
           component="img"
-          src="https://prepedu.com/imgs/home/award.svg"
+          src={awardImage}
           alt="Student"
           sx={{
             height: 'auto',

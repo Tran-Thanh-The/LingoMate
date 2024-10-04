@@ -20,7 +20,7 @@ const LearningFlatform: React.FC<LearningFlatformProps> = ({
         <Box sx={styles.boxIconChild}>{icon}</Box>
       </Box>
       <Box sx={styles.boxContent}>
-        <Typography variant="h5" mb={0} gutterBottom sx={{ marginTop: { xs: 2, md: 4}, textTransform: 'uppercase' }}>
+        <Typography variant="subtitle1" mb={0} gutterBottom sx={{ marginTop: { xs: 2, md: 4}, textTransform: 'uppercase', color: '#000000' }}>
           {title}
         </Typography>
         <Typography variant="body2" fontWeight={500} color='#6b7280'sx={{ marginTop: { xs: 0, md: 2}}}>{description}</Typography>

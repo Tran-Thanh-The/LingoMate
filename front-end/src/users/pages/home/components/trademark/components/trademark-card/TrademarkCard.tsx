@@ -1,35 +1,21 @@
-import { Box, Typography, Grid, Paper } from '@mui/material';
-import { PlayArrow, Assignment, Chat } from '@mui/icons-material';
+import { Box, Paper, Typography } from '@mui/material';
 
 const FeatureCard = ({ icon, title, description }) => (
   <Paper
-    elevation={3}
-    sx={{ p: 3, height: '100%', position: 'relative', overflow: 'visible' }}
+    elevation={6}
+    sx={{ p: {xs: 3, md: 5}, height:'100%', overflow: 'visible'}}
   >
-    <Box
-      sx={{
-        position: 'absolute',
-        top: -20,
-        left: 20,
-        width: 40,
-        height: 40,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: 'white',
-      }}
-    >
-      {icon}
-    </Box>
-    <Typography
-      variant="h6"
-      component="h3"
-      sx={{ mt: 2, mb: 1, fontWeight: 'bold' }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
+      <Box>{icon}</Box>
+      <Typography
+        variant="body1"
+        component="h4"
+        sx={{ mt: 4, fontWeight: '700' }}
+      >
       {title}
     </Typography>
-    <Typography variant="body2" color="text.secondary">
+    </Box>
+    <Typography variant="body2" color="#6b7280" sx={{ mt: '1.5rem', fontWeight: '500'}}>
       {description}
     </Typography>
   </Paper>

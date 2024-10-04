@@ -6,6 +6,7 @@ import * as styles from '@/users/pages/home/components/banner/Banner.styles';
 import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import LearningFlatform from '@/users/pages/home/components/banner/components/learning-flatform/LearningFlatform';
+import { NavLink } from 'react-router-dom';
 
 const Banner = () => {
   const theme = useTheme();
@@ -25,6 +26,7 @@ const Banner = () => {
       src={schoolImage}
     />,
     bgColor: 'transparent', 
+    path: '/ielts',
     },
     {
       title: 'TOEIC',
@@ -39,6 +41,7 @@ const Banner = () => {
       src={graduationImage}
     />,
     bgColor: 'transparent', 
+    path: '/toeic',
     },
     {
       title: 'HSK',
@@ -53,6 +56,7 @@ const Banner = () => {
       src={hskImage}
     />,
     bgColor: '#dcffd5', 
+    path: '/hsk',
     },
     {
       title: 'Talk',
@@ -67,6 +71,7 @@ const Banner = () => {
       src={talkImage}
     />,
     bgColor: '#e6edff', 
+    path: '/talk',
     },
   ];
 
@@ -144,12 +149,17 @@ const Banner = () => {
           <Grid container spacing={3} sx={styles.rowFlatForm}>
             {courses.map((course, index) => (
               <Grid size={{ xs: 12, sm: 6, md: 3}} key={index}>
-                <LearningFlatform
-                  bgColor={course.bgColor}
-                  icon={course.icon}
-                  title={course.title}
-                  description={course.description}
+                 <NavLink
+                  to={course.path}
+                  style={{ textDecoration: 'none', color: 'inherit' }} 
+                >
+                  <LearningFlatform
+                    bgColor={course.bgColor}
+                    icon={course.icon}
+                    title={course.title}
+                    description={course.description}
                 />
+                </NavLink>
               </Grid>
             ))}
           </Grid>
