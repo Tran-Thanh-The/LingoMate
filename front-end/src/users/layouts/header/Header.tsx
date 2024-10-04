@@ -10,9 +10,8 @@ const Header = () => {
       <Container maxWidth="xl"
           sx={{ 
             padding: {
-              xs: '16px 16px', 
+              xs: '16px', 
               sm: '16px 24px', 
-              md: '16px 0', 
             }
           }}>
         <Box sx={{display: 'flex', alignItems:'center', justifyContent: {md: 'space-between'}}}>
