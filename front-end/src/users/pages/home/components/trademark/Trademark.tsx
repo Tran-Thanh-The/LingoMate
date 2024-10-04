@@ -1,10 +1,10 @@
-import { Assignment, Chat, PlayArrow } from '@mui/icons-material';
+import check_noteImage from '@/assets/trademark-image/check_note.svg';
+import copyImage from '@/assets/trademark-image/copy.svg';
+import slideImage from '@/assets/trademark-image/slide.svg';
+import RandomDots from '@/users/components/random-dots/RandomDots';
 import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import FeatureCard from './components/trademark-card/TrademarkCard';
-import slideImage from '@/assets/trademark-image/slide.svg';
-import check_noteImage from '@/assets/trademark-image/check_note.svg';
-import copyImage from '@/assets/trademark-image/copy.svg'
 const Trademark = () => {
   const features = [
     {
@@ -52,7 +52,7 @@ const Trademark = () => {
   ];
 
   return (
-    <Container maxWidth={"lg"} sx={{p: '2.5rem', pb:'8rem'}}>
+    <Container maxWidth={"xl"} sx={{p: '2.5rem', pb:'8rem', position:'relative'}}>
         <Typography
           variant="h5"
           component="h2"
@@ -71,24 +71,13 @@ const Trademark = () => {
             </Grid>
           ))}
         </Grid>
-        {[0, 1, 2, 3].map((_, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: 'absolute',
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              backgroundColor: ['#FFA726', '#66BB6A', '#29B6F6', '#FFA726'][
-                index % 4
-              ],
-              top: [20, 'auto', 'auto', 20][index],
-              bottom: ['auto', 20, 20, 'auto'][index],
-              left: [20, 20, 'auto', 'auto'][index],
-              right: ['auto', 'auto', 20, 20][index],
-            }}
-          />
-        ))}
+
+        <RandomDots 
+        count={6}
+        colors={['#FF5722', '#4CAF50', '#2196F3', '#FFC107']} 
+        sizeRange={[4, 12]} 
+        positionRange={[10, 100]}
+      />
     </Container>
   );
 };

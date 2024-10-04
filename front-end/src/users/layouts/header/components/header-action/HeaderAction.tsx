@@ -77,7 +77,7 @@ const HeaderAction = () => {
               onClose={handleCloseUserMenu}
             >
               <Grid>
-                <MenuItem >
+                <MenuItem sx={{minWidth: 300}}>
                 <Tooltip title={`${user.name} ${user.email}`}>
                   <NavLink
                     to="#"

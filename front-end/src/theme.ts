@@ -280,6 +280,7 @@ const customTheme: ThemeOptions = createTheme({
           fontSize: '1rem',
           fontWeight: 600,
           backgroundColor:'transparent',
+          padding: '16px',
           '&:focus': {
             backgroundColor: 'transparent',
           },

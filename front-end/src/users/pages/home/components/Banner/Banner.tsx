@@ -3,15 +3,12 @@ import hskImage from '@/assets/banner-image/hsk_image.svg';
 import schoolImage from '@/assets/banner-image/school.svg';
 import talkImage from '@/assets/banner-image/talk_image.svg';
 import * as styles from '@/users/pages/home/components/banner/Banner.styles';
-import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 import LearningFlatform from '@/users/pages/home/components/banner/components/learning-flatform/LearningFlatform';
+import { Box, Container, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { NavLink } from 'react-router-dom';
 
 const Banner = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const courses = [
     {
       title: 'IELTS',
@@ -133,7 +130,7 @@ const Banner = () => {
                   src="https://imagedelivery.net/mwNXYp7cvX8XZ2BpBdLgrQ/d9c14d23-1e94-4af8-2f81-59e4f4657000/public"
                   alt="Student"
                   sx={{
-                    width: isMobile ? '50%' : '60%',
+                    width: { xs: '50%', sm: '60%'},
                     height: 'auto',
                     maxWidth: 320,
                   }}
@@ -146,23 +143,25 @@ const Banner = () => {
           <Typography variant="body1" fontWeight={700} sx={styles.flatformTitle}>
             Chọn mục tiêu của bạn:
           </Typography>
-          <Grid container spacing={3} sx={styles.rowFlatForm}>
-            {courses.map((course, index) => (
-              <Grid size={{ xs: 12, sm: 6, md: 3}} key={index}>
-                 <NavLink
-                  to={course.path}
-                  style={{ textDecoration: 'none', color: 'inherit' }} 
-                >
-                  <LearningFlatform
-                    bgColor={course.bgColor}
-                    icon={course.icon}
-                    title={course.title}
-                    description={course.description}
-                />
-                </NavLink>
-              </Grid>
-            ))}
-          </Grid>
+          <Container maxWidth="xl">
+            <Grid container  spacing={3} sx={styles.rowFlatForm}>
+              {courses.map((course, index) => (
+                <Grid size={{ xs: 12, sm: 6, md: 3}} key={index}>
+                  <NavLink
+                    to={course.path}
+                    style={{ textDecoration: 'none', color: 'inherit' }} 
+                  >
+                    <LearningFlatform
+                      bgColor={course.bgColor}
+                      icon={course.icon}
+                      title={course.title}
+                      description={course.description}
+                  />
+                  </NavLink>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
         </Box>
     </Box>
   );
