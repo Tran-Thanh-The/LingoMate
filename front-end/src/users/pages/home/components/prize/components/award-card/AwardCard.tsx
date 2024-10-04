@@ -10,17 +10,23 @@ export const AwardCard = ({ image, description }) => (
       textAlign: 'center',
     }}
   >
+    <Box sx={{
+        height: 88,
+        width: 88,
+        objectFit: 'contain',
+      }}>
+
     <Box
       component="img"
       src={image}
       sx={{
-        height: 88,
-        width: 88,
+        height: 44,
+        width: '100%',
         objectFit: 'contain',
-        mb: 2,
       }}
     />
-    <Typography variant="caption" color="text.secondary">
+      </Box>
+    <Typography variant="caption" fontWeight={400} color="#4b5563" sx={{ mt: 2, lineHeight:'1.25rem' }}>
       {description}
     </Typography>
   </Box>
