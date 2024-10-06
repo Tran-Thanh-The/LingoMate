@@ -3,10 +3,10 @@ import hskImage from '@/assets/banner-image/hsk_image.svg';
 import schoolImage from '@/assets/banner-image/school.svg';
 import talkImage from '@/assets/banner-image/talk_image.svg';
 import * as styles from '@/users/pages/home/components/banner/Banner.styles';
-import LearningFlatform from '@/users/pages/home/components/banner/components/learning-flatform/LearningFlatform';
 import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { NavLink } from 'react-router-dom';
+import LearningFlatform from './components/learning-flatform/LearningFlatform';
 
 const Banner = () => {
   const courses = [

@@ -1,4 +1,5 @@
 import Banner from './components/banner/Banner';
+import Chat from './components/chat/Chat';
 import Partner from './components/partner/Partner';
 import Prize from './components/prize/Prize';
 import ScrollToTopButton from './components/scroll-to-top/ScrollToTopButton';
@@ -14,6 +15,7 @@ const Home = () => {
       <Slider />
       <Partner />
       <ScrollToTopButton />
+      <Chat />
     </>
   );
 };
