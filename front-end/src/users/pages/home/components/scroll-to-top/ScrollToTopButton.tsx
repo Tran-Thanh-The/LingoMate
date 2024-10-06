@@ -29,11 +29,11 @@ const ScrollToTopButton = () => {
         onClick={handleClick}
         sx={{
           position: 'fixed',
-          bottom: 64,
-          right: 20,
+          bottom: {xs: 48, md: 64},
+          right: {xs: 8, md: 20},
           backgroundColor: '#1479f4bf',
-          width: '64px',
-          height:'64px',
+          width: {xs: '48px', md:'64px'},
+          height: {xs: '48px', md:'64px'},
           '&:hover' : {
             backgroundColor: '#1479f4bf',
             opacity: 0.9
