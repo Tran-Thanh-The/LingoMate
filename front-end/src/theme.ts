@@ -1,3 +1,4 @@
+import { VerticalAlignCenter } from '@mui/icons-material';
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
@@ -107,8 +108,16 @@ const customTheme: ThemeOptions = createTheme({
           fontSize: '2.5rem',
           fontWeight: 700,
         },
-        subtitle1: {
+        h5: {
+          fontSize: '1.875rem',
+          fontWeight: 700
+        },
+        h6: {
           fontSize: '1.75rem',
+        },
+        subtitle1: {
+          fontSize: '1.5rem',
+          fontWeight: 600
         },
         subtitle2: {
           fontSize: '1.25rem',
@@ -122,6 +131,7 @@ const customTheme: ThemeOptions = createTheme({
         },
         caption: {
           fontSize: '0.875rem',
+          fontWeight: 500
         },
       },
     },
@@ -164,7 +174,7 @@ const customTheme: ThemeOptions = createTheme({
           },
           '& input': {
             color: '#333',
-            transform: 'translateY(-15%)',
+            transform: 'translateY(-8px)',
             '&::placeholder': {
               opacity: 0.7,
             },
@@ -272,6 +282,7 @@ const customTheme: ThemeOptions = createTheme({
           fontSize: '1rem',
           fontWeight: 600,
           backgroundColor:'transparent',
+          padding: '16px',
           '&:focus': {
             backgroundColor: 'transparent',
           },
@@ -302,7 +313,15 @@ const customTheme: ThemeOptions = createTheme({
           },
         }
       }
-    }
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          transform: 'translateY(-8px)',
+          color: '#23242d'
+        },
+      },
+    },
   },
 });
 

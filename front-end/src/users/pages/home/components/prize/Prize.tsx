@@ -1,6 +1,7 @@
-import { Box, Typography, Grid } from '@mui/material';
-import { EmojiEvents } from '@mui/icons-material';
+import { Box, Container, Typography } from '@mui/material';
 import { AwardCard } from './components/award-card/AwardCard';
+import Grid from '@mui/material/Grid2';
+import awardImage from '@/assets/prize-image/award.svg';
 
 const Prize = () => {
   const awards = [
@@ -22,11 +23,11 @@ const Prize = () => {
   ];
 
   return (
-    <Box sx={{ mx: 'auto', p: 3 }}>
+    <Container maxWidth="lg" sx={{ mx: 'auto', p: '0 20px',mt : 7 }}>
       <Box sx={{ textAlign: 'center', mb: 3 }}>
         <Box
           component="img"
-          src="https://prepedu.com/imgs/home/award.svg"
+          src={awardImage}
           alt="Student"
           sx={{
             height: 'auto',
@@ -38,6 +39,7 @@ const Prize = () => {
           fontWeight={'bold'}
           component="h3"
           align="center"
+          mt="18px"
         >
           <span
             style={{
@@ -52,16 +54,16 @@ const Prize = () => {
       </Box>
       <Grid
         container
-        spacing={5}
-        sx={{ display: 'flex', justifyContent: 'center' }}
+        spacing={7.5}
+        sx={{ display: 'flex', justifyContent: 'center', marginTop: '65px', paddingBottom:'70px' }}
       >
         {awards.map((award, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid size={{xs:12, sm:6, md:4}} key={index}>
             <AwardCard {...award} />
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </Container>
   );
 };
 

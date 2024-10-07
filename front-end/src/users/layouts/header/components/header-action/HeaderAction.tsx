@@ -11,7 +11,7 @@ import * as React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import * as navStyles from './HeaderAction.style';
+import * as navStyles from '@/users/layouts/header/components/header-action/HeaderAction.styles';
 // const user = {
 //   name: 'Trần Thanh Thế',
 //   email: 'tranthanh@gmail.com',
@@ -77,7 +77,7 @@ const HeaderAction = () => {
               onClose={handleCloseUserMenu}
             >
               <Grid>
-                <MenuItem >
+                <MenuItem sx={{minWidth: 300}}>
                 <Tooltip title={`${user.name} ${user.email}`}>
                   <NavLink
                     to="#"

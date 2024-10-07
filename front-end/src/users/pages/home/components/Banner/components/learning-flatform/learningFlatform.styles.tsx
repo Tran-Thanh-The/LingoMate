@@ -3,20 +3,25 @@ import { SxProps } from '@mui/system';
 export const boxFlatForm: SxProps = {
   textAlign: 'center',
   bgcolor: '#FFFF',
-  p: 2,
   borderRadius: 2,
   boxShadow: 1,
-  minHeight: '220px',
+  margin: 0,
+  minHeight: {xs:'170px', sm: '212px', md:'252px', lg: '212px'},
   position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  mt: 3,
   cursor: 'pointer',
   transition: 'transform 0.3s ease',
   ':hover': {
     transform: 'translateY(-10px)',
   },
+
+  marginBottom: {
+    xs: 4,
+    md: 3,
+    lg: 0
+  }
 };
 
 export const boxIcon: SxProps = {
@@ -33,11 +38,15 @@ export const boxIcon: SxProps = {
 export const boxIconChild: SxProps = {
   width: '80px',
   height: '80px',
-  bgcolor: 'rgb(100 255 255)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '50%',
 };
 
-export const boxContent: SxProps = {};
+export const boxContent: SxProps = {
+  padding: {
+    xs: 2,
+    md: 5
+  },
+};
