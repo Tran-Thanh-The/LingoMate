@@ -15,8 +15,9 @@ const ChatInfo: React.FC = () => {
         }}>
             <Typography variant="h3" sx={{ fontSize: {xs: '32px', md: '44px'} }}>
                 Bạn còn
-                <Typography variant="h3" sx={{ fontSize: 'inherit' }}>câu hỏi khác?</Typography>
-            </Typography>
+             </Typography>   
+            <Typography variant="h3" sx={{ fontSize: {xs: '32px', md: '44px'} }}>câu hỏi khác?</Typography>
+            
             <Typography variant="subtitle2" sx={{ mt: 2 }}>
                 Hãy để lại thông tin, LingoMate sẽ liên hệ và hỗ trợ xử lý mọi vướng mắc của bạn
             </Typography>

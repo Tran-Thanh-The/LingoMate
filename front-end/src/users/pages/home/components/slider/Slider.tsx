@@ -155,10 +155,10 @@ const CustomSlider = () => {
         <Container disableGutters maxWidth={false}  sx={{backgroundColor: 'rgb(245 246 250)', pb: 3, position:'relative'}}>
             <Container maxWidth="xl" sx={{ pt: 12, pb: 6}}>
                 <Typography variant="h5" component="h2" align="center">
-                    100% giáo viên trên LingoMate đạt{' '}
-                    <Typography component="h4" variant="subtitle1" sx={{ color: '#1a56db', textTransform: 'uppercase', fontWeight: 700 }}>
-                        IELTS 8.0-8.5
-                    </Typography>
+                    100% giáo viên trên LingoMate đạt
+                </Typography>    
+                <Typography  variant="h5" align="center" sx={{ color: '#1a56db', textTransform: 'uppercase' }}>
+                    IELTS 8.0-8.5
                 </Typography>
                 <Typography variant="body2" color="#9ca3af" align="center" sx={{ mb: 4 }}>
                     Cựu du học sinh hoặc tốt nghiệp từ ĐH danh tiếng

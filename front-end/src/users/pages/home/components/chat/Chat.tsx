@@ -1,11 +1,9 @@
 import { Container } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import React from "react";
-import ChatInfo from "./components/chat-info/ChatInfo";
 import ChatForm from "./components/chat-form/ChatForm";
-
+import ChatInfo from "./components/chat-info/ChatInfo";
   
-const Chat: React.FC = () => {
+const Chat = () => {
     return (
         <Container maxWidth="xl" sx={{ color: '#ffffff', paddingBottom:'96px', overflowX:'unset' }}>
             <Grid container spacing={10} sx={{ 
