@@ -2,7 +2,7 @@ import graduationImage from '@/assets/banner-image/graduation.svg';
 import hskImage from '@/assets/banner-image/hsk_image.svg';
 import schoolImage from '@/assets/banner-image/school.svg';
 import talkImage from '@/assets/banner-image/talk_image.svg';
-import * as styles from '@/users/pages/home/components/example/Banner.styles';
+import * as styles from '@/users/pages/home/components/banner/Banner.styles';
 import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { NavLink } from 'react-router-dom';
