@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import RandomDots from '@/users/components/random-dots/RandomDots';
 interface SliderInstance extends Slider {
     slickGoTo: (slide: number) => void;
+    slickNext: () => void;
   }
 const CustomSlider = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,7 +66,7 @@ const CustomSlider = () => {
             description: "8.0 Overall"
         }
     ];
-
+   
     const CustomPagination = ({ slideCount, currentSlide, goToSlide }: { slideCount: number, currentSlide: number, goToSlide: (index: number) => void }) => {
         const bars = Math.ceil(slideCount / slidesToShow);
         return (
@@ -102,6 +103,21 @@ const CustomSlider = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+        const startAutoSlide = () => {
+            timeoutId = setTimeout(() => {
+                if (sliderRef.current) {
+                    sliderRef.current.slickNext();
+                }
+            }, 5000); 
+        };
+        startAutoSlide(); 
+        return () => {
+            clearTimeout(timeoutId); 
+        };
+    }, [currentSlide]); 
     
     const settings = {
         dots: false,
@@ -163,12 +179,10 @@ const CustomSlider = () => {
             </Container>
             
             <RandomDots 
-                count={6}
                 colors={['#FF5722', '#4CAF50', '#2196F3', '#FFC107']} 
                 sizeRange={[4, 16]} 
-                positionRange={[1, 100]}
+                positionRange={[0, 90]}
             />
-
         </Container>
     );
 };

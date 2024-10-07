@@ -3,8 +3,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Alert, AlertTitle, Box, Button, IconButton, InputAdornment, MenuItem, Select, Snackbar, TextField, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { Controller, useForm, FieldValues, SubmitHandler, UseFormProps } from 'react-hook-form';
 import styled from 'styled-components';
 import * as yup from 'yup';
 
@@ -14,34 +14,30 @@ const StyledTextArea = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const ChatForm: React.FC = () => {
-  const schema = yup.object().shape({
-    fullName: yup.string()
-      .required('Họ và tên không được để trống')
-      .max(50, "Họ và tên tối đa 50 ký tự"),
-    
-    phoneNumber: yup.string().required('Số điện thoại không được để trống')
-      .matches(/^[0-9]+$/, 'Số điện thoại sai định dạng')
-      .test(
-        "len",
-        "Số điện thoại phải có 10 số",
-        (val): boolean =>
-          val !== undefined && (val.length === 10),
-      ),
-    birthYear: yup.string().optional()
+const schema = yup.object({
+  fullName: yup.string()
+    .required('Họ và tên không được để trống')
+    .max(50, "Họ và tên tối đa 50 ký tự"),
+  phoneNumber: yup.string()
+    .required('Số điện thoại không được để trống')
+    .matches(/^[0-9]+$/, 'Số điện thoại sai định dạng')
+    .test(
+      "len",
+      "Số điện thoại phải có 10 số",
+      (val): boolean => val !== undefined && (val.length === 10),
+    ),
+  birthYear: yup.string().optional()
     .matches(/^[0-9]+$/, 'Năm sinh sai định dạng'),
-    email: yup.string().email('Địa chỉ email không hợp lệ').optional(),
-    currentLevel: yup.string().optional(),
-    targetOutput: yup.string().optional(),
-    content: yup.string().optional(),
-  });
+  email: yup.string().email('Địa chỉ email không hợp lệ').optional(),
+  currentLevel: yup.string().optional(),
+  targetOutput: yup.string().optional(),
+  content: yup.string().optional(),
+});
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+type FormValues = yup.InferType<typeof schema>;
+
+const ChatForm: React.FC = () => {
+  const formConfig: UseFormProps<FormValues> = {
     resolver: yupResolver(schema),
     defaultValues: {
       fullName: '',
@@ -52,7 +48,14 @@ const ChatForm: React.FC = () => {
       targetOutput: '',
       content: '',
     },
-  });
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormValues>(formConfig);
 
   const placeholders = [
     "Bạn có câu hỏi gì?",
@@ -89,9 +92,9 @@ const ChatForm: React.FC = () => {
     { value: '4', label: 'Mục tiêu 4: Thi đạt TOEFL 80' },
   ];
 
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     setOpenSnackbar(true);
     reset();
@@ -116,22 +119,16 @@ const ChatForm: React.FC = () => {
                   placeholder={`Nhập ${label.toLowerCase()}`}
                   variant="filled"
                   error={!!errors[index === 0 ? 'fullName' : 'phoneNumber']}
-                  helperText={
-                    <Box component='span' style={{ marginTop: '8px', display: 'block', marginLeft: '-16px' }}>
-                      {errors[index === 0 ? 'fullName' : 'phoneNumber']?.message}
-                    </Box>
-                  }
-                  slotProps={{
-                    input: index === 1 ? {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          +84
-                          <IconButton size="small" color="inherit">
-                            <ArrowDropDownIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    } : {},
+                  helperText={errors[index === 0 ? 'fullName' : 'phoneNumber']?.message}
+                  InputProps={{
+                    startAdornment: index === 1 ? (
+                      <InputAdornment position="start">
+                        +84
+                        <IconButton size="small" color="inherit">
+                          <ArrowDropDownIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ) : undefined,
                   }}
                 />
               )}
@@ -153,11 +150,7 @@ const ChatForm: React.FC = () => {
                     placeholder={placeholdersEmailYear[index]}
                     variant="filled"
                     error={!!errors[index === 0 ? 'birthYear' : 'email']}
-                    helperText={
-                      <Box component='span' style={{ marginTop: '8px', display: 'block', marginLeft: '-16px' }}>
-                        {errors[index === 0 ? 'birthYear' : 'email']?.message}
-                      </Box>
-                    }
+                    helperText={errors[index === 0 ? 'birthYear' : 'email']?.message}
                   />
                 )}
               />

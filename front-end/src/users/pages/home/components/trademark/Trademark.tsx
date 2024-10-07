@@ -72,12 +72,7 @@ const Trademark = () => {
           ))}
         </Grid>
 
-        <RandomDots 
-        count={6}
-        colors={['#FF5722', '#4CAF50', '#2196F3', '#FFC107']} 
-        sizeRange={[4, 12]} 
-        positionRange={[10, 100]}
-      />
+        <RandomDots />
     </Container>
   );
 };
