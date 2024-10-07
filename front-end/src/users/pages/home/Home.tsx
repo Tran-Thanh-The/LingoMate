@@ -1,4 +1,4 @@
-import Banner from './components/banner/Banner';
+import Banner from './components/example/Banner';
 import Chat from './components/chat/Chat';
 import Partner from './components/partner/Partner';
 import Prize from './components/prize/Prize';

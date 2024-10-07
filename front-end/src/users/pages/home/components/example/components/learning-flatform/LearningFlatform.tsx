@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import * as styles from '@/users/pages/home/components/Banner/components/learning-flatform/LearningFlatform.styles';
+import * as styles from '@/users/pages/home/components/example/components/learning-flatform/LearningFlatform.styles';
 interface LearningFlatformProps {
   bgColor: string;
   icon: React.ReactNode;
