@@ -7,7 +7,7 @@ import ChatForm from "./components/chat-form/ChatForm";
   
 const Chat: React.FC = () => {
     return (
-        <Container maxWidth="xl" sx={{ color: '#ffffff', paddingBottom:'96px' }}>
+        <Container maxWidth="xl" sx={{ color: '#ffffff', paddingBottom:'96px', overflowX:'unset' }}>
             <Grid container spacing={10} sx={{ 
                 backgroundColor: '#00429d',
                 borderRadius: '32px',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Slider from "react-slick";
@@ -9,7 +9,8 @@ import { useTheme } from '@mui/material/styles';
 const Partner = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+  const sliderRef = useRef<Slider | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const partners = [
     "https://storage.googleapis.com/materials-elements/course/cover/PRCMswTMDi3wCWidTEKxg1ZuqMJHDw9JrXvNla43.jpeg",
     "https://storage.googleapis.com/materials-elements/course/cover/OzFJ5M5unl2GKRy2QjwMpfd0bv7gflrrqloW8CRl.png",
@@ -19,10 +20,11 @@ const Partner = () => {
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
+    beforeChange: (_: number, next: number) => setCurrentSlide(next),
   };
 
   const PartnerBox = ({ src, index }) => (
@@ -51,15 +53,35 @@ const Partner = () => {
     </Box>
   );
 
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const startAutoSlide = () => {
+      if (sliderRef.current) {
+        timeoutId = setTimeout(() => {
+          sliderRef.current.slickNext();
+        }, 5000);
+      }
+    };
+
+    if (isSmallScreen) {
+      startAutoSlide();
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [currentSlide, isSmallScreen]);
+
   return (
-    <Container maxWidth="xl" sx={{ pb: 12, pt: 12}}>
+    <Container maxWidth="xl" sx={{ pb: 12, pt: 12 }}>
       <Typography sx={{ mb: 6, fontWeight: 700, textAlign: 'center', fontSize: { xs: '24px', md: '30px'}}}>
         Chúng tôi tự hào là đối tác của
       </Typography>
       {isSmallScreen ? (
-        <Slider {...sliderSettings}>
+        <Slider ref={sliderRef} {...sliderSettings}>
           {partners.map((src, index) => (
-            <Box sx={{ pb: 3}} key={index}>
+            <Box sx={{ pb: 3 }} key={index}>
               <PartnerBox src={src} index={index} />
             </Box>
           ))}
@@ -67,7 +89,7 @@ const Partner = () => {
       ) : (
         <Grid container spacing={3}>
           {partners.map((src, index) => (
-            <Grid size={{xs: 12, md:4}} key={index}>
+            <Grid size={{ xs: 12, md: 4 }} key={index}>
               <PartnerBox src={src} index={index} />
             </Grid>
           ))}
