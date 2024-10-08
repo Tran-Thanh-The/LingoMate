@@ -12,9 +12,16 @@ interface Props {
   description: string;
   imageUrl: string;
   altText: string;
+  onBuy: () => void;
 }
 
-const Course: React.FC<Props> = ({ title, description, imageUrl, altText }) => {
+const Course: React.FC<Props> = ({
+  title,
+  description,
+  imageUrl,
+  altText,
+  onBuy,
+}) => {
   return (
     <Card
       sx={{
@@ -68,18 +75,19 @@ const Course: React.FC<Props> = ({ title, description, imageUrl, altText }) => {
         <Button
           size="small"
           sx={{
-            color: '#1479f3',
+            color: '#233876',
             '&:hover': {
               bgcolor: 'rgba(20, 121, 243, 0.1)',
             },
           }}
+          onClick={onBuy}
         >
           Buy Course
         </Button>
         <Button
           size="small"
           sx={{
-            color: '#1479f3',
+            color: '#233876',
             '&:hover': {
               bgcolor: 'rgba(20, 121, 243, 0.1)',
             },

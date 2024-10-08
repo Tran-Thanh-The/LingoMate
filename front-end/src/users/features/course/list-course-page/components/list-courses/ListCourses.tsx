@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid2';
 import { Box, Typography, Container } from '@mui/material';
 import Course from './components/course/Course';
+import BuyConfirm from './components/buy-confirm/BuyConfirm';
 
 interface CourseData {
   id: number;
@@ -42,6 +43,24 @@ const courses: CourseData[] = [
 ];
 
 const ListCourses = () => {
+  const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false);
+  const [courseId, setCourseId] = React.useState<number>();
+  const [course, setCourse] = React.useState<CourseData | undefined>(undefined);
+
+  const handleBuyCourse = (id: number) => {
+    setCourseId(id);
+    setOpenSnackbar(true);
+  };
+
+  useEffect(() => {
+    const course = courses.find((item) => item.id === courseId);
+    setCourse(course);
+  }, [courseId]);
+
+  console.log(course);
+
+  // localStorage.setItem('cart', JSON.stringify(course));
+
   return (
     <Container maxWidth="xl" sx={{ mt: 3 }}>
       <Box
@@ -127,12 +146,19 @@ const ListCourses = () => {
                   description={course.description}
                   imageUrl={course.imageUrl}
                   altText={course.altText}
+                  onBuy={() => handleBuyCourse(course.id)}
                 />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </Box>
+      <BuyConfirm
+        open={openSnackbar}
+        onClose={() => setOpenSnackbar(false)}
+        course={course}
+        recommended={false}
+      />
     </Container>
   );
 };
