@@ -33,6 +33,7 @@ const BuyConfirm: React.FC<Props> = ({
         position: 'fixed',
         bottom: { xs: 8, sm: 16 },
         right: { xs: 8, sm: 16 },
+        zIndex: 9999,
         width: {
           xs: '280px',
           sm: '320px',
@@ -79,7 +80,7 @@ const BuyConfirm: React.FC<Props> = ({
                 },
               }}
             >
-              {course.title}
+              {/* {course.title} */}
             </Typography>
           </Stack>
 
