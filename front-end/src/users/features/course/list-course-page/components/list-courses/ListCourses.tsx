@@ -63,18 +63,27 @@ const ListCourses = () => {
             },
           }}
         >
-          <Grid size={{ xs: 12 }} container alignItems="center" spacing={1}>
-            <Grid size={{ xs: 3 }}>
+          <Grid
+            size={{ xs: 12 }}
+            container
+            alignItems="center"
+            spacing={1}
+            sx={{ mb: 4 }}
+          >
+            <Grid size={{ xs: 3 }} display={'flex'} justifyContent={'end'}>
               <Box
                 component="img"
                 src="https://biz-product-page.prepedu.com/images/bee/bee_select_level.png?w=828&q=80"
                 alt="Bee Icon"
                 sx={{
-                  maxWidth: {
-                    lg: 280,
-                    md: 200,
-                    sm: 150,
+                  width: {
+                    xs: '80px',
+                    sm: '120px',
+                    md: '160px',
+                    lg: '200px',
+                    xl: '280px',
                   },
+                  height: 'auto',
                 }}
               />
             </Grid>
@@ -86,10 +95,10 @@ const ListCourses = () => {
                 sx={{
                   fontSize: {
                     xs: '1rem',
-                    sm: '1.2rem',
+                    sm: '1.5rem',
                     md: '1.5rem',
-                    lg: '1.8rem',
-                    xl: '2rem',
+                    lg: '2rem',
+                    xl: '2.5rem',
                   },
                 }}
               >
@@ -114,7 +123,6 @@ const ListCourses = () => {
             {courses.map((course) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={course.id}>
                 <Course
-                  key={course.id}
                   title={course.title}
                   description={course.description}
                   imageUrl={course.imageUrl}

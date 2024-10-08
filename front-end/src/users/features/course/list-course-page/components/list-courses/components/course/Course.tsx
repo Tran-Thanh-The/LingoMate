@@ -8,20 +8,13 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
 interface Props {
-  key: number;
   title: string;
   description: string;
   imageUrl: string;
   altText: string;
 }
 
-const Course: React.FC<Props> = ({
-  key,
-  title,
-  description,
-  imageUrl,
-  altText,
-}) => {
+const Course: React.FC<Props> = ({ title, description, imageUrl, altText }) => {
   return (
     <Card
       sx={{
