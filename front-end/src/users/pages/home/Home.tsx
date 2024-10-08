@@ -13,9 +13,9 @@ const Home = () => {
       <Prize />
       <Trademark />
       <Slider />
-      <Partner />
       <ScrollToTopButton />
       <Chat />
+      <Partner />
     </>
   );
 };
