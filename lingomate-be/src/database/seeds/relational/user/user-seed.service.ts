@@ -25,13 +25,12 @@ export class UserSeedService {
 
     if (!countAdmin) {
       const salt = await bcrypt.genSalt();
-      const password = await bcrypt.hash("secret", salt);
+      const password = await bcrypt.hash("string", salt);
 
       await this.repository.save(
         this.repository.create({
-          firstName: "Super",
-          lastName: "Admin",
-          email: "admin@example.com",
+          fullName: "Tien Anh",
+          email: "tien226anh@gmail.com",
           password,
           role: {
             id: RoleEnum.admin,
@@ -55,13 +54,12 @@ export class UserSeedService {
 
     if (!countUser) {
       const salt = await bcrypt.genSalt();
-      const password = await bcrypt.hash("secret", salt);
+      const password = await bcrypt.hash("string", salt);
 
       await this.repository.save(
         this.repository.create({
-          firstName: "John",
-          lastName: "Doe",
-          email: "john.doe@example.com",
+          fullName: "Leaping",
+          email: "leaping226@gmail.com",
           password,
           role: {
             id: RoleEnum.user,

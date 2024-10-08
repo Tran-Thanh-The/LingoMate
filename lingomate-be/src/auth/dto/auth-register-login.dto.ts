@@ -13,11 +13,18 @@ export class AuthRegisterLoginDto {
   @MinLength(6)
   password: string;
 
-  @ApiProperty({ example: "John" })
-  @IsNotEmpty()
-  firstName: string;
+  @ApiProperty()
+  @MinLength(6)
+  confirmPassword: string;
 
-  @ApiProperty({ example: "Doe" })
+  @ApiProperty({ example: "John Doe" })
   @IsNotEmpty()
-  lastName: string;
+  fullName: string;
+
+  @ApiProperty({
+    example: new Date("1990-01-01"),
+    type: Date,
+  })
+  @IsNotEmpty()
+  dob: Date;
 }

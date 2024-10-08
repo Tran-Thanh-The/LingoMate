@@ -144,8 +144,7 @@ export class AuthService {
 
       user = await this.usersService.create({
         email: socialEmail ?? null,
-        firstName: socialData.firstName ?? null,
-        lastName: socialData.lastName ?? null,
+        fullName: socialData.fullName ?? null,
         socialId: socialData.id,
         provider: authProvider,
         role,
@@ -193,38 +192,62 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
-    const user = await this.usersService.create({
-      ...dto,
-      email: dto.email,
-      role: {
-        id: RoleEnum.user,
-      },
-      status: {
-        id: StatusEnum.inactive,
-      },
-    });
+  async register(dto: AuthRegisterLoginDto): Promise<void | Error> {
+    try {
+      const { confirmPassword, ...restDto } = dto;
 
-    const hash = await this.jwtService.signAsync(
-      {
-        confirmEmailUserId: user.id,
-      },
-      {
-        secret: this.configService.getOrThrow("auth.confirmEmailSecret", {
-          infer: true,
-        }),
-        expiresIn: this.configService.getOrThrow("auth.confirmEmailExpires", {
-          infer: true,
-        }),
-      },
-    );
+      if (dto.password !== confirmPassword) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            password: "passwordsNotMatch",
+          },
+        });
+      }
 
-    await this.mailService.userSignUp({
-      to: dto.email,
-      data: {
-        hash,
-      },
-    });
+      await this.usersService.create({
+        ...restDto,
+        email: dto.email,
+        role: {
+          id: RoleEnum.user,
+        },
+        status: {
+          id: StatusEnum.active,
+        },
+      });
+
+      // const hash = await this.jwtService.signAsync(
+      //   {
+      //     confirmEmailUserId: user.id,
+      //   },
+      //   {
+      //     secret: this.configService.getOrThrow("auth.confirmEmailSecret", {
+      //       infer: true,
+      //     }),
+      //     expiresIn: this.configService.getOrThrow("auth.confirmEmailExpires", {
+      //       infer: true,
+      //     }),
+      //   },
+      // );
+      //
+      // await this.mailService.userSignUp({
+      //   to: dto.email,
+      //   data: {
+      //     hash,
+      //   },
+      // });
+    } catch (e) {
+      if (e instanceof UnprocessableEntityException) {
+        throw e;
+      } else {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            user: "userNotCreated",
+          },
+        });
+      }
+    }
   }
 
   async confirmEmail(hash: string): Promise<void> {

@@ -73,21 +73,28 @@ export class UserEntity extends EntityRelationalHelper {
   @Expose({ groups: ["me", "admin"] })
   socialId?: string | null;
 
+  // @ApiProperty({
+  //   type: String,
+  //   example: "John",
+  // })
+  // @Index()
+  // @Column({ type: String, nullable: true })
+  // firstName: string | null;
+  //
+  // @ApiProperty({
+  //   type: String,
+  //   example: "Doe",
+  // })
+  // @Index()
+  // @Column({ type: String, nullable: true })
+  // lastName: string | null;
   @ApiProperty({
     type: String,
-    example: "John",
+    example: "John Doe",
   })
   @Index()
   @Column({ type: String, nullable: true })
-  firstName: string | null;
-
-  @ApiProperty({
-    type: String,
-    example: "Doe",
-  })
-  @Index()
-  @Column({ type: String, nullable: true })
-  lastName: string | null;
+  fullName: string | null;
 
   @ApiProperty({
     type: () => FileEntity,
@@ -105,6 +112,13 @@ export class UserEntity extends EntityRelationalHelper {
     eager: true,
   })
   role?: RoleEntity | null;
+
+  @ApiProperty({
+    type: Date,
+    example: "2021-01-01",
+  })
+  @Column({ type: Date, nullable: true })
+  dob?: Date | null;
 
   @ApiProperty({
     type: () => StatusEntity,
