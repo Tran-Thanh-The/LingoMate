@@ -9,7 +9,7 @@ const ExcellentMember = () => {
                 <Grid container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color:"#233876" }}>
                     <Grid size={12} sx={{ display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent: 'center', pb: '36px', mt: '32px'}}>
                         <Typography variant="subtitle2"  fontWeight={600}>Thành tích cao</Typography>
-                        <Typography variant="h2"  fontWeight={700}>
+                        <Typography variant="h2" fontSize={{ xs: '32px',md: '48px'}}  textAlign={'center'} fontWeight={700}>
                             Từ các học viên{' '}
                             <span
                                 style={{
@@ -25,7 +25,7 @@ const ExcellentMember = () => {
                     </Grid>
                     <Grid size={{ xs: 12, md: 10, lg: 9 }} sx={{ bgColor: '#ffffff'}}>
                         <Paper variant="elevation" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px', color:"inherit", borderRadius:'48px',boxShadow: '0 4px 20px rgba(0, 69, 157, 0.5)',}}>
-                            <Typography variant="h6"  fontWeight={600} textAlign={'center'}>Vinh danh học viên xuất sắc nhất tháng 10 🔥</Typography>
+                            <Typography variant="h6"  fontWeight={600} textAlign={'center'} fontSize={{ xs: '24px',md: '28px'}}>Vinh danh học viên xuất sắc nhất tháng 10 🔥</Typography>
                             <Box sx={{ display:'flex', gap: '1.5rem', mt: '20px', flexDirection: {xs:'column', md: 'row'}}}>
                                 <Box sx={{width: {xs:'100%', md: 300}, position:'relative'}}>
                                     <Box component="img" sx={{width: {xs:'100%', md: 300}, height: 400, objectFit:'cover', borderRadius:'24px' }} alt="slider-card" src={excellentStudent}/>
