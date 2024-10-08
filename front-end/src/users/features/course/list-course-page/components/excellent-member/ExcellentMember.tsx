@@ -24,7 +24,7 @@ const ExcellentMember = () => {
                         </Typography>
                     </Grid>
                     <Grid size={{ xs: 12, md: 10, lg: 9 }} sx={{ bgColor: '#ffffff'}}>
-                        <Paper variant="elevation" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px', color:"inherit"}}>
+                        <Paper variant="elevation" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px', color:"inherit", borderRadius:'48px'}}>
                             <Typography variant="h6"  fontWeight={600} textAlign={'center'}>Vinh danh học viên xuất sắc nhất tháng 10 🔥</Typography>
                             <Box sx={{ display:'flex', gap: '1.5rem', mt: '20px', flexDirection: {xs:'column', md: 'row'}}}>
                                 <Box sx={{width: {xs:'100%', md: 300}, position:'relative'}}>
