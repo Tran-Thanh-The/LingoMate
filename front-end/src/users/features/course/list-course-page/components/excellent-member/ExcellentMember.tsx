@@ -13,10 +13,10 @@ const ExcellentMember = () => {
                             Từ các học viên{' '}
                             <span
                                 style={{
-                                background: 'linear-gradient(180deg, #0029ff 0%, #1479f3 50%, #47b7f7 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontWeight: 700,
+                                    color:"#233876",
+                                    background: 'linear-gradient(180deg, #002EA6 0%, #0047FF 100%)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent', 
                                 }}
                                 >
                                 Xuất sắc
@@ -29,7 +29,7 @@ const ExcellentMember = () => {
                             <Box sx={{ display:'flex', gap: '1.5rem', mt: '20px', flexDirection: {xs:'column', md: 'row'}}}>
                                 <Box sx={{width: {xs:'100%', md: 300}, position:'relative'}}>
                                     <Box component="img" sx={{width: {xs:'100%', md: 300}, height: 400, objectFit:'cover', borderRadius:'24px' }} alt="slider-card" src={excellentStudent}/>
-                                    <Box color={'#ffffff'} sx={{position:'absolute', bottom: '8px', left: 0,right: 0, backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9) 13.15%, rgba(0, 0, 0, 0.00) 100%)', pl:'24px' ,pb:'8px'}}>
+                                    <Box color={'#ffffff'} sx={{position:'absolute', bottom: '8px', borderRadius: '24px', left: 0 ,right: 0, backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9) 13.15%, rgba(0, 0, 0, 0.00) 100%)', pl:'24px' ,pb:'8px'}}>
                                         <Typography variant="subtitle1" >Bảo Trân</Typography>
                                         <Typography variant="body2" fontWeight={600}>26 tuổi •  Ngày thi: 05.06.2024</Typography>
                                     </Box>
