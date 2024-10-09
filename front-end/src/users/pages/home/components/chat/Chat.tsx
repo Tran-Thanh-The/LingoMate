@@ -5,7 +5,7 @@ import ChatInfo from "./components/chat-info/ChatInfo";
   
 const Chat = () => {
     return (
-        <Container maxWidth="xl" sx={{ color: '#ffffff', paddingBottom:'96px', overflowX:'unset' }}>
+        <Container maxWidth="xl" sx={{ color: '#ffffff', padding:'96px 0', overflowX:'unset' }}>
             <Grid container spacing={10} sx={{ 
                 backgroundColor: '#00429d',
                 borderRadius: '32px',

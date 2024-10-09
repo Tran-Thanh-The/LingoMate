@@ -74,7 +74,7 @@ const Partner = () => {
   }, [currentSlide, isSmallScreen]);
 
   return (
-    <Container maxWidth="xl" sx={{ pb: 12, pt: 12 }}>
+    <Container maxWidth="xl" sx={{ pb: 12 }}>
       <Typography sx={{ mb: 6, fontWeight: 700, textAlign: 'center', fontSize: { xs: '24px', md: '30px'}}}>
         Chúng tôi tự hào là đối tác của
       </Typography>
