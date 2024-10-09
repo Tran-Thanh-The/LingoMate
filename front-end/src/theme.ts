@@ -322,6 +322,24 @@ const customTheme: ThemeOptions = createTheme({
         },
       },
     },
+
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          opacity: 0.9,
+          padding: '8px 16px',
+          borderRadius: '16px !important',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', 
+          '&:before': {
+            display: 'none', 
+          },
+          '&.Mui-expanded': {
+            margin: 'auto', 
+            boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.2)', 
+          },
+        },
+      },
+    },
   },
 });
 

@@ -8,7 +8,8 @@ import Profile from '@/users/pages/profile/Profile';
 const Home = lazy(() => import('@/users/pages/home/Home'));
 const Login = lazy(() => import('@/users/features/auth/login/Login'));
 const ListCourse = lazy(
-  () => import('@/users/features/course/list-course-page/ListCourse'),
+  () =>
+    import('@/users/features/course/components/list-course-page/ListCourse'),
 );
 
 function AppRoutes() {
