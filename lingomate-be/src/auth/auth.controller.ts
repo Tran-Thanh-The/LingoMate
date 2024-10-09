@@ -46,10 +46,10 @@ export class AuthController {
   }
 
   @Post("email/register")
-  @HttpCode(HttpStatus.NO_CONTENT)
+  // @HttpCode(HttpStatus.CREATED)
   async register(
     @Body() createUserDto: AuthRegisterLoginDto,
-  ): Promise<void | Error> {
+  ): Promise<any | Error> {
     return this.service.register(createUserDto);
   }
 

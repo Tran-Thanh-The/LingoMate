@@ -192,7 +192,7 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void | Error> {
+  async register(dto: AuthRegisterLoginDto): Promise<any | Error> {
     try {
       const { confirmPassword, ...restDto } = dto;
 
@@ -205,7 +205,7 @@ export class AuthService {
         });
       }
 
-      await this.usersService.create({
+      const user = await this.usersService.create({
         ...restDto,
         email: dto.email,
         role: {
@@ -216,20 +216,28 @@ export class AuthService {
         },
       });
 
-      // const hash = await this.jwtService.signAsync(
-      //   {
-      //     confirmEmailUserId: user.id,
-      //   },
-      //   {
-      //     secret: this.configService.getOrThrow("auth.confirmEmailSecret", {
-      //       infer: true,
-      //     }),
-      //     expiresIn: this.configService.getOrThrow("auth.confirmEmailExpires", {
-      //       infer: true,
-      //     }),
-      //   },
-      // );
-      //
+      const hash = await this.jwtService.signAsync(
+        {
+          confirmEmailUserId: user.id,
+        },
+        {
+          secret: this.configService.getOrThrow("auth.confirmEmailSecret", {
+            infer: true,
+          }),
+          expiresIn: this.configService.getOrThrow("auth.confirmEmailExpires", {
+            infer: true,
+          }),
+        },
+      );
+
+      delete user.password;
+      const returnObject = {
+        user: user,
+        hash: hash,
+      };
+
+      return returnObject;
+
       // await this.mailService.userSignUp({
       //   to: dto.email,
       //   data: {
