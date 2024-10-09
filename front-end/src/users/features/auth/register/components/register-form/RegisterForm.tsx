@@ -5,18 +5,12 @@ import * as yup from 'yup';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '@/utils/formatter/format-date';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
-interface RegisterFormData {
-  fullName?: string;
-  dob?: Dayjs | null;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
+import registerApi from '@/api/registerApi';
+import { RegisterFormData } from '@/types/interface/RegisterFormData';
 
 const schema = yup.object().shape({
   fullName: yup
@@ -72,14 +66,24 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitOtp }) => {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: RegisterFormData) => {
-    const formattedData = {
+  const onSubmit = async (data: RegisterFormData) => {
+    const formattedData: RegisterFormData = {
       ...data,
-      dob: formatDate(data.dob),
+      dob:
+        typeof data.dob === 'object' && data.dob !== null
+          ? formatDate(data.dob)
+          : data.dob,
     };
+
     console.log(formattedData);
-    onSubmitOtp(data.email || '');
-    // navigate('/login');
+
+    try {
+      const response = await registerApi.postRegister(formattedData);
+
+      onSubmitOtp(data.email || '');
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   const handleRouteLogin = () => {
