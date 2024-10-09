@@ -1,6 +1,6 @@
+import Footer from '@/features/public-pages/layouts/footer/Footer';
+import Header from '@/features/public-pages/layouts/header/Header';
 import { useLocation } from 'react-router-dom';
-import Header from '@/users/layouts/header/Header';
-import Footer from '@/users/layouts/footer/Footer';
 
 interface LayoutVisibilityProps {
   children: React.ReactNode;
