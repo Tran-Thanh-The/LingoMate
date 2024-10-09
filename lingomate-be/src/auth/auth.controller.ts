@@ -24,7 +24,6 @@ import { LoginResponseDto } from "./dto/login-response.dto";
 import { NullableType } from "../utils/types/nullable.type";
 import { User } from "../users/domain/user";
 import { RefreshResponseDto } from "./dto/refresh-response.dto";
-import { UsersService } from "src/users/users.service";
 
 @ApiTags("Auth")
 @Controller({
@@ -33,7 +32,6 @@ import { UsersService } from "src/users/users.service";
 })
 export class AuthController {
   constructor(private readonly service: AuthService,
-    private readonly usersService: UsersService
   ) {}
   @SerializeOptions({
     groups: ["me"],
@@ -45,12 +43,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public login(@Body() loginDto: AuthEmailLoginDto): Promise<LoginResponseDto> {
     return this.service.validateLogin(loginDto);
-  }
-  @Get("email/findAll")
-  @HttpCode(HttpStatus.OK)
-  async findAll(): Promise<User[]> {
-    const users = await this.usersService.findAll();
-    return users || [];
   }
 
   @Post("email/register")

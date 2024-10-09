@@ -110,10 +110,6 @@ export class UsersService {
     });
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.findAll(); 
-  }
-
   findById(id: User["id"]): Promise<NullableType<User>> {
     return this.usersRepository.findById(id);
   }
