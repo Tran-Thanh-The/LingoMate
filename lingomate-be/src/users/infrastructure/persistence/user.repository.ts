@@ -19,7 +19,7 @@ export abstract class UserRepository {
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]>;
-
+  abstract findAll(): Promise<User[]>;
   abstract findById(id: User["id"]): Promise<NullableType<User>>;
   abstract findByEmail(email: User["email"]): Promise<NullableType<User>>;
   abstract findBySocialIdAndProvider({

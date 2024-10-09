@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
 
 export class AuthConfirmEmailDto {
-  @ApiProperty()
+  @ApiProperty()O
   @IsNotEmpty()
   hash: string;
 }

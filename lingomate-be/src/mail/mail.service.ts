@@ -1,12 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { I18nContext } from "nestjs-i18n";
-import { MailData } from "./interfaces/mail-data.interface";
-
-import { MaybeType } from "../utils/types/maybe.type";
-import { MailerService } from "../mailer/mailer.service";
-import path from "path";
-import { AllConfigType } from "../config/config.type";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { MailerService } from '@nestjs-modules/mailer';
+import { I18nContext } from 'nestjs-i18n';
+import { AllConfigType } from '../config/config.type';
+import { MailData } from './interfaces/mail-data.interface';
 
 @Injectable()
 export class MailService {
@@ -15,12 +12,31 @@ export class MailService {
     private readonly configService: ConfigService<AllConfigType>,
   ) {}
 
+  async sendMail({
+    templatePath,
+    context,
+    ...mailOptions
+  }: {
+    to: string;
+    subject: string;
+    templatePath: string;
+    context: Record<string, unknown>;
+  }): Promise<void> {
+    const template = templatePath.split('/').pop()?.split('.')[0];
+
+    await this.mailerService.sendMail({
+      ...mailOptions,
+      template,
+      context,
+    });
+  }
+
   async userSignUp(mailData: MailData<{ hash: string }>): Promise<void> {
     const i18n = I18nContext.current();
-    let emailConfirmTitle: MaybeType<string>;
-    let text1: MaybeType<string>;
-    let text2: MaybeType<string>;
-    let text3: MaybeType<string>;
+    let emailConfirmTitle = '';
+    let text1 = '';
+    let text2 = '';
+    let text3 = '';
 
     if (i18n) {
       [emailConfirmTitle, text1, text2, text3] = await Promise.all([
@@ -32,25 +48,14 @@ export class MailService {
     }
 
     const url = new URL(
-      this.configService.getOrThrow("app.frontendDomain", {
-        infer: true,
-      }) + "/confirm-email",
+      this.configService.getOrThrow("app.frontendDomain", { infer: true }) + "/confirm-email",
     );
     url.searchParams.set("hash", mailData.data.hash);
 
-    await this.mailerService.sendMail({
+    await this.sendMail({
       to: mailData.to,
       subject: emailConfirmTitle,
-      text: `${url.toString()} ${emailConfirmTitle}`,
-      templatePath: path.join(
-        this.configService.getOrThrow("app.workingDirectory", {
-          infer: true,
-        }),
-        "src",
-        "mail",
-        "mail-templates",
-        "activation.hbs",
-      ),
+      templatePath: 'activation',
       context: {
         title: emailConfirmTitle,
         url: url.toString(),
@@ -67,11 +72,11 @@ export class MailService {
     mailData: MailData<{ hash: string; tokenExpires: number }>,
   ): Promise<void> {
     const i18n = I18nContext.current();
-    let resetPasswordTitle: MaybeType<string>;
-    let text1: MaybeType<string>;
-    let text2: MaybeType<string>;
-    let text3: MaybeType<string>;
-    let text4: MaybeType<string>;
+    let resetPasswordTitle = '';
+    let text1 = '';
+    let text2 = '';
+    let text3 = '';
+    let text4 = '';
 
     if (i18n) {
       [resetPasswordTitle, text1, text2, text3, text4] = await Promise.all([
@@ -84,33 +89,20 @@ export class MailService {
     }
 
     const url = new URL(
-      this.configService.getOrThrow("app.frontendDomain", {
-        infer: true,
-      }) + "/password-change",
+      this.configService.getOrThrow("app.frontendDomain", { infer: true }) + "/password-change",
     );
     url.searchParams.set("hash", mailData.data.hash);
     url.searchParams.set("expires", mailData.data.tokenExpires.toString());
 
-    await this.mailerService.sendMail({
+    await this.sendMail({
       to: mailData.to,
       subject: resetPasswordTitle,
-      text: `${url.toString()} ${resetPasswordTitle}`,
-      templatePath: path.join(
-        this.configService.getOrThrow("app.workingDirectory", {
-          infer: true,
-        }),
-        "src",
-        "mail",
-        "mail-templates",
-        "reset-password.hbs",
-      ),
+      templatePath: 'reset-password',
       context: {
         title: resetPasswordTitle,
         url: url.toString(),
         actionTitle: resetPasswordTitle,
-        app_name: this.configService.get("app.name", {
-          infer: true,
-        }),
+        app_name: this.configService.get("app.name", { infer: true }),
         text1,
         text2,
         text3,
@@ -121,10 +113,10 @@ export class MailService {
 
   async confirmNewEmail(mailData: MailData<{ hash: string }>): Promise<void> {
     const i18n = I18nContext.current();
-    let emailConfirmTitle: MaybeType<string>;
-    let text1: MaybeType<string>;
-    let text2: MaybeType<string>;
-    let text3: MaybeType<string>;
+    let emailConfirmTitle = '';
+    let text1 = '';
+    let text2 = '';
+    let text3 = '';
 
     if (i18n) {
       [emailConfirmTitle, text1, text2, text3] = await Promise.all([
@@ -136,25 +128,14 @@ export class MailService {
     }
 
     const url = new URL(
-      this.configService.getOrThrow("app.frontendDomain", {
-        infer: true,
-      }) + "/confirm-new-email",
+      this.configService.getOrThrow("app.frontendDomain", { infer: true }) + "/confirm-new-email",
     );
     url.searchParams.set("hash", mailData.data.hash);
 
-    await this.mailerService.sendMail({
+    await this.sendMail({
       to: mailData.to,
       subject: emailConfirmTitle,
-      text: `${url.toString()} ${emailConfirmTitle}`,
-      templatePath: path.join(
-        this.configService.getOrThrow("app.workingDirectory", {
-          infer: true,
-        }),
-        "src",
-        "mail",
-        "mail-templates",
-        "confirm-new-email.hbs",
-      ),
+      templatePath: 'confirm-new-email',
       context: {
         title: emailConfirmTitle,
         url: url.toString(),
