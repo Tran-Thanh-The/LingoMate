@@ -3,14 +3,14 @@ import Grid from '@mui/material/Grid2';
 import { Box, Typography, Container } from '@mui/material';
 import Course from './components/course/Course';
 import BuyConfirm from './components/buy-confirm/BuyConfirm';
-
-interface CourseData {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  altText: string;
-}
+import { CourseData } from '@/types/interface/CourseData';
+import {
+  addCourseToCart,
+  clearCart,
+  loadCourseFromLocalStorage,
+} from '@/users/features/course/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/stores/store';
 
 const courses: CourseData[] = [
   {
@@ -43,23 +43,41 @@ const courses: CourseData[] = [
 ];
 
 const ListCourses = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.course);
+
   const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false);
   const [courseId, setCourseId] = React.useState<number>();
   const [course, setCourse] = React.useState<CourseData | undefined>(undefined);
-
-  const handleBuyCourse = (id: number) => {
-    setCourseId(id);
-    setOpenSnackbar(true);
-  };
 
   useEffect(() => {
     const course = courses.find((item) => item.id === courseId);
     setCourse(course);
   }, [courseId]);
 
-  console.log(course);
+  useEffect(() => {
+    dispatch(loadCourseFromLocalStorage());
+    if (cart) {
+      setOpenSnackbar(true);
+    }
+    return;
+  }, [dispatch]);
 
-  // localStorage.setItem('cart', JSON.stringify(course));
+  const handleBuyCourse = (id: number) => {
+    const selectedCourse = courses.find((course) => course.id === id);
+    if (selectedCourse) {
+      dispatch(addCourseToCart(selectedCourse));
+    }
+    setCourseId(id);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseBuyConfirm = () => {
+    if (cart) {
+      dispatch(clearCart());
+    }
+    setOpenSnackbar(false);
+  };
 
   return (
     <Container maxWidth="xl" sx={{ mt: 3 }}>
@@ -155,8 +173,8 @@ const ListCourses = () => {
       </Box>
       <BuyConfirm
         open={openSnackbar}
-        onClose={() => setOpenSnackbar(false)}
-        course={course}
+        onClose={handleCloseBuyConfirm}
+        cart={cart}
         recommended={false}
       />
     </Container>

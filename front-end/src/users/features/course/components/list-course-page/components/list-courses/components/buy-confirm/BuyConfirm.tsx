@@ -3,26 +3,19 @@ import { Box, Typography, Button, IconButton, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import StarIcon from '@mui/icons-material/Star';
+import { CourseData } from '@/types/interface/CourseData';
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  course: CourseData;
+  cart: CourseData;
   recommended?: boolean;
-}
-
-interface CourseData {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  altText: string;
 }
 
 const BuyConfirm: React.FC<Props> = ({
   open,
   onClose,
-  course,
+  cart,
   recommended = false,
 }) => {
   if (!open) return null;
@@ -80,7 +73,7 @@ const BuyConfirm: React.FC<Props> = ({
                 },
               }}
             >
-              {/* {course.title} */}
+              {cart.title}
             </Typography>
           </Stack>
 
