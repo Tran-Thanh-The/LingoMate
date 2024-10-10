@@ -1,12 +1,13 @@
 import axiosClient from '@/core/intercepter/Intercepter';
 import { RegisterFormData } from '@/types/interface/RegisterFormData';
+import { RegisterRequestData } from '@/types/interface/RegisterRequestData';
 import constants from '@/utils/constants/constants';
 
 const REGISTER_API_ENDPOINT = constants.REGISTER_API_ENDPOINT;
 
 const registerApi = {
   // API: Đăng ký
-  postRegister: (account: RegisterFormData) => {
+  postRegister: (account: RegisterRequestData) => {
     const url = REGISTER_API_ENDPOINT;
     return axiosClient.post(url, account);
   },

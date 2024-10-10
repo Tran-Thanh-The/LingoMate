@@ -1,4 +1,5 @@
 import axios from 'axios';
+import loginApi from '@/api/loginApi';
 
 const axiosInstance = axios.create({
   baseURL: 'https://api.example.com',
@@ -9,10 +10,30 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
+  async (config) => {
+    let token = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const tokenExpires = localStorage.getItem('tokenExpires');
 
-    if (token) {
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (token && tokenExpires && currentTime >= Number(tokenExpires)) {
+      try {
+        const response = await loginApi.postRefreshToken({ refreshToken });
+
+        token = response.data.accessToken;
+        localStorage.setItem('token', token);
+        localStorage.setItem('tokenExpires', response.data.tokenExpires);
+
+        config.headers['Authorization'] = `Bearer ${token}`;
+      } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('tokenExpires');
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+    } else if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
 
@@ -33,7 +54,8 @@ axiosInstance.interceptors.response.use(
 
       if (status === 401) {
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('tokenExpires');
         window.location.href = '/login';
       }
 

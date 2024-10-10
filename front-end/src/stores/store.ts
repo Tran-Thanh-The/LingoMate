@@ -3,14 +3,17 @@ import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import cartReducer from '@/features/public-pages/pages/course/slices/cartSlice';
+import authReducer from '@/features/auth/slices/authSlice';
 
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['auth'], // Chỉ persist auth state
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

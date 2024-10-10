@@ -5,18 +5,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/features/auth/slices/authSlice';
+import { RootState } from '@/stores/store';
+import { Account } from '@/types/interface/Account';
+import { AppDispatch } from '@/stores/store';
 
-interface LoginFormData {
-  email?: string;
-  password?: string;
-}
+const MySwal = withReactContent(Swal);
 
 const schema = yup.object().shape({
   email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
   password: yup
     .string()
-    .required('Password là bắt buộc')
-    .min(6, 'Password phải có ít nhất 6 ký tự'),
+    .required('Mật khẩu là bắt buộc')
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
 });
 
 const LoginFormWithUsername = ({
@@ -25,29 +29,58 @@ const LoginFormWithUsername = ({
   onBackClick: () => void;
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
+  const { error, loading: isLoading } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginFormData>({
+  } = useForm<Account>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const onSubmit = async (data: Account) => {
+    setLoading(true);
+    try {
+      const actionResult = await dispatch(login(data));
+
+      if (login.fulfilled.match(actionResult)) {
+        MySwal.fire({
+          title: 'Đăng nhập thành công!',
+          text: `Chào mừng bạn, ${data.email}.`,
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+
+        navigate('/dashboard');
+      } else {
+        MySwal.fire({
+          title: 'Đăng nhập thất bại!',
+          text: error || 'Thông tin đăng nhập không đúng, vui lòng thử lại.',
+          icon: 'error',
+          confirmButtonText: 'Thử lại',
+        });
+      }
+    } catch (error) {
+      MySwal.fire({
+        title: 'Đăng nhập thất bại!',
+        text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+        icon: 'error',
+        confirmButtonText: 'Thử lại',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Chuyển hướng đến trang đăng ký
   const handleRouterRegister = () => {
     navigate('/register');
   };
@@ -92,23 +125,25 @@ const LoginFormWithUsername = ({
           Đăng nhập bằng username
         </Typography>
       </Box>
+
       <Typography
         variant="caption"
         align="center"
         sx={{ mt: 1 }}
         color="#374151"
       >
-        Hình thức này chỉ áp dụng với các học viên được cung cấp <br></br> email
-        khác với số điện thoại.
+        Hình thức này chỉ áp dụng với các học viên được cung cấp <br />
+        email khác với số điện thoại.
       </Typography>
+
       <Typography
         variant="caption"
         align="center"
         sx={{ mb: 4 }}
         color="#374151"
       >
-        Trong trường hợp bạn đã dùng số điện thoại để đăng ký, <br></br> vui
-        lòng{' '}
+        Trong trường hợp bạn đã dùng số điện thoại để đăng ký, <br />
+        vui lòng{' '}
         <Box
           component="span"
           sx={{
@@ -130,61 +165,41 @@ const LoginFormWithUsername = ({
           Sử dụng số điện thoại
         </Box>
       </Typography>
+
       <Box
         component="form"
         noValidate
         onSubmit={handleSubmit(onSubmit)}
         sx={{ width: '100%' }}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            color: '#374151',
-            fontWeight: '500',
-          }}
-        >
-          Email <span style={{ color: 'red' }}>*</span>
-        </Typography>
         <TextField
-          fullWidth
+          label="Email"
           placeholder="Nhập email"
           margin="normal"
           variant="outlined"
+          fullWidth
           {...register('email')}
           error={!!errors.email}
           helperText={errors.email?.message}
-          InputProps={{
-            sx: {
-              borderRadius: '8px',
-              backgroundColor: '#f9fafb',
-            },
+          sx={{
+            borderRadius: '8px',
+            backgroundColor: '#f9fafb',
           }}
         />
 
-        <Typography
-          variant="body2"
-          sx={{
-            color: '#374151',
-            fontWeight: '500',
-            mt: 2,
-          }}
-        >
-          Mật khẩu <span style={{ color: 'red' }}>*</span>
-        </Typography>
         <TextField
-          fullWidth
+          label="Mật khẩu"
           placeholder="Nhập mật khẩu"
           margin="normal"
           type={showPassword ? 'text' : 'password'}
           variant="outlined"
+          fullWidth
           {...register('password')}
           error={!!errors.password}
           helperText={errors.password?.message}
-          InputProps={{
-            sx: {
-              borderRadius: '8px',
-              backgroundColor: '#f9fafb',
-            },
+          sx={{
+            borderRadius: '8px',
+            backgroundColor: '#f9fafb',
           }}
         />
 
@@ -194,13 +209,13 @@ const LoginFormWithUsername = ({
           color="primary"
           fullWidth
           sx={{ mt: 3 }}
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
         >
-          Đăng nhập
+          {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
         </Button>
 
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
           fullWidth
           sx={{ mt: 3 }}

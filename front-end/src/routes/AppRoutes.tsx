@@ -11,7 +11,15 @@ const Home = lazy(() => import('@/features/public-pages/pages/home/Home'));
 const Login = lazy(() => import('@/features/auth/pages/login/Login'));
 const ListCourse = lazy(
   () =>
-    import('@/features/public-pages/pages/course/components/list-course-page/ListCourse'),
+    import(
+      '@/features/public-pages/pages/course/components/list-course-page/ListCourse'
+    ),
+);
+const VerifyEmail = lazy(
+  () =>
+    import(
+      '@/features/auth/pages/register/components/verify-email/VerifyEmail'
+    ),
 );
 
 function AppRoutes() {
@@ -34,6 +42,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<ListCourse />} />
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Typography, Container, Grid, ThemeProvider } from '@mui/material';
 import customTheme from '@/theme';
 import RegisterForm from './components/register-form/RegisterForm';
-import VerifyOTP from './components/verify-email/VerifyEmail';
 
 const Register: React.FC = () => {
   const [showOTP, setShowOTP] = useState(false);
@@ -75,11 +74,7 @@ const Register: React.FC = () => {
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ paddingLeft: 0, paddingRight: 0 }}>
-              {showOTP ? (
-                <VerifyOTP onBackClick={handleBackClick} email={email} />
-              ) : (
-                <RegisterForm onSubmitOtp={handleRegisterSubmit} />
-              )}
+              <RegisterForm />
             </Grid>
           </Grid>
         </Container>
