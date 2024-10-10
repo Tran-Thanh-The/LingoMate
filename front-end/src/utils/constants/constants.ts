@@ -1,10 +1,18 @@
-export default {
+export const API_ENDPOINT = {
   ACCESS_TOKEN_KEY: 'ttb_atk',
   REFRESH_TOKEN_KEY: 'refresh_token',
   REFRESH_TOKEN: 'refresh_token',
   VERIFY_TOKEN: 'verify_token',
-  LOGIN_API_ENDPOINT: '/login',
-  REGISTER_API_ENDPOINT: '/register',
-  USER_API_ENDPOINT: '/user',
-  COURSE_API_ENDPOINT: '/course',
+  LOGIN: '/auth/email/login',
+  LOGOUT: '/auth/email/logout',
+  REGISTER: '/auth/email/register',
+  VERIFY: '/auth/email/confirm',
+  USER: '/user',
+  COURSE: '/course',
+};
+
+export const ROLE = {
+  USER: 'User',
+  ADMIN: ' Admin',
+  STAFF: 'Staff',
 };

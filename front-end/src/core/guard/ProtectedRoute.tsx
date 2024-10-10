@@ -16,18 +16,31 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Lấy token từ localStorage
-    const role = localStorage.getItem('role'); // Lấy role từ localStorage
+    // Hàm kiểm tra người dùng có đăng nhập hay không
+    const checkAuth = () => {
+      const auth = JSON.parse(localStorage.getItem('auth') || '{}'); // Lấy thông tin auth từ localStorage
+      const token = auth.token; // Lấy token
+      const role = auth.user?.role?.name; // Lấy role từ user object
 
-    if (token) {
-      setIsAuthenticated(true);
-      setUserRole(role);
-    } else {
-      setIsAuthenticated(false);
-    }
+      console.log(role);
 
-    setLoading(false);
+      if (token) {
+        setIsAuthenticated(true);
+        setUserRole(role);
+      } else {
+        setIsAuthenticated(false);
+      }
+
+      setLoading(false);
+    };
+
+    checkAuth();
   }, []);
+
+  // Nếu đang trong trạng thái loading, có thể hiển thị spinner hoặc loading indicator
+  if (loading) {
+    return <div>Loading...</div>; // Hoặc có thể sử dụng một component loading tùy chỉnh
+  }
 
   // Nếu người dùng chưa đăng nhập, điều hướng về trang đăng nhập
   if (!isAuthenticated) {

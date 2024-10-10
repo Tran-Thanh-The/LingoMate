@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import registerApi from '@/api/registerApi';
@@ -8,29 +8,43 @@ import registerApi from '@/api/registerApi';
 const MySwal = withReactContent(Swal);
 
 const VerifyEmailPage = () => {
-  const { hash } = useParams();
+  const [searchParams] = useSearchParams();
+  const hash = searchParams.get('hash'); // Lấy giá trị 'hash' từ query params
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  console.log('hash: ', hash); // Kiểm tra xem hash được lấy đúng không
+
   useEffect(() => {
     if (hash) {
-      handleEmailVerification(hash);
+      handleEmailVerification(hash); // Nếu hash tồn tại, thực hiện xác minh
     }
   }, [hash]);
 
-  const handleEmailVerification = async (token: string) => {
-    setLoading(true);
+  // Hàm xử lý xác minh email
+  const handleEmailVerification = async (hash: string) => {
+    setLoading(true); // Hiển thị loading trong khi gọi API
     try {
-      const response = await registerApi.postVerifyEmail(token);
+      console.log('Sending verification request with hash: ', hash);
+
+      // Gọi API xác nhận email với body có format { hash }
+      const response = await registerApi.postVerifyEmail(hash);
+
+      console.log('API response: ', response); // Log kết quả phản hồi từ API
+
+      // Hiển thị thông báo thành công khi xác minh email thành công
       MySwal.fire({
         title: 'Xác nhận email thành công!',
         text: 'Bạn có thể tiếp tục đăng nhập.',
         icon: 'success',
         confirmButtonText: 'OK',
       }).then(() => {
-        navigate('/login');
+        navigate('/login'); // Điều hướng đến trang đăng nhập sau khi xác minh thành công
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('API Error: ', error); // Log lỗi từ API để kiểm tra chi tiết
+
+      // Hiển thị thông báo thất bại khi xác minh không thành công
       MySwal.fire({
         title: 'Xác nhận thất bại!',
         text: 'Vui lòng thử lại sau.',
@@ -38,7 +52,7 @@ const VerifyEmailPage = () => {
         confirmButtonText: 'Thử lại',
       });
     } finally {
-      setLoading(false);
+      setLoading(false); // Tắt loading sau khi xử lý xong
     }
   };
 
