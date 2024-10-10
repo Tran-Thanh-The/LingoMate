@@ -1,8 +1,6 @@
-import { Dayjs } from 'dayjs';
-
-export interface RegisterFormData {
+export interface RegisterRequestData {
   fullName?: string;
-  dob?: Dayjs | null;
+  dob?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;

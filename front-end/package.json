@@ -36,6 +36,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.14.1",
+    "sweetalert2-react-content": "^5.0.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {

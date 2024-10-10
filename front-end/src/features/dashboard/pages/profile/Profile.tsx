@@ -14,6 +14,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/stores/store'; // Đường dẫn tới RootState của bạn
 
 interface ProfileFormData {
   fullName: string;
@@ -23,16 +25,19 @@ interface ProfileFormData {
 }
 
 const Profile: React.FC = () => {
+  // Lấy thông tin người dùng từ Redux store
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<ProfileFormData>({
     defaultValues: {
-      fullName: 'Trần Thanh Thế',
-      email: 'phonvan128@gmail.com',
-      address: 'Thành phố Hà Nội',
-      dob: dayjs(new Date(2002, 10, 19)),
+      fullName: user?.fullName || '', // Lấy tên từ user
+      email: user?.email || '', // Lấy email từ user
+      address: user?.address || '', // Lấy địa chỉ từ user
+      dob: user?.dob ? dayjs(user.dob) : null, // Lấy ngày sinh từ user
     },
   });
 
@@ -126,7 +131,7 @@ const Profile: React.FC = () => {
               variant="body2"
               sx={{ color: '#374151', fontWeight: '500', mt: 4 }}
             >
-              Date of birth <span style={{ color: 'red' }}>*</span>
+              Ngày sinh <span style={{ color: 'red' }}>*</span>
             </Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Controller

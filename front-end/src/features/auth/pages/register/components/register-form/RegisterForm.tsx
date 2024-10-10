@@ -11,6 +11,10 @@ import { formatDate } from '@/utils/formatter/format-date';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import registerApi from '@/api/registerApi';
 import { RegisterFormData } from '@/types/interface/RegisterFormData';
+import { RegisterRequestData } from '@/types/interface/RegisterRequestData';
+import React from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 const schema = yup.object().shape({
   fullName: yup
@@ -42,11 +46,9 @@ const schema = yup.object().shape({
     .required('Xác nhận mật khẩu là bắt buộc'),
 });
 
-interface RegisterFormProps {
-  onSubmitOtp: (email: string) => void;
-}
+const MySwal = withReactContent(Swal);
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitOtp }) => {
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
@@ -66,23 +68,40 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitOtp }) => {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [success, setSuccess] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | null>(null);
+
   const onSubmit = async (data: RegisterFormData) => {
-    const formattedData: RegisterFormData = {
+    setLoading(true);
+    setError(null);
+    const formattedData: RegisterRequestData = {
       ...data,
-      dob:
-        typeof data.dob === 'object' && data.dob !== null
-          ? formatDate(data.dob)
-          : data.dob,
+      dob: data.dob ? formatDate(data.dob) : '',
     };
 
     console.log(formattedData);
 
     try {
       const response = await registerApi.postRegister(formattedData);
-
-      onSubmitOtp(data.email || '');
+      MySwal.fire({
+        title: 'Đăng ký thành công!',
+        text: `Vui lòng kiểm tra email ${data.email || ''} để xác nhận OTP.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+      setSuccess(true);
     } catch (error) {
       console.error('Registration failed:', error);
+      MySwal.fire({
+        title: 'Đăng ký thất bại!',
+        text: 'Có lỗi xảy ra, vui lòng thử lại sau.',
+        icon: 'error',
+        confirmButtonText: 'Thử lại',
+      });
+      setError('Đăng ký thất bại, vui lòng thử lại sau.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -265,7 +284,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitOtp }) => {
           type="submit"
           variant="contained"
           color="primary"
-          disabled={!isValid}
+          disabled={!isValid || loading}
           sx={{ mt: 4, borderRadius: '8px' }}
         >
           Đăng ký

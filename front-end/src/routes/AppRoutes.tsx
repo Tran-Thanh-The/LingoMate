@@ -4,6 +4,7 @@ import Loading from '@/components/common/loading-page/LoadingPage'; // Import co
 import ProtectedRoute from '@/core/guard/ProtectedRoute';
 import Register from '@/features/auth/pages/register/Register';
 import Profile from '@/features/dashboard/pages/profile/Profile';
+import { ROLE } from '@/utils/constants/constants';
 
 // const Home = lazy(() => import('@/users/pages/home/Home'));
 const Home = lazy(() => import('@/features/public-pages/pages/home/Home'));
@@ -11,7 +12,15 @@ const Home = lazy(() => import('@/features/public-pages/pages/home/Home'));
 const Login = lazy(() => import('@/features/auth/pages/login/Login'));
 const ListCourse = lazy(
   () =>
-    import('@/features/public-pages/pages/course/components/list-course-page/ListCourse'),
+    import(
+      '@/features/public-pages/pages/course/components/list-course-page/ListCourse'
+    ),
+);
+const VerifyEmail = lazy(
+  () =>
+    import(
+      '@/features/auth/pages/register/components/verify-email/VerifyEmail'
+    ),
 );
 
 function AppRoutes() {
@@ -34,11 +43,12 @@ function AppRoutes() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<ListCourse />} />
 
         {/* User navigation */}
-        <Route element={<ProtectedRoute allowedRoles={['USER']} />}>
+        <Route element={<ProtectedRoute allowedRoles={[ROLE.USER]} />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
         {/* User navigation */}
