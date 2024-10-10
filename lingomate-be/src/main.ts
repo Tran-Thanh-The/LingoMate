@@ -14,7 +14,11 @@ import { AllConfigType } from "./config/config.type";
 import { ResolvePromisesInterceptor } from "./utils/serializer.interceptor";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: "*",
+    methods: "*",
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
