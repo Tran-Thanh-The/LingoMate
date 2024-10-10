@@ -22,9 +22,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${APP_PORT}:${APP_PORT}"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
 
 volumes:
   boilerplate-db:
