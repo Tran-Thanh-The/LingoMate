@@ -34,16 +34,14 @@ const loginApi = {
 
   // API: Refresh Token
   postRefreshToken: (refreshToken: RefreshToken) => {
-    const url = `${API_ENDPOINT.LOGIN}/refresh_token`;
-    return axiosInstance.post(url, refreshToken);
+    const url = `${API_ENDPOINT.REFRESH_TOKEN}`;
+    return axiosInstance.post(url);
   },
 
   // API: Logout
   postLogout: () => {
     const url = `${API_ENDPOINT.LOGOUT}`;
-    return axiosInstance.post(url, {
-      token: localStorage.getItem('auth'),
-    });
+    return axiosInstance.post(url);
   },
 };
 

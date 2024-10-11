@@ -2,7 +2,7 @@ import axios from 'axios';
 import loginApi from '@/api/loginApi';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://10.10.150.59:3000/api/v1',
+  baseURL: 'http://10.10.150.56:3000/api/v1',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -11,26 +11,37 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    let token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-    const tokenExpires = localStorage.getItem('tokenExpires');
+    const authDataString = localStorage.getItem('auth');
+    const authData = authDataString ? JSON.parse(authDataString) : null;
+    let token = authData?.token;
+    const refreshToken = authData?.refreshToken;
+    const tokenExpires = authData?.tokenExpires;
 
     const currentTime = Math.floor(Date.now() / 1000);
 
-    if (token && tokenExpires && currentTime >= Number(tokenExpires)) {
+    if (
+      token &&
+      tokenExpires &&
+      currentTime >= Math.floor(Number(tokenExpires) / 1000)
+    ) {
       try {
         const response = await loginApi.postRefreshToken({ refreshToken });
 
-        token = response.data.accessToken;
-        localStorage.setItem('token', token);
-        localStorage.setItem('tokenExpires', response.data.tokenExpires);
+        token = response.data.token;
+        const newTokenExpires = response.data.tokenExpires;
+
+        const updatedAuthData = {
+          ...authData,
+          token,
+          tokenExpires: newTokenExpires,
+        };
+        localStorage.setItem('auth', JSON.stringify(updatedAuthData));
 
         config.headers['Authorization'] = `Bearer ${token}`;
       } catch (error) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('tokenExpires');
-        window.location.href = '/login';
+        console.error('Error refreshing token:', error);
+        localStorage.removeItem('auth');
+
         return Promise.reject(error);
       }
     } else if (token) {
@@ -53,10 +64,7 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
 
       if (status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('tokenExpires');
-        window.location.href = '/login';
+        localStorage.removeItem('auth');
       }
 
       if (status === 403) {

@@ -76,11 +76,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      console.log('Logout reducer triggered');
       state.token = null;
       state.refreshToken = null;
       state.tokenExpires = null;
       state.user = null;
       localStorage.removeItem('auth');
+      console.log('Auth removed from localStorage');
     },
   },
   extraReducers: (builder) => {
