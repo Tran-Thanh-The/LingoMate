@@ -34,7 +34,7 @@ export class MailService {
     const url = new URL(
       this.configService.getOrThrow("app.frontendDomain", {
         infer: true,
-      }) + "/confirm-email",
+      }) + "/verify-email",
     );
     url.searchParams.set("hash", mailData.data.hash);
 

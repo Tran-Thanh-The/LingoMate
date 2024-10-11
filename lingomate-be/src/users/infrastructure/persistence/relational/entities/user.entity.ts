@@ -73,21 +73,6 @@ export class UserEntity extends EntityRelationalHelper {
   @Expose({ groups: ["me", "admin"] })
   socialId?: string | null;
 
-  // @ApiProperty({
-  //   type: String,
-  //   example: "John",
-  // })
-  // @Index()
-  // @Column({ type: String, nullable: true })
-  // firstName: string | null;
-  //
-  // @ApiProperty({
-  //   type: String,
-  //   example: "Doe",
-  // })
-  // @Index()
-  // @Column({ type: String, nullable: true })
-  // lastName: string | null;
   @ApiProperty({
     type: String,
     example: "John Doe",

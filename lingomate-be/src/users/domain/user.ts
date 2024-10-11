@@ -45,6 +45,9 @@ export class User {
   })
   fullName: string | null;
 
+  @ApiProperty({ type: Date })
+  dob?: Date | null;
+
   @ApiProperty({
     type: () => FileType,
   })

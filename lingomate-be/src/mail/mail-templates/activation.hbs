@@ -1,30 +1,37 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=">
-    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{actionTitle}}</title>
 </head>
 
-<body style="margin:0;font-family:arial">
-    <table style="border:0;width:100%">
-        <tr style="background:#eeeeee">
-            <td style="padding:20px;color:#808080;text-align:center;font-size:40px;font-weight:600">
-                {{app_name}}
+<body style="margin:0;padding:0;background-color:#f4f4f4;font-family:Arial,sans-serif;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;">
+        <tr>
+            <td align="center" style="padding:40px 0;background-color:#00838f;">
+                <h1 style="color:#ffffff;font-size:28px;margin:0;">LingoMate</h1>
             </td>
         </tr>
         <tr>
-            <td style="padding:20px;color:#808080;font-size:16px;font-weight:100">
-                {{text1}}<br>
-                {{text2}} {{app_name}}.<br>
-                {{text3}}
+            <td style="padding:40px 30px;">
+                <p style="font-size:16px;line-height:1.5;color:#333333;">{{text1}}</p>
+                <p style="font-size:16px;line-height:1.5;color:#333333;">{{text2}} LingoMate. {{text3}}</p>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:30px;margin-bottom:30px;">
+                    <tr>
+                        <td align="center">
+                            <a href="{{url}}" style="display:inline-block;padding:14px 30px;background-color:#00838f;color:#ffffff;text-decoration:none;font-weight:bold;border-radius:5px;">{{actionTitle}}</a>
+                        </td>
+                    </tr>
+                </table>
+               
             </td>
         </tr>
         <tr>
-            <td style="text-align:center">
-                <a href="{{url}}"
-                    style="display:inline-block;padding:20px;background:#00838f;text-decoration:none;color:#ffffff">{{actionTitle}}</a>
+            <td align="center" style="padding:20px 0;background-color:#f4f4f4;color:#888888;font-size:14px;">
+                &copy; 2024 LingoMate. All rights reserved.
             </td>
         </tr>
     </table>

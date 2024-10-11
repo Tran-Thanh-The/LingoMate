@@ -1,33 +1,34 @@
 import {
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
 } from "@nestjs/common";
-import ms from "ms";
-import crypto from "crypto";
 import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
+import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcryptjs";
-import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
-import { AuthUpdateDto } from "./dto/auth-update.dto";
-import { AuthProvidersEnum } from "./auth-providers.enum";
-import { SocialInterface } from "../social/interfaces/social.interface";
-import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
-import { NullableType } from "../utils/types/nullable.type";
-import { LoginResponseDto } from "./dto/login-response.dto";
-import { ConfigService } from "@nestjs/config";
-import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
-import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { UsersService } from "../users/users.service";
+import crypto from "crypto";
+import ms from "ms";
 import { AllConfigType } from "../config/config.type";
 import { MailService } from "../mail/mail.service";
 import { RoleEnum } from "../roles/roles.enum";
 import { Session } from "../session/domain/session";
 import { SessionService } from "../session/session.service";
+import { SocialInterface } from "../social/interfaces/social.interface";
 import { StatusEnum } from "../statuses/statuses.enum";
 import { User } from "../users/domain/user";
+import { UsersService } from "../users/users.service";
+import { NullableType } from "../utils/types/nullable.type";
+import { AuthProvidersEnum } from "./auth-providers.enum";
+import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
+import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
+import { AuthUpdateDto } from "./dto/auth-update.dto";
+import { LoginResponseDto } from "./dto/login-response.dto";
+import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
+import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 
 @Injectable()
 export class AuthService {
@@ -212,7 +213,7 @@ export class AuthService {
           id: RoleEnum.user,
         },
         status: {
-          id: StatusEnum.active,
+          id: StatusEnum.inactive,
         },
       });
 
@@ -229,24 +230,35 @@ export class AuthService {
           }),
         },
       );
-
+      
+      try {
+        console.log('Attempting to send signup email to:', dto.email);
+        await this.mailService.userSignUp({
+          to: dto.email,
+          data: {
+            hash,
+          },
+        });
+        console.log('Email sent successfully');
+      } catch (emailError) {
+        console.error('Error sending email:', emailError);
+        throw new Error('Failed to send confirmation email');
+      }
+  
       delete user.password;
       const returnObject = {
         user: user,
         hash: hash,
       };
-
+  
       return returnObject;
-
-      // await this.mailService.userSignUp({
-      //   to: dto.email,
-      //   data: {
-      //     hash,
-      //   },
-      // });
+  
     } catch (e) {
+      console.error('Error in register function:', e);
       if (e instanceof UnprocessableEntityException) {
         throw e;
+      } else if (e.message === 'Failed to send confirmation email') {
+        throw new InternalServerErrorException('Failed to send confirmation email');
       } else {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -255,9 +267,9 @@ export class AuthService {
           },
         });
       }
-    }
+  
+    } 
   }
-
   async confirmEmail(hash: string): Promise<void> {
     let userId: User["id"];
 
