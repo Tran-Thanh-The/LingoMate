@@ -19,12 +19,12 @@ import { DataSource, DataSourceOptions } from "typeorm";
 import { AllConfigType } from "./config/config.type";
 import { SessionModule } from "./session/session.module";
 import { MailerModule } from "./mailer/mailer.module";
-import { AnswersModule } from "./modules/answers/answers.module";
-import { QuestionsModule } from "./modules/questions/questions.module";
-import { ExercisesModule } from "./modules/exercises/exercises.module";
-import { LessonsModule } from "./modules/lessons/lessons.module";
-import { InvoicesModule } from './modules/invoices/invoices.module';
-import { PracticeExercisesModule } from './modules/practice-exercises/practice-exercises.module';
+// import { AnswersModule } from "./modules/answers/answers.module";
+// import { QuestionsModule } from "./modules/questions/questions.module";
+// import { ExercisesModule } from "./modules/exercises/exercises.module";
+// import { LessonsModule } from "./modules/lessons/lessons.module";
+// import { InvoicesModule } from './modules/invoices/invoices.module';
+// import { PracticeExercisesModule } from './modules/practice-exercises/practice-exercises.module';
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -33,8 +33,29 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   },
 });
 
+import { QuestionsModule } from "./questions/questions.module";
+
+import { AnswersModule } from "./answers/answers.module";
+
+import { CoursesModule } from "./courses/courses.module";
+
+import { LessonsModule } from "./lessons/lessons.module";
+
+import { ExercisesModule } from "./exercises/exercises.module";
+
+import { PracticeExercisesModule } from "./practice-exercises/practice-exercises.module";
+
+import { InvoicesModule } from "./invoices/invoices.module";
+
 @Module({
   imports: [
+    InvoicesModule,
+    PracticeExercisesModule,
+    ExercisesModule,
+    LessonsModule,
+    CoursesModule,
+    AnswersModule,
+    QuestionsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
@@ -71,12 +92,12 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
     MailModule,
     MailerModule,
     HomeModule,
-    LessonsModule,
-    ExercisesModule,
-    QuestionsModule,
-    AnswersModule,
-    InvoicesModule,
-    PracticeExercisesModule,
+    // LessonsModule,
+    // ExercisesModule,
+    // QuestionsModule,
+    // AnswersModule,
+    // InvoicesModule,
+    // PracticeExercisesModule,
   ],
 })
 export class AppModule {}
