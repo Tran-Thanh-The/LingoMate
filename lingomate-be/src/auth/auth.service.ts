@@ -6,29 +6,29 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from "@nestjs/common";
-import ms from "ms";
-import crypto from "crypto";
 import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
+import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcryptjs";
-import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
-import { AuthUpdateDto } from "./dto/auth-update.dto";
-import { AuthProvidersEnum } from "./auth-providers.enum";
-import { SocialInterface } from "../social/interfaces/social.interface";
-import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
-import { NullableType } from "../utils/types/nullable.type";
-import { LoginResponseDto } from "./dto/login-response.dto";
-import { ConfigService } from "@nestjs/config";
-import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
-import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
-import { UsersService } from "../users/users.service";
+import crypto from "crypto";
+import ms from "ms";
 import { AllConfigType } from "../config/config.type";
 import { MailService } from "../mail/mail.service";
 import { RoleEnum } from "../roles/roles.enum";
 import { Session } from "../session/domain/session";
 import { SessionService } from "../session/session.service";
+import { SocialInterface } from "../social/interfaces/social.interface";
 import { StatusEnum } from "../statuses/statuses.enum";
 import { User } from "../users/domain/user";
+import { UsersService } from "../users/users.service";
+import { NullableType } from "../utils/types/nullable.type";
+import { AuthProvidersEnum } from "./auth-providers.enum";
+import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
+import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
+import { AuthUpdateDto } from "./dto/auth-update.dto";
+import { LoginResponseDto } from "./dto/login-response.dto";
+import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
+import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 
 @Injectable()
 export class AuthService {

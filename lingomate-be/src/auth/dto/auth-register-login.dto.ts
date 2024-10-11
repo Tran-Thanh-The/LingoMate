@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
-import { Transform } from "class-transformer";
+import { IsDate, IsEmail, IsNotEmpty, MinLength } from "class-validator";
+import { Transform, Type } from "class-transformer";
 import { lowerCaseTransformer } from "../../utils/transformers/lower-case.transformer";
 
 export class AuthRegisterLoginDto {
@@ -25,6 +25,7 @@ export class AuthRegisterLoginDto {
     example: new Date("1990-01-01"),
     type: Date,
   })
+
   @IsNotEmpty()
   dob: Date;
 }
