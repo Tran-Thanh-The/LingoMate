@@ -1,7 +1,7 @@
 import {
   HttpStatus,
   Injectable,
-  UnprocessableEntityException
+  UnprocessableEntityException,
 } from "@nestjs/common";
 import bcrypt from "bcryptjs";
 import { AuthProvidersEnum } from "../auth/auth-providers.enum";
@@ -15,7 +15,6 @@ import { User } from "./domain/user";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { FilterUserDto, SortUserDto } from "./dto/query-user.dto";
 import { UserRepository } from "./infrastructure/persistence/user.repository";
-
 
 @Injectable()
 export class UsersService {

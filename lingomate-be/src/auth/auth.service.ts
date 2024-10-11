@@ -230,35 +230,36 @@ export class AuthService {
           }),
         },
       );
-      
+
       try {
-        console.log('Attempting to send signup email to:', dto.email);
+        console.log("Attempting to send signup email to:", dto.email);
         await this.mailService.userSignUp({
           to: dto.email,
           data: {
             hash,
           },
         });
-        console.log('Email sent successfully');
+        console.log("Email sent successfully");
       } catch (emailError) {
-        console.error('Error sending email:', emailError);
-        throw new Error('Failed to send confirmation email');
+        console.error("Error sending email:", emailError);
+        throw new Error("Failed to send confirmation email");
       }
-  
+
       delete user.password;
       const returnObject = {
         user: user,
         hash: hash,
       };
-  
+
       return returnObject;
-  
     } catch (e) {
-      console.error('Error in register function:', e);
+      console.error("Error in register function:", e);
       if (e instanceof UnprocessableEntityException) {
         throw e;
-      } else if (e.message === 'Failed to send confirmation email') {
-        throw new InternalServerErrorException('Failed to send confirmation email');
+      } else if (e.message === "Failed to send confirmation email") {
+        throw new InternalServerErrorException(
+          "Failed to send confirmation email",
+        );
       } else {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -267,8 +268,7 @@ export class AuthService {
           },
         });
       }
-  
-    } 
+    }
   }
   async confirmEmail(hash: string): Promise<void> {
     let userId: User["id"];

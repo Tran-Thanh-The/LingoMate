@@ -31,8 +31,7 @@ import { RefreshResponseDto } from "./dto/refresh-response.dto";
   version: "1",
 })
 export class AuthController {
-  constructor(private readonly service: AuthService,
-  ) {}
+  constructor(private readonly service: AuthService) {}
   @SerializeOptions({
     groups: ["me"],
   })
