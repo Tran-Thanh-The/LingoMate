@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { UsersModule } from "./users/users.module";
+import { UsersModule } from "@/domain/users/users.module";
 import { FilesModule } from "./files/files.module";
 import { AuthModule } from "./auth/auth.module";
 import databaseConfig from "./database/config/database.config";
@@ -14,17 +14,11 @@ import { I18nModule } from "nestjs-i18n/dist/i18n.module";
 import { HeaderResolver } from "nestjs-i18n";
 import { TypeOrmConfigService } from "./database/typeorm-config.service";
 import { MailModule } from "./mail/mail.module";
-import { HomeModule } from "./home/home.module";
+import { HomeModule } from "@/domain/home/home.module";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { AllConfigType } from "./config/config.type";
-import { SessionModule } from "./session/session.module";
+import { SessionModule } from "@/domain/session/session.module";
 import { MailerModule } from "./mailer/mailer.module";
-// import { AnswersModule } from "./modules/answers/answers.module";
-// import { QuestionsModule } from "./modules/questions/questions.module";
-// import { ExercisesModule } from "./modules/exercises/exercises.module";
-// import { LessonsModule } from "./modules/lessons/lessons.module";
-// import { InvoicesModule } from './modules/invoices/invoices.module';
-// import { PracticeExercisesModule } from './modules/practice-exercises/practice-exercises.module';
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -33,19 +27,19 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   },
 });
 
-import { QuestionsModule } from "./questions/questions.module";
+import { QuestionsModule } from "@/domain/questions/questions.module";
 
-import { AnswersModule } from "./answers/answers.module";
+import { AnswersModule } from "@/domain/answers/answers.module";
 
-import { CoursesModule } from "./courses/courses.module";
+import { CoursesModule } from "@/domain/courses/courses.module";
 
-import { LessonsModule } from "./lessons/lessons.module";
+import { LessonsModule } from "@/domain/lessons/lessons.module";
 
-import { ExercisesModule } from "./exercises/exercises.module";
+import { ExercisesModule } from "@/domain/exercises/exercises.module";
 
-import { PracticeExercisesModule } from "./practice-exercises/practice-exercises.module";
+import { PracticeExercisesModule } from "@/domain/practice-exercises/practice-exercises.module";
 
-import { InvoicesModule } from "./invoices/invoices.module";
+import { InvoicesModule } from "@/domain/invoices/invoices.module";
 
 @Module({
   imports: [
@@ -56,6 +50,13 @@ import { InvoicesModule } from "./invoices/invoices.module";
     CoursesModule,
     AnswersModule,
     QuestionsModule,
+    UsersModule,
+    FilesModule,
+    AuthModule,
+    SessionModule,
+    MailModule,
+    MailerModule,
+    HomeModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
@@ -85,19 +86,12 @@ import { InvoicesModule } from "./invoices/invoices.module";
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    UsersModule,
-    FilesModule,
-    AuthModule,
-    SessionModule,
-    MailModule,
-    MailerModule,
-    HomeModule,
-    // LessonsModule,
-    // ExercisesModule,
-    // QuestionsModule,
-    // AnswersModule,
-    // InvoicesModule,
-    // PracticeExercisesModule,
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+      dataSourceFactory: async (options: DataSourceOptions) => {
+        return new DataSource(options).initialize();
+      },
+    }),
   ],
 })
 export class AppModule {}
