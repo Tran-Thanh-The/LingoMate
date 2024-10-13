@@ -1,16 +1,16 @@
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Loading from '@/components/common/loading-page/LoadingPage'; // Import component Loading đã tách riêng
 import ProtectedRoute from '@/core/guard/ProtectedRoute';
 import Register from '@/features/auth/pages/register/Register';
 import Profile from '@/features/dashboard/features/profile/Profile';
 import { ROLE } from '@/utils/constants/constants';
 import Dashboard from '@/features/dashboard/Dashboard';
-import Courses from '@/features/dashboard/features/courses/Courses';
 import Practices from '@/features/dashboard/features/practices/Practices';
 import Chat from '@/features/dashboard/features/chat/Chat';
 import Payment from '@/features/public-pages/pages/payment/Payment';
 import UserManagement from '@/features/dashboard/features/user-management/UserManagement';
+import CourseRouter from '@/features/dashboard/features/courses/CourseRouter';
 
 const Home = lazy(() => import('@/features/public-pages/pages/home/Home'));
 const Login = lazy(() => import('@/features/auth/pages/login/Login'));
@@ -58,12 +58,13 @@ function AppRoutes() {
 
         <Route path='/dashboard' element={<Dashboard />}>
           {/* <Route path='profile' element={<Profile />} /> */}
+          <Route path='' element={<Navigate to='courses' />} />
           <Route path='chat' element={<Chat />} />
-          <Route path='courses' element={<Courses />} />
+          <Route path='courses/*' element={<CourseRouter />} />
           <Route path='practices' element={<Practices />} />
           <Route path='payments' element={<Payment />} />
           <Route path='user-management' element={<UserManagement />} />
-          {/* <Route path='*' element={<PageNotFound />} /> */}
+          <Route path='*' />
         </Route>
       </Routes>
     </Suspense>
