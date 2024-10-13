@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from "@nestjs/common";
 import bcrypt from "bcryptjs";
-import { AuthProvidersEnum } from "../../auth/auth-providers.enum";
+import { AuthProvidersEnum } from "@/domain/auth/auth-providers.enum";
 import { FilesService } from "../../files/files.service";
 import { RoleEnum } from "../roles/roles.enum";
 import { StatusEnum } from "../statuses/statuses.enum";

@@ -6,9 +6,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { AnonymousStrategy } from "./strategies/anonymous.strategy";
 import { JwtRefreshStrategy } from "./strategies/jwt-refresh.strategy";
-import { MailModule } from "../mail/mail.module";
-import { SessionModule } from "../session/session.module";
-import { UsersModule } from "../users/users.module";
+import { MailModule } from "../../mail/mail.module";
+import { SessionModule } from "@/domain/session/session.module";
+import { UsersModule } from "@/domain/users/users.module";
 
 @Module({
   imports: [
