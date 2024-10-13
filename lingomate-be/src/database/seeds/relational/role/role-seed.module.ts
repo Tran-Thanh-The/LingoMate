@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { RoleSeedService } from "./role-seed.service";
-import { RoleEntity } from "../../../../roles/infrastructure/persistence/relational/entities/role.entity";
+import { RoleEntity } from "@/domain/roles/infrastructure/persistence/relational/entities/role.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([RoleEntity])],

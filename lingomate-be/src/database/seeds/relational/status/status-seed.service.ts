@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { StatusEntity } from "../../../../statuses/infrastructure/persistence/relational/entities/status.entity";
-import { StatusEnum } from "../../../../statuses/statuses.enum";
+import { StatusEntity } from "@/domain/statuses/infrastructure/persistence/relational/entities/status.entity";
+import { StatusEnum } from "@/domain/statuses/statuses.enum";
 
 @Injectable()
 export class StatusSeedService {
