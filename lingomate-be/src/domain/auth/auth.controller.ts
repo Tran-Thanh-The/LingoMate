@@ -9,8 +9,8 @@ import {
   UseGuards,
   Patch,
   Delete,
-  SerializeOptions,
-} from "@nestjs/common";
+  SerializeOptions, UseInterceptors,
+} from '@nestjs/common';
 import { AuthService } from "./auth.service";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";
@@ -21,8 +21,8 @@ import { AuthUpdateDto } from "./dto/auth-update.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthRegisterLoginDto } from "./dto/auth-register-login.dto";
 import { LoginResponseDto } from "./dto/login-response.dto";
-import { NullableType } from "../utils/types/nullable.type";
-import { User } from "../users/domain/user";
+import { NullableType } from "@/utils/types/nullable.type";
+import { User } from "@/domain/users/domain/user";
 import { RefreshResponseDto } from "./dto/refresh-response.dto";
 
 @ApiTags("Auth")

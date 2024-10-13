@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { UsersModule } from "@/domain/users/users.module";
 import { FilesModule } from "./files/files.module";
-import { AuthModule } from "./auth/auth.module";
+import { AuthModule } from "@/domain/auth/auth.module";
 import databaseConfig from "./database/config/database.config";
-import authConfig from "./auth/config/auth.config";
+import authConfig from "@/domain/auth/config/auth.config";
 import appConfig from "./config/app.config";
 import mailConfig from "./mail/config/mail.config";
 import fileConfig from "./files/config/file.config";
@@ -40,6 +40,8 @@ import { ExercisesModule } from "@/domain/exercises/exercises.module";
 import { PracticeExercisesModule } from "@/domain/practice-exercises/practice-exercises.module";
 
 import { InvoicesModule } from "@/domain/invoices/invoices.module";
+import redisConfig from '@/common/redis/config/redis.config';
+import { RedisModule } from '@/common/redis/redis.module';
 
 @Module({
   imports: [
@@ -57,9 +59,10 @@ import { InvoicesModule } from "@/domain/invoices/invoices.module";
     MailModule,
     MailerModule,
     HomeModule,
+    RedisModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
+      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig, redisConfig],
       envFilePath: [".env"],
     }),
     infrastructureDatabaseModule,
