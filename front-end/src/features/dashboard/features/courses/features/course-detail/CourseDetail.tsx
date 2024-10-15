@@ -16,9 +16,9 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from 'react-router-dom';
-import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
-import LessonCard from './components/lesson-card/LessonCard';
+import LessonCard from '../../components/lesson-card/LessonCard';
 import { LESSONS_PER_PAGE } from '@/utils/constants/constants';
 
 const mockCourseData = {

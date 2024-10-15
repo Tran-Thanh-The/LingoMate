@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
-import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 
 const fetchLessonById = (selectedLessonId) => {

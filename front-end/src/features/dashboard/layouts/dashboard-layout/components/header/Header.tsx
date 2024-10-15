@@ -10,6 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import logo from '@/assets/logo.svg';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -25,27 +26,26 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+    <AppBar
+      position="static"
+      sx={{
+        background: '#fff',
+        borderBottom: '2px solid #e5e7eb',
+        boxShadow: 'none',
+      }}
+    >
+      <Container maxWidth="xl" sx={{ background: '#fff', borderBottom: '2px solid e5e7eb' }}>
+        <Toolbar disableGutters sx={{ background: '#fff' }}>
+          <Box
+            component="img"
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              height: 'auto',
+              width: 120,
+              paddingLeft: '8px',
             }}
-          >
-            Lingo mate
-          </Typography>
+            alt="header-logo"
+            src={logo}
+          />
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -90,7 +90,9 @@ export default function Header() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                  <Typography sx={{ textAlign: 'center' }}>
+                    {setting}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -98,5 +100,5 @@ export default function Header() {
         </Toolbar>
       </Container>
     </AppBar>
-  )
+  );
 }

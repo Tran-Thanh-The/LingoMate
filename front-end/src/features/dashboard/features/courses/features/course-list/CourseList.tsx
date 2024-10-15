@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
-import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import CourseCard from '@/features/dashboard/features/courses/features/course-list/components/course-card/CourseCard';
 import CourseFilter from '@/features/dashboard/features/courses/features/course-list/components/course-filter/CourseFilter';
@@ -68,7 +68,10 @@ export default function CourseList() {
 
   return (
     <FeatureLayout>
-      <FeatureHeader title="Khóa học" />
+      <FeatureHeader
+        title="Khóa học"
+        description="Các khóa học bạn đang sở hữu đã được chia theo từng cấp trình độ, tương ứng với mỗi chặng mục tiêu. Hãy chọn trình độ mà bạn muốn bắt đầu nhé."
+      />
       <Box sx={{ padding: 3 }}>
         <Box
           sx={{
@@ -82,7 +85,9 @@ export default function CourseList() {
           <Button
             variant="contained"
             onClick={() => navigate('/dashboard/courses/create')}
-            sx={{ bgcolor: '#2E3091', '&:hover': { bgcolor: '#1E2177' } }}
+            sx={{
+              width: 'unset',
+            }}
           >
             Tạo khóa học
           </Button>
@@ -92,7 +97,7 @@ export default function CourseList() {
           Danh sách khóa học
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
           {mockCourseDataArray.map((course) => (
             <CourseCard
               key={course.id}

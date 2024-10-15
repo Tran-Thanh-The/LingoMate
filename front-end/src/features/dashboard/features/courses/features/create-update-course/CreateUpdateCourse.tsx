@@ -1,4 +1,4 @@
-import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import {
   Box,
@@ -94,7 +94,7 @@ export default function CreateUpdateCourse() {
       isMyCourse: false, // Mặc định khi tạo mới
       image: formData.image
         ? URL.createObjectURL(formData.image)
-        : 'https://via.placeholder.com/150',
+        : 'https://storage.googleapis.com/prep-storage-service/course/cover/qDgMeVyQqcHeqa5oz4lHTgpW5a8fSxKmB3mwzHHK.jpg',
       lessons: lessons,
     };
 

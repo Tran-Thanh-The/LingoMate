@@ -5,7 +5,10 @@ export default function FeatureLayout({ children }) {
   return (
     <Box
       sx={{
-        padding: 2,
+        padding: "32px",
+        maxHeight: "calc(100vh - 60px)",
+        overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import MailIcon from '@mui/icons-material/Mail';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -40,8 +40,13 @@ const DASHBOARD_SIDEBAR = [
 export default function Sidebar() {
   const navigate = useNavigate();
   return (
-    <div>
-      <Divider />
+    <Box sx={{
+      borderRight: '1px solid #e0e0e0',
+      padding: "16px",
+      height: "calc(100vh - 64px)",
+      // overflowY: "hidden",
+    }}>
+      {/* <Divider /> */}
       <List>
         {DASHBOARD_SIDEBAR.map((item) => (
           <ListItem key={item.title} disablePadding>
@@ -49,13 +54,18 @@ export default function Sidebar() {
               <ListItemIcon>
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.title} />
+              <ListItemText primary={item.title} sx={{
+                "& span": {
+                  fontSize: "14px",
+                  fontWeight: "700",
+                }
+              }} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
+      {/* <Divider /> */}
+      {/* <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -66,7 +76,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
-    </div>
+      </List> */}
+    </Box>
   );
 }

@@ -1,5 +1,5 @@
-import Header from '@/features/dashboard/components/header/Header'
-import Sidebar from '@/features/dashboard/components/Sidebar/Sidebar'
+import Header from '@/features/dashboard/layouts/dashboard-layout/components/header/Header'
+import Sidebar from '@/features/dashboard/layouts/dashboard-layout/components/Sidebar/Sidebar'
 import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 
@@ -20,7 +20,9 @@ export default function DashboardLayout({ children }) {
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
-        marginTop: "64px",
+        paddingTop: "64px",
+        height: "calc(100vh - 64px)",
+        overflow: "hidden",
       }}>
         <Sidebar></Sidebar>
         <Box flex={1}>

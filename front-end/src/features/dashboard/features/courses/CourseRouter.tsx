@@ -2,7 +2,7 @@ import CourseDetail from '@/features/dashboard/features/courses/features/course-
 import CourseList from '@/features/dashboard/features/courses/features/course-list/CourseList';
 import CreateUpdateCourse from '@/features/dashboard/features/courses/features/create-update-course/CreateUpdateCourse';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import CreateUpdateLesson from './features/course-detail/components/create-lesson/CreateLesson';
+import CreateUpdateLesson from './components/create-update-lesson/CreateUpdateLesson';
 
 export default function CourseRouter() {
   return (

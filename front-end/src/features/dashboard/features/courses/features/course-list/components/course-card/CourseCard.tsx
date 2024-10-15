@@ -69,23 +69,27 @@ const CourseCard = ({
     <Card
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 2,
+        flexDirection: 'column',
         cursor: 'pointer',
+        borderRadius: 4,
         '&:hover': {
           boxShadow: 6,
+          img: {
+            scale: 1.1,
+            transition: '0.1s',
+          }
         },
+        width: 300,
       }}
       onClick={handleCardClick}
     >
       <CardMedia
         component="img"
-        sx={{ width: 150, height: 150, borderRadius: 2 }}
-        image="https://via.placeholder.com/150"
+        sx={{ width: '100%', height: '160px', overflow: 'hidden' }}
+        image="https://storage.googleapis.com/prep-storage-service/course/cover/qDgMeVyQqcHeqa5oz4lHTgpW5a8fSxKmB3mwzHHK.jpg"
         alt={title}
       />
-      <CardContent sx={{ flexGrow: 1, ml: 2 }}>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h6" sx={{ mb: 1 }}>
           {title}
         </Typography>
