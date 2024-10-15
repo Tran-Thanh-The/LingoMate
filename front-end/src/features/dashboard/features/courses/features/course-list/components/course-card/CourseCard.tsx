@@ -1,4 +1,5 @@
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -11,10 +12,21 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+interface CourseCardProps {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  createdAt: Date;
+  totalLesson: number;
+  completedLesson: number;
+  isMyCourse: boolean;
+}
 
 const CourseCard = ({
+  id,
   title,
   description,
   price,
@@ -22,17 +34,35 @@ const CourseCard = ({
   totalLesson,
   completedLesson,
   isMyCourse,
-}) => {
+}: CourseCardProps) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleMenuOpen = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCardClick = () => {
+    console.log(id);
+    navigate(`/dashboard/courses/${id}`);
+  };
+
+  const handleEdit = (event) => {
+    event.stopPropagation();
+    navigate(`/dashboard/courses/update/${id}`);
+    handleMenuClose();
+  };
+
+  const handleDelete = (event) => {
+    event.stopPropagation();
+    console.log(`Deleting course with id: ${id}`);
+    handleMenuClose();
   };
 
   return (
@@ -42,39 +72,39 @@ const CourseCard = ({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 2,
+        cursor: 'pointer',
+        '&:hover': {
+          boxShadow: 6,
+        },
       }}
+      onClick={handleCardClick}
     >
-      {/* Image can be a placeholder */}
       <CardMedia
         component="img"
         sx={{ width: 150, height: 150, borderRadius: 2 }}
         image="https://via.placeholder.com/150"
         alt={title}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography
-          sx={{
-            '&:hover': {
-              cursor: 'pointer',
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={() => navigate('/dashboard/courses/1')}
-        >
+      <CardContent sx={{ flexGrow: 1, ml: 2 }}>
+        <Typography variant="h6" sx={{ mb: 1 }}>
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           {description}
         </Typography>
-        <Typography variant="subtitle1" color="primary" sx={{ mt: 1 }}>
+        <Typography variant="subtitle1" color="primary" sx={{ mb: 1 }}>
           ${price.toFixed(2)}
         </Typography>
-        <Typography variant="caption" color="text.secondary">
-          Created at: {new Date(createdAt).toLocaleDateString()}
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ display: 'block', mb: 1 }}
+        >
+          Ngày tạo: {new Date(createdAt).toLocaleDateString()}
         </Typography>
-        <Box sx={{ mt: 1 }}>
+        <Box sx={{ mb: 1 }}>
           <Typography variant="caption">
-            Progress: {completedLesson}/{totalLesson} lessons
+            Tiến độ: {completedLesson}/{totalLesson} bài học
           </Typography>
           <LinearProgress
             variant="determinate"
@@ -82,29 +112,20 @@ const CourseCard = ({
             sx={{ mt: 1, height: 8, borderRadius: 5 }}
           />
         </Box>
-        {isMyCourse && (
-          <Chip label="Purchased" color="success" size="small" sx={{ mt: 1 }} />
-        )}
+        {isMyCourse && <Chip label="Đã mua" color="success" size="small" />}
       </CardContent>
       <Box>
         <IconButton onClick={handleMenuOpen}>
           <MoreVertIcon />
         </IconButton>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-          <MenuItem
-            onClick={() => {
-              /* Edit logic */
-            }}
-          >
-            Edit
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              /* Delete logic */
-            }}
-          >
-            Delete
-          </MenuItem>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleMenuClose}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MenuItem onClick={handleEdit}>Chỉnh sửa</MenuItem>
+          <MenuItem onClick={handleDelete}>Xóa</MenuItem>
         </Menu>
       </Box>
     </Card>

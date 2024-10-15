@@ -1,21 +1,25 @@
-import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
-import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
-import AddIcon from '@mui/icons-material/Add';
+import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardMedia,
   Chip,
-  Divider,
   LinearProgress,
-  List,
-  ListItem,
-  ListItemText,
+  Menu,
+  MenuItem,
   Typography,
+  Tabs,
+  Tab,
+  Pagination,
+  IconButton,
 } from '@mui/material';
-import React from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate, useParams } from 'react-router-dom';
+import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import LessonCard from './components/lesson-card/LessonCard';
+import { LESSONS_PER_PAGE } from '@/utils/constants/constants';
 
 const mockCourseData = {
   title: 'React for Beginners',
@@ -27,39 +31,151 @@ const mockCourseData = {
   completedLesson: 4,
   isMyCourse: true,
   lessons: [
-    { id: 1, title: 'Introduction to React', duration: '10 mins' },
     {
-      id: 2,
-      title: 'Setting up the Development Environment',
-      duration: '15 mins',
+      id: '01',
+      title: 'Lesson 1: Intro to React',
+      typeLesson: 'video',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
     },
-    { id: 3, title: 'Understanding JSX', duration: '20 mins' },
-    // Add more mock lessons as needed
+    {
+      id: '02',
+      title: 'Lesson 2: JSX and Components',
+      typeLesson: 'docs',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
+    },
+    {
+      id: '03',
+      title: 'Lesson 3: State and Props',
+      typeLesson: 'video',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
+    },
+    {
+      id: '04',
+      title: 'Lesson 4: React Lifecycle',
+      typeLesson: 'exercise',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
+    },
+    {
+      id: '05',
+      title: 'Lesson 5: Event Handling',
+      typeLesson: 'docs',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
+    },
+    {
+      id: '06',
+      title: 'Lesson 6: Hooks in React',
+      typeLesson: 'exercise',
+      sections: 0,
+      totalSections: 1,
+      stars: 0,
+      totalStars: 3,
+    },
   ],
 };
 
 export default function CourseDetail() {
   const course = mockCourseData;
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
   const open = Boolean(anchorEl);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+  const { idCourse } = useParams();
 
-  const handleMenuOpen = (event) => {
+  console.log('id khóa học : ', idCourse);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setCurrentPage(page);
+  };
+
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    lessonId: string,
+  ) => {
     setAnchorEl(event.currentTarget);
+    setSelectedLessonId(lessonId);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    setSelectedLessonId(null);
   };
+
+  const handleEdit = () => {
+    if (selectedLessonId) {
+      navigate(
+        `/dashboard/courses/${idCourse}/edit-lesson/${selectedLessonId}`,
+      );
+    }
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    if (selectedLessonId) {
+      console.log('Delete lesson ID:', selectedLessonId);
+    }
+    handleMenuClose();
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+    setCurrentPage(1);
+  };
+
+  const handleAddLesson = () => {
+    navigate(`/dashboard/courses/${idCourse}/create-lesson`);
+  };
+
+  const getFilteredLessons = () => {
+    switch (tabIndex) {
+      case 1:
+        return course.lessons.filter((lesson) => lesson.typeLesson === 'video');
+      case 2:
+        return course.lessons.filter((lesson) => lesson.typeLesson === 'docs');
+      case 3:
+        return course.lessons.filter(
+          (lesson) => lesson.typeLesson === 'exercise',
+        );
+      default:
+        return course.lessons;
+    }
+  };
+
+  const filteredLessons = getFilteredLessons();
+  const paginatedFilteredLessons = filteredLessons.slice(
+    (currentPage - 1) * LESSONS_PER_PAGE,
+    currentPage * LESSONS_PER_PAGE,
+  );
+  const totalFilteredPages = Math.ceil(
+    filteredLessons.length / LESSONS_PER_PAGE,
+  );
 
   return (
     <FeatureLayout>
       <FeatureHeader
         title="Chi tiết khóa học"
         backPath="/dashboard/courses/course-list"
-      ></FeatureHeader>
-
+      />
       <Box sx={{ padding: 3 }}>
-        {/* Course Information Section */}
         <Card sx={{ marginBottom: 3 }}>
           <CardMedia
             component="img"
@@ -103,33 +219,65 @@ export default function CourseDetail() {
           </CardContent>
         </Card>
 
-        {/* Lessons Section */}
-        <Box>
-          <Typography variant="h5" sx={{ marginBottom: 2 }}>
-            Lessons
-          </Typography>
-          <List>
-            {course.lessons.map((lesson) => (
-              <div key={lesson.id}>
-                <ListItem>
-                  <ListItemText
-                    primary={lesson.title}
-                    secondary={`Duration: ${lesson.duration}`}
-                  />
-                </ListItem>
-                <Divider />
-              </div>
-            ))}
-          </List>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            sx={{ marginTop: 2 }}
-            onClick={() => alert('Create Lesson')}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 2,
+          }}
+        >
+          <Typography variant="h5">Danh sách bài học</Typography>
+
+          <IconButton
+            color="primary"
+            sx={{
+              bgcolor: '#f3f7ff',
+            }}
+            onClick={handleAddLesson}
           >
-            Add Lesson
-          </Button>
+            <AddIcon />
+          </IconButton>
         </Box>
+
+        <Box sx={{ width: '100%', marginBottom: 4 }}>
+          <Tabs value={tabIndex} onChange={handleTabChange} centered>
+            <Tab label="Tất cả bài học" />
+            <Tab label="Bài học video" />
+            <Tab label="Bài học docs" />
+            <Tab label="Exercises" />
+          </Tabs>
+        </Box>
+
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            {tabIndex === 0 && 'Danh sách tất cả bài học'}
+            {tabIndex === 1 && 'Danh sách bài học video'}
+            {tabIndex === 2 && 'Danh sách bài học docs'}
+            {tabIndex === 3 && 'Danh sách Exercises'}
+          </Typography>
+          {paginatedFilteredLessons.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              onMenuOpen={handleMenuOpen}
+            />
+          ))}
+        </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+          <Pagination
+            count={totalFilteredPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
+
+        <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+          <MenuItem onClick={handleEdit}>Edit</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </Menu>
       </Box>
     </FeatureLayout>
   );
