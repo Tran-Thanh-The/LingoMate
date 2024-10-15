@@ -11,16 +11,10 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import StarIcon from '@mui/icons-material/Star';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { Lesson } from '@/types/interface/Lesson';
 
 interface LessonCardProps {
-  lesson: {
-    id: string;
-    title: string;
-    sections: number;
-    totalSections: number;
-    stars: number;
-    totalStars: number;
-  };
+  lesson: Lesson;
   onMenuOpen: (event: React.MouseEvent<HTMLElement>, lessonId: string) => void;
 }
 

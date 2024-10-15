@@ -1,12 +1,25 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
 import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
+import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import CourseCard from '@/features/dashboard/features/courses/features/course-list/components/course-card/CourseCard';
 import CourseFilter from '@/features/dashboard/features/courses/features/course-list/components/course-filter/CourseFilter';
-import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
-import { Box, Button, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
-const mockCourseDataArray = [
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  createdAt: Date;
+  totalLesson: number;
+  completedLesson: number;
+  isMyCourse: boolean;
+}
+
+const mockCourseDataArray: Course[] = [
   {
+    id: 1,
     title: 'React for Beginners',
     description:
       'Learn the basics of React.js and start building your own web applications.',
@@ -17,6 +30,7 @@ const mockCourseDataArray = [
     isMyCourse: true,
   },
   {
+    id: 2,
     title: 'Advanced JavaScript',
     description:
       'Master advanced JavaScript concepts like closures, async/await, and ES6+ features.',
@@ -27,6 +41,7 @@ const mockCourseDataArray = [
     isMyCourse: true,
   },
   {
+    id: 3,
     title: 'CSS Flexbox & Grid',
     description: 'Learn modern layout techniques using CSS Flexbox and Grid.',
     price: 29.99,
@@ -36,6 +51,7 @@ const mockCourseDataArray = [
     isMyCourse: false,
   },
   {
+    id: 4,
     title: 'Node.js Crash Course',
     description:
       'Get up and running with Node.js and build backend applications.',
@@ -53,45 +69,43 @@ export default function CourseList() {
   return (
     <FeatureLayout>
       <FeatureHeader title="Khóa học" />
-      <Box>
+      <Box sx={{ padding: 3 }}>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginTop: 2,
+            marginBottom: 3,
           }}
         >
-          <CourseFilter></CourseFilter>
-
+          <CourseFilter />
           <Button
             variant="contained"
             onClick={() => navigate('/dashboard/courses/create')}
+            sx={{ bgcolor: '#2E3091', '&:hover': { bgcolor: '#1E2177' } }}
           >
             Tạo khóa học
           </Button>
         </Box>
 
-        <Box>
-          <Typography variant="body1">Danh sách khóa học</Typography>
-        </Box>
+        <Typography variant="h6" sx={{ marginBottom: 2 }}>
+          Danh sách khóa học
+        </Typography>
 
-        <Box>
-          {
-            // Render course list
-            mockCourseDataArray.map((course) => (
-              <CourseCard
-                key={course.title}
-                title={course.title}
-                description={course.description}
-                price={course.price}
-                createdAt={course.createdAt}
-                totalLesson={course.totalLesson}
-                completedLesson={course.completedLesson}
-                isMyCourse={course.isMyCourse}
-              ></CourseCard>
-            ))
-          }
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {mockCourseDataArray.map((course) => (
+            <CourseCard
+              key={course.id}
+              id={course.id}
+              title={course.title}
+              description={course.description}
+              price={course.price}
+              createdAt={course.createdAt}
+              totalLesson={course.totalLesson}
+              completedLesson={course.completedLesson}
+              isMyCourse={course.isMyCourse}
+            />
+          ))}
         </Box>
       </Box>
     </FeatureLayout>

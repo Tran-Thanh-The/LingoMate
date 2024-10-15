@@ -11,8 +11,12 @@ export default function CourseRouter() {
       <Route path="/course-list" element={<CourseList />} />
       <Route path="/create" element={<CreateUpdateCourse />} />
       <Route path="/update/:id" element={<CreateUpdateCourse />} />
-      <Route path="/:id" element={<CourseDetail />} />
-      <Route path="/:id/create-lesson" element={<CreateUpdateLesson />} />
+      <Route path="/:idCourse" element={<CourseDetail />} />
+      <Route path="/:idCourse/create-lesson" element={<CreateUpdateLesson />} />
+      <Route
+        path="/:idCourse/edit-lesson/:selectedLessonId"
+        element={<CreateUpdateLesson />}
+      />
     </Routes>
   );
 }

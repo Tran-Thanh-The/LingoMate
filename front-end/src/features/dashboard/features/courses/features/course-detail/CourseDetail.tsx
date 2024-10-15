@@ -12,7 +12,10 @@ import {
   Tabs,
   Tab,
   Pagination,
+  IconButton,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate, useParams } from 'react-router-dom';
 import FeatureHeader from '@/features/dashboard/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import LessonCard from './components/lesson-card/LessonCard';
@@ -90,9 +93,12 @@ export default function CourseDetail() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
   const open = Boolean(anchorEl);
-
   const [tabIndex, setTabIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+  const { idCourse } = useParams();
+
+  console.log('id khóa học : ', idCourse);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -116,7 +122,9 @@ export default function CourseDetail() {
 
   const handleEdit = () => {
     if (selectedLessonId) {
-      console.log('Edit lesson ID:', selectedLessonId);
+      navigate(
+        `/dashboard/courses/${idCourse}/edit-lesson/${selectedLessonId}`,
+      );
     }
     handleMenuClose();
   };
@@ -131,6 +139,10 @@ export default function CourseDetail() {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
     setCurrentPage(1);
+  };
+
+  const handleAddLesson = () => {
+    navigate(`/dashboard/courses/${idCourse}/create-lesson`);
   };
 
   const getFilteredLessons = () => {
@@ -207,11 +219,28 @@ export default function CourseDetail() {
           </CardContent>
         </Card>
 
-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
-          Danh sách bài học
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 2,
+          }}
+        >
+          <Typography variant="h5">Danh sách bài học</Typography>
 
-        <Box sx={{ width: '100%', marginBottom: 2 }}>
+          <IconButton
+            color="primary"
+            sx={{
+              bgcolor: '#f3f7ff',
+            }}
+            onClick={handleAddLesson}
+          >
+            <AddIcon />
+          </IconButton>
+        </Box>
+
+        <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Tabs value={tabIndex} onChange={handleTabChange} centered>
             <Tab label="Tất cả bài học" />
             <Tab label="Bài học video" />
