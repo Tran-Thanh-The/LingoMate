@@ -16,3 +16,5 @@ export const ROLE = {
   ADMIN: ' Admin',
   STAFF: 'Staff',
 };
+
+export const LESSONS_PER_PAGE = 5;
