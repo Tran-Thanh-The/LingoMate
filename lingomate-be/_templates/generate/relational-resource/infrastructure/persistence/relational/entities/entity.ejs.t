@@ -6,16 +6,16 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
-import { ApiProperty } from '@nestjs/swagger';
+} from "typeorm";
+import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({
-  name: '<%= h.inflection.transform(name, ['underscore']) %>',
+  name: "<%= h.inflection.transform(name, ['underscore']) %>",
 })
 export class <%= name %>Entity extends EntityRelationalHelper {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @ApiProperty()

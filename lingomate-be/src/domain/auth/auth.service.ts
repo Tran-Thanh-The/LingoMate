@@ -1,11 +1,11 @@
 import {
-  HttpStatus, Inject,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
   UnprocessableEntityException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
@@ -28,8 +28,8 @@ import { AuthUpdateDto } from "./dto/auth-update.dto";
 import { LoginResponseDto } from "./dto/login-response.dto";
 import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
 import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
-import { RedisService } from '@/common/redis/redis.service';
-import { redisConstants } from '@/common/redis/redis.constants';
+import { RedisService } from "@/common/redis/redis.service";
+import { redisConstants } from "@/common/redis/redis.constants";
 
 @Injectable()
 export class AuthService {
@@ -512,7 +512,7 @@ export class AuthService {
       `${redisConstants.BLACKLIST_PREFIX}:${data.sessionId}`,
       `${sessionHash.hash}`,
       "EX",
-      30 * 24 * 60 * 60 // 30 days
+      30 * 24 * 60 * 60, // 30 days
     );
 
     return this.sessionService.deleteById(data.sessionId);

@@ -9,8 +9,8 @@ import {
   UseGuards,
   Patch,
   Delete,
-  SerializeOptions, UseInterceptors,
-} from '@nestjs/common';
+  SerializeOptions,
+} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthEmailLoginDto } from "./dto/auth-email-login.dto";

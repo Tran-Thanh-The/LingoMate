@@ -1,5 +1,5 @@
 ---
-to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
+to: src/domain/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller.ts
 ---
 import {
   Controller,
@@ -11,25 +11,25 @@ import {
   Delete,
   UseGuards,
   Query,
-} from '@nestjs/common';
-import { <%= h.inflection.transform(name, ['pluralize']) %>Service } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service';
-import { Create<%= name %>Dto } from './dto/create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
-import { Update<%= name %>Dto } from './dto/update-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
+} from "@nestjs/common";
+import { <%= h.inflection.transform(name, ['pluralize']) %>Service } from "./<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service";
+import { Create<%= name %>Dto } from "./dto/create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto";
+import { Update<%= name %>Dto } from "./dto/update-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto";
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiParam,
   ApiTags,
-} from '@nestjs/swagger';
-import { <%= name %> } from './domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
-import { AuthGuard } from '@nestjs/passport';
+} from "@nestjs/swagger";
+import { <%= name %> } from "./domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>";
+import { AuthGuard } from "@nestjs/passport";
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
-} from '../utils/dto/infinity-pagination-response.dto';
-import { infinityPagination } from '../utils/infinity-pagination';
-import { FindAll<%= h.inflection.transform(name, ['pluralize']) %>Dto } from './dto/find-all-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.dto';
+} from "@/utils/dto/infinity-pagination-response.dto";
+import { infinityPagination } from "@/utils/infinity-pagination";
+import { FindAll<%= h.inflection.transform(name, ['pluralize']) %>Dto } from "./dto/find-all-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.dto";
 
 @ApiTags('<%= h.inflection.transform(name, ['pluralize', 'humanize']) %>')
 @ApiBearerAuth()
