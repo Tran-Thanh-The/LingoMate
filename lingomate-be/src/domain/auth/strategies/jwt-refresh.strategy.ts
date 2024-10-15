@@ -5,7 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtRefreshPayloadType } from "./types/jwt-refresh-payload.type";
 import { OrNeverType } from "@/utils/types/or-never.type";
 import { AllConfigType } from "@/config/config.type";
-import { RedisService } from '@/common/redis/redis.service';
+import { RedisService } from "@/common/redis/redis.service";
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(

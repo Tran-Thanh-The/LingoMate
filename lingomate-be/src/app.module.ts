@@ -40,11 +40,13 @@ import { ExercisesModule } from "@/domain/exercises/exercises.module";
 import { PracticeExercisesModule } from "@/domain/practice-exercises/practice-exercises.module";
 
 import { InvoicesModule } from "@/domain/invoices/invoices.module";
-import redisConfig from '@/common/redis/config/redis.config';
-import { RedisModule } from '@/common/redis/redis.module';
+import redisConfig from "@/common/redis/config/redis.config";
+import { RedisModule } from "@/common/redis/redis.module";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
   imports: [
+    HttpModule,
     InvoicesModule,
     PracticeExercisesModule,
     ExercisesModule,
@@ -62,7 +64,14 @@ import { RedisModule } from '@/common/redis/redis.module';
     RedisModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig, redisConfig],
+      load: [
+        databaseConfig,
+        authConfig,
+        appConfig,
+        mailConfig,
+        fileConfig,
+        redisConfig,
+      ],
       envFilePath: [".env"],
     }),
     infrastructureDatabaseModule,

@@ -1,9 +1,9 @@
 ---
 to: src/domain/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/dto/find-all-<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.dto.ts
 ---
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { ApiPropertyOptional } from "@nestjs/swagger";
+import { IsNumber, IsOptional } from "class-validator";
+import { Transform } from "class-transformer";
 
 export class FindAll<%= h.inflection.transform(name, ['pluralize']) %>Dto {
   @ApiPropertyOptional()
