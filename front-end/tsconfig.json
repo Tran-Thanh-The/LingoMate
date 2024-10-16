@@ -2,6 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "baseUrl": ".",
+    "outDir": "./build",
     "paths": {
       "@/*": ["./src/*"]
     },

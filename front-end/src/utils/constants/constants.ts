@@ -11,8 +11,18 @@ export const API_ENDPOINT = {
   COURSE: '/course',
 };
 
+export const API_LESSON = {
+  CREATE: '',
+  UPDATE: '',
+  READ: '',
+  DELETE: '',
+  SEARCH: '',
+};
+
 export const ROLE = {
   USER: 'User',
   ADMIN: ' Admin',
   STAFF: 'Staff',
 };
+
+export const LESSONS_PER_PAGE = 5;
