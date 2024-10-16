@@ -9,7 +9,7 @@ export const API_ENDPOINT = {
   VERIFY: '/auth/email/confirm',
   USER: '/user',
   COURSE: '/course',
-};
+} as const;
 
 export const API_LESSON = {
   CREATE: '',
@@ -17,12 +17,14 @@ export const API_LESSON = {
   READ: '',
   DELETE: '',
   SEARCH: '',
-};
+} as const;
 
 export const ROLE = {
   USER: 'User',
-  ADMIN: ' Admin',
+  ADMIN: 'Admin',
   STAFF: 'Staff',
-};
+} as const;
+
+export type Role = (typeof ROLE)[keyof typeof ROLE];
 
 export const LESSONS_PER_PAGE = 5;

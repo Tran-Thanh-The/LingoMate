@@ -19,7 +19,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import LessonCard from '../../components/lesson-card/LessonCard';
-import { LESSONS_PER_PAGE } from '@/utils/constants/constants';
+import { LESSONS_PER_PAGE, ROLE } from '@/utils/constants/constants';
+import RoleBasedComponent from '@/components/RoleBasedComponent';
 
 const mockCourseData = {
   title: 'React for Beginners',
@@ -97,8 +98,6 @@ export default function CourseDetail() {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const { idCourse } = useParams();
-
-  console.log('id khóa học : ', idCourse);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -229,15 +228,17 @@ export default function CourseDetail() {
         >
           <Typography variant="h5">Danh sách bài học</Typography>
 
-          <IconButton
-            color="primary"
-            sx={{
-              bgcolor: '#f3f7ff',
-            }}
-            onClick={handleAddLesson}
-          >
-            <AddIcon />
-          </IconButton>
+          <RoleBasedComponent allowedRoles={[ROLE.ADMIN, ROLE.STAFF]}>
+            <IconButton
+              color="primary"
+              sx={{
+                bgcolor: '#f3f7ff',
+              }}
+              onClick={handleAddLesson}
+            >
+              <AddIcon />
+            </IconButton>
+          </RoleBasedComponent>
         </Box>
 
         <Box sx={{ width: '100%', marginBottom: 4 }}>
@@ -265,7 +266,14 @@ export default function CourseDetail() {
           ))}
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: 2,
+            mb: 2,
+          }}
+        >
           <Pagination
             count={totalFilteredPages}
             page={currentPage}

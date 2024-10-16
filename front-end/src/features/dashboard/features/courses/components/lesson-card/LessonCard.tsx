@@ -12,6 +12,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import StarIcon from '@mui/icons-material/Star';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Lesson } from '@/types/interface/Lesson';
+import RoleBasedComponent from '@/components/RoleBasedComponent';
+import { ROLE } from '@/utils/constants/constants';
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -72,9 +74,11 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson, onMenuOpen }) => {
         </Grid>
 
         <Grid item xs={1}>
-          <IconButton onClick={(event) => onMenuOpen(event, lesson.id)}>
-            <MoreVertIcon />
-          </IconButton>
+          <RoleBasedComponent allowedRoles={[ROLE.ADMIN, ROLE.STAFF]}>
+            <IconButton onClick={(event) => onMenuOpen(event, lesson.id)}>
+              <MoreVertIcon />
+            </IconButton>
+          </RoleBasedComponent>
         </Grid>
       </Grid>
     </Paper>
