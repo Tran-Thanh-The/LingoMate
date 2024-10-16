@@ -46,18 +46,21 @@ const HeaderAction = () => {
 
   const handleLogout = async () => {
     try {
-      await loginApi.postLogout();
+      const response = await loginApi.postLogout();
 
-      dispatch(logout());
+      if (response.status === 204) {
+        dispatch(logout());
+        console.log('auth: ', localStorage.getItem('auth'));
 
-      Swal.fire({
-        title: 'Đăng xuất thành công!',
-        text: 'Bạn đã đăng xuất khỏi hệ thống.',
-        icon: 'success',
-        confirmButtonText: 'OK',
-      }).then(() => {
-        navigate('/login');
-      });
+        Swal.fire({
+          title: 'Đăng xuất thành công!',
+          text: 'Bạn đã đăng xuất khỏi hệ thống.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {});
+      } else {
+        console.log('chưa request được');
+      }
     } catch (error) {
       Swal.fire({
         title: 'Đăng xuất thất bại',
@@ -97,7 +100,7 @@ const HeaderAction = () => {
       {user && (
         <Grid>
           <Box>
-            <Tooltip title="Open settings">
+            <Tooltip title="Thông tin cá nhân">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <AccountCircleIcon
                   sx={{ color: '#0071f9', fontSize: '48px' }}
@@ -122,9 +125,9 @@ const HeaderAction = () => {
             >
               <Grid>
                 <MenuItem sx={{ minWidth: 300 }}>
-                  <Tooltip title={`${user.name} ${user.email}`}>
+                  <Tooltip title="Xem chi tiết thông tin cá nhân">
                     <NavLink
-                      to="#"
+                      to="/profile"
                       style={{
                         ...navStyles.navLinkStyle,
                         padding: '8px',
