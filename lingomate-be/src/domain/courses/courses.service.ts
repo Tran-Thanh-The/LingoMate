@@ -1,17 +1,111 @@
-import { Injectable } from "@nestjs/common";
+import { StatusEnum } from "@/common/enums/status.enum";
+import { CourseEntity } from "@/domain/courses/infrastructure/persistence/relational/entities/course.entity";
+import { UserCourse } from "@/domain/user-courses/domain/user-course";
+import { IPaginationOptions } from "@/utils/types/pagination-options";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { LessonCourse } from "../lesson-courses/domain/lesson-course";
+import { CreateLessonCourseDto } from "../lesson-courses/dto/create-lesson-course.dto";
+import { LessonCourseRepository } from "../lesson-courses/infrastructure/persistence/lesson-course.repository";
+import { LessonCourseMapper } from "../lesson-courses/infrastructure/persistence/relational/mappers/lesson-course.mapper";
+import { UserCourseRepository } from "../user-courses/infrastructure/persistence/user-course.repository";
+import { UserEntity } from "../users/infrastructure/persistence/relational/entities/user.entity";
+import { UserRepository } from "../users/infrastructure/persistence/user.repository";
+import { Course } from "./domain/course";
+import { CourseWithDetailsDTO } from "./dto/course-details-dto";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UpdateCourseDto } from "./dto/update-course.dto";
 import { CourseRepository } from "./infrastructure/persistence/course.repository";
-import { IPaginationOptions } from "@/utils/types/pagination-options";
-import { Course } from "./domain/course";
+import { CourseMapper } from "./infrastructure/persistence/relational/mappers/course.mapper";
+import { CourseListResponseDto } from "./dto/courses-response-dto";
 
 @Injectable()
 export class CoursesService {
-  constructor(private readonly courseRepository: CourseRepository) {}
+  constructor(
+    private readonly courseRepository: CourseRepository,
+    private readonly lessonCourseRepository: LessonCourseRepository,
+    private readonly userCourseRepository: UserCourseRepository,
+    private readonly userRepository: UserRepository,
+  ) {}
 
-  create(createCourseDto: CreateCourseDto) {
-    return this.courseRepository.create(createCourseDto);
+  async create(createCourseDto: CreateCourseDto, userId: string) {
+    const existingCourse = await this.courseRepository.findByName(
+      createCourseDto.name,
+    );
+    if (existingCourse) {
+      throw new ConflictException(
+        `Course with name "${createCourseDto.name}" already exists.`,
+      );
+    }
+    const model = await CourseMapper.toModel(createCourseDto);
+    const course = await this.courseRepository.create(model);
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    const userCourse = new UserCourse();
+    userCourse.user = user as UserEntity;
+    userCourse.course = course as CourseEntity;
+    userCourse.status = StatusEnum.Active;
+
+    await this.userCourseRepository.create(userCourse);
+
+    return course;
   }
+
+  async addLessonToCourse(
+    id: string,
+    createLessonCourseDto: CreateLessonCourseDto,
+  ): Promise<LessonCourse> {
+    createLessonCourseDto.course_id = id;
+    const existingLessons =
+      await this.lessonCourseRepository.findLessonByCourseId(id);
+    const lessons = existingLessons ?? [];
+    const newPosition = lessons.length + 1;
+    createLessonCourseDto.position = newPosition;
+
+    const lessonCourse = LessonCourseMapper.toModel(createLessonCourseDto);
+    return await this.lessonCourseRepository.create(lessonCourse);
+  }
+
+  // async updateLessonPosition(
+  //   courseId: string,
+  //   lessonId: string,
+  //   newPosition: number,
+  // ): Promise<LessonCourse> {
+  //   const lessonCourse = await this.findLessonCourse(courseId, lessonId);
+  //   if (!lessonCourse) {
+  //     throw new NotFoundException("LessonCourse not found");
+  //   }
+
+  //   const updatedLessonCourse: Partial<LessonCourse> = {
+  //     position: newPosition,
+  //   };
+
+  //   const result = await this.lessonCourseRepository.update(
+  //     lessonCourse.id,
+  //     updatedLessonCourse,
+  //   );
+
+  //   if (!result) {
+  //     throw new Error("Failed to update LessonCourse");
+  //   }
+
+  //   return result;
+  // }
+
+  // private async findLessonCourse(
+  //   courseId: string,
+  //   lessonId: string,
+  // ): Promise<LessonCourse | null> {
+  //   return this.lessonCourseRepository.findByCourseAndLesson(
+  //     courseId,
+  //     lessonId,
+  //   );
+  // }
 
   findAllWithPagination({
     paginationOptions,
@@ -26,6 +120,41 @@ export class CoursesService {
     });
   }
 
+  async getCourseDetails(id: string): Promise<CourseWithDetailsDTO> {
+    const courseDetails = await this.courseRepository.getDetailById(id);
+
+    if (!courseDetails) {
+      throw new NotFoundException(`Course with ID ${id} not found`);
+    }
+
+    return courseDetails;
+  }
+
+  async getListCourse(
+    status?: StatusEnum,
+    userId?: string,
+    invoiceId?: string,
+    page: number = 1,
+    limit: number = 10,
+    orderBy: { [key: string]: "ASC" | "DESC" } = { created_at: "DESC" },
+  ): Promise<CourseListResponseDto<CreateCourseDto>> {
+    const result = await this.courseRepository.getListCourse({
+      status,
+      userId,
+      invoiceId,
+      paginationOptions: {
+        page,
+        limit,
+      },
+      orderBy,
+    });
+
+    return {
+      ...result,
+      data: result.data.map((course) => CourseMapper.toDto(course)),
+    };
+  }
+
   findOne(id: Course["id"]) {
     return this.courseRepository.findById(id);
   }
@@ -34,7 +163,36 @@ export class CoursesService {
     return this.courseRepository.update(id, updateCourseDto);
   }
 
-  remove(id: Course["id"]) {
-    return this.courseRepository.remove(id);
+  async remove(id: Course["id"]) {
+    const course = await this.courseRepository.findById(id);
+    if (!course) {
+      throw new NotFoundException("Course not found");
+    }
+
+    course.status = StatusEnum.InActive;
+
+    const userCourses = await this.userCourseRepository.findByCourseId(id);
+    if (userCourses) {
+      await Promise.all(
+        userCourses.map((userCourse) =>
+          this.userCourseRepository.update(userCourse.id, {
+            status: StatusEnum.InActive,
+          }),
+        ),
+      );
+    }
+
+    const lessonCourses = await this.lessonCourseRepository.findByCourseId(id);
+    if (lessonCourses) {
+      await Promise.all(
+        lessonCourses.map((lessonCourse) =>
+          this.lessonCourseRepository.update(lessonCourse.id, {
+            status: StatusEnum.InActive,
+          }),
+        ),
+      );
+    }
+
+    await this.courseRepository.save(course);
   }
 }

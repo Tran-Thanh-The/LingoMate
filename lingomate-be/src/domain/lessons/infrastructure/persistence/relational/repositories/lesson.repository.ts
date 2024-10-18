@@ -44,6 +44,14 @@ export class LessonRelationalRepository implements LessonRepository {
     return entity ? LessonMapper.toDomain(entity) : null;
   }
 
+  async findByTitle(title: Lesson["title"]): Promise<NullableType<Lesson>> {
+    const entity = await this.lessonRepository.findOne({
+      where: { title },
+    });
+
+    return entity ? LessonMapper.toDomain(entity) : null;
+  }
+
   async update(id: Lesson["id"], payload: Partial<Lesson>): Promise<Lesson> {
     const entity = await this.lessonRepository.findOne({
       where: { id },

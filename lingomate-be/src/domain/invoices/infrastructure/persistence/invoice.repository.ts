@@ -5,7 +5,7 @@ import { Invoice } from "../../domain/invoice";
 
 export abstract class InvoiceRepository {
   abstract create(
-    data: Omit<Invoice, "id" | "createdAt" | "updatedAt">,
+    data: Omit<Invoice, "id" | "createdAt" | "updatedAt" | "deletedAt">,
   ): Promise<Invoice>;
 
   abstract findAllWithPagination({

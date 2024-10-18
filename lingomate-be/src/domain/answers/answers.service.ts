@@ -4,13 +4,22 @@ import { UpdateAnswerDto } from "./dto/update-answer.dto";
 import { AnswerRepository } from "./infrastructure/persistence/answer.repository";
 import { IPaginationOptions } from "@/utils/types/pagination-options";
 import { Answer } from "./domain/answer";
+import { AnswerMapper } from "./infrastructure/persistence/relational/mappers/answer.mapper";
+import { QuestionRepository } from "../questions/infrastructure/persistence/question.repository";
 
 @Injectable()
 export class AnswersService {
-  constructor(private readonly answerRepository: AnswerRepository) {}
+  constructor(
+    private readonly answerRepository: AnswerRepository,
+    private readonly questionRepository: QuestionRepository,
+  ) {}
 
-  create(createAnswerDto: CreateAnswerDto) {
-    return this.answerRepository.create(createAnswerDto);
+  async create(createAnswerDto: CreateAnswerDto) {
+    const model = await AnswerMapper.toModel(
+      createAnswerDto,
+      this.questionRepository,
+    );
+    return this.answerRepository.create(model);
   }
 
   findAllWithPagination({
