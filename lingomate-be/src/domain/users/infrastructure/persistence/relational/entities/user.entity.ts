@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
   JoinColumn,
   OneToOne,
+  OneToMany,
 } from "typeorm";
 import { RoleEntity } from "../../../../../roles/infrastructure/persistence/relational/entities/role.entity";
 import { StatusEntity } from "../../../../../statuses/infrastructure/persistence/relational/entities/status.entity";
@@ -23,6 +24,10 @@ import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
 // in your project and return an ORM entity directly in response.
 import { Exclude, Expose } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserInvoicesEntity } from "@/domain/user-invoices/infrastructure/persistence/relational/entities/user-invoices.entity";
+import { UserQuestionEntity } from "@/domain/user-questions/infrastructure/persistence/relational/entities/user-question.entity";
+import { UserLessonEntity } from "@/domain/user-lessons/infrastructure/persistence/relational/entities/user-lesson.entity";
+import { UserCourseEntity } from "@/domain/user-courses/infrastructure/persistence/relational/entities/user-course.entity";
 
 @Entity({
   name: "user",
@@ -124,4 +129,16 @@ export class UserEntity extends EntityRelationalHelper {
   @ApiProperty()
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => UserInvoicesEntity, (userInvoice) => userInvoice.user)
+  userInvoice: UserInvoicesEntity[];
+
+  @OneToMany(() => UserQuestionEntity, (userQuestion) => userQuestion.user)
+  userQuestion: UserQuestionEntity[];
+
+  @OneToMany(() => UserLessonEntity, (userLesson) => userLesson.user)
+  userLesson: UserLessonEntity[];
+
+  @OneToMany(() => UserCourseEntity, (userCourse) => userCourse.user)
+  userCourse: UserCourseEntity[];
 }
