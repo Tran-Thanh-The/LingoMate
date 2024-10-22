@@ -4,13 +4,15 @@ import { UpdateQuestionDto } from "./dto/update-question.dto";
 import { QuestionRepository } from "./infrastructure/persistence/question.repository";
 import { IPaginationOptions } from "@/utils/types/pagination-options";
 import { Question } from "./domain/question";
+import { QuestionMapper } from "./infrastructure/persistence/relational/mappers/question.mapper";
 
 @Injectable()
 export class QuestionsService {
   constructor(private readonly questionRepository: QuestionRepository) {}
 
   create(createQuestionDto: CreateQuestionDto) {
-    return this.questionRepository.create(createQuestionDto);
+    const model = QuestionMapper.toModel(createQuestionDto);
+    return this.questionRepository.create(model);
   }
 
   findAllWithPagination({

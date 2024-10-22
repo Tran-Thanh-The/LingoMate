@@ -4,13 +4,15 @@ import { UpdateInvoiceDto } from "./dto/update-invoice.dto";
 import { InvoiceRepository } from "./infrastructure/persistence/invoice.repository";
 import { IPaginationOptions } from "@/utils/types/pagination-options";
 import { Invoice } from "./domain/invoice";
+import { InvoiceMapper } from "./infrastructure/persistence/relational/mappers/invoice.mapper";
 
 @Injectable()
 export class InvoicesService {
   constructor(private readonly invoiceRepository: InvoiceRepository) {}
 
   create(createInvoiceDto: CreateInvoiceDto) {
-    return this.invoiceRepository.create(createInvoiceDto);
+    const model = InvoiceMapper.toModel(createInvoiceDto);
+    return this.invoiceRepository.create(model);
   }
 
   findAllWithPagination({

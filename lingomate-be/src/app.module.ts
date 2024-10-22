@@ -35,21 +35,21 @@ import { CoursesModule } from "@/domain/courses/courses.module";
 
 import { LessonsModule } from "@/domain/lessons/lessons.module";
 
-import { ExercisesModule } from "@/domain/exercises/exercises.module";
-
 import { PracticeExercisesModule } from "@/domain/practice-exercises/practice-exercises.module";
 
-import { InvoicesModule } from "@/domain/invoices/invoices.module";
 import redisConfig from "@/common/redis/config/redis.config";
 import { RedisModule } from "@/common/redis/redis.module";
 import { HttpModule } from "@nestjs/axios";
+import { InvoicesModule } from "./domain/invoices/invoices.module";
+
+import { CategoriesModule } from "@/domain/categories/categories.module";
 
 @Module({
   imports: [
+    CategoriesModule,
     HttpModule,
     InvoicesModule,
     PracticeExercisesModule,
-    ExercisesModule,
     LessonsModule,
     CoursesModule,
     AnswersModule,
