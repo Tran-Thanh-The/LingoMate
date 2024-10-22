@@ -7,7 +7,7 @@ import CourseCard from '@/features/dashboard/features/courses/features/course-li
 import CourseFilter from '@/features/dashboard/features/courses/features/course-list/components/course-filter/CourseFilter';
 
 interface Course {
-  id: number;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -19,7 +19,7 @@ interface Course {
 
 const mockCourseDataArray: Course[] = [
   {
-    id: 1,
+    id: '9766febf-037e-4a3d-8962-17d0fa9a74b3',
     title: 'React for Beginners',
     description:
       'Learn the basics of React.js and start building your own web applications.',
@@ -30,7 +30,7 @@ const mockCourseDataArray: Course[] = [
     isMyCourse: true,
   },
   {
-    id: 2,
+    id: '2',
     title: 'Advanced JavaScript',
     description:
       'Master advanced JavaScript concepts like closures, async/await, and ES6+ features.',
@@ -41,7 +41,7 @@ const mockCourseDataArray: Course[] = [
     isMyCourse: true,
   },
   {
-    id: 3,
+    id: '3',
     title: 'CSS Flexbox & Grid',
     description: 'Learn modern layout techniques using CSS Flexbox and Grid.',
     price: 29.99,
@@ -51,7 +51,7 @@ const mockCourseDataArray: Course[] = [
     isMyCourse: false,
   },
   {
-    id: 4,
+    id: '4',
     title: 'Node.js Crash Course',
     description:
       'Get up and running with Node.js and build backend applications.',

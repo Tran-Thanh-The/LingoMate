@@ -6,67 +6,113 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import { LessonTypes } from '@/types/enum/LessonType';
+import { LessonRequest } from '@/types/interface/Lesson';
+import lessonApi from '@/api/lessonApi';
 
-const fetchLessonById = (selectedLessonId) => {
-  return {
-    typeLesson: 'video',
-    title: 'Lesson 1: Intro to React',
-    content: 'This is the content for the lesson.',
-  };
-};
-
+// Validation Schema using Yup
 const validationSchema = Yup.object().shape({
-  typeLesson: Yup.string().required('Please select the lesson type'),
+  lessonType: Yup.string().required('Please select the lesson type'),
   title: Yup.string()
     .min(3, 'Title must be at least 3 characters')
     .required('Title is required'),
   content: Yup.string()
     .min(10, 'Content must be at least 10 characters')
     .required('Content is required'),
-});
+  videoUrl: Yup.string().when('lessonType', {
+    is: LessonTypes.Video,
+    then: (schema) =>
+      schema
+        .url('Must be a valid URL')
+        .required('Video URL is required for video lessons'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+}) as Yup.ObjectSchema<LessonRequest>;
 
+// Lesson Types
 const lessonTypes = [
-  { label: 'Video', value: 'video' },
-  { label: 'Docs', value: 'docs' },
-  { label: 'Exercises', value: 'exercise' },
+  { label: 'Video', value: LessonTypes.Video },
+  { label: 'Docs', value: LessonTypes.Docs },
+  { label: 'Exercises', value: LessonTypes.Exercise },
 ];
 
 const CreateUpdateLesson = () => {
   const { idCourse, selectedLessonId } = useParams();
   const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [lessonType, setLessonType] = useState<LessonTypes | ''>('');
 
   const {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<LessonRequest>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      typeLesson: '',
+      lessonType: LessonTypes.Video,
       title: '',
       content: '',
+      videoUrl: '',
     },
   });
 
-  useEffect(() => {
-    if (selectedLessonId) {
-      setIsEditMode(true);
-      const lessonData = fetchLessonById(selectedLessonId);
-      setValue('typeLesson', lessonData.typeLesson);
-      setValue('title', lessonData.title);
-      setValue('content', lessonData.content);
-    }
-  }, [selectedLessonId, setValue]);
+  const selectedLessonType = watch('lessonType');
 
-  const onSubmit = (data) => {
-    if (isEditMode) {
-      console.log('Updating lesson:', selectedLessonId, data);
-    } else {
-      console.log('Creating new lesson:', data);
+  // useEffect(() => {
+  //   const fetchLessonData = async () => {
+  //     if (selectedLessonId) {
+  //       try {
+  //         setIsLoading(true);
+  //         setError(null);
+  //         const response = await lessonApi.getLesson(selectedLessonId);
+  //         const lessonData = response.data;
+
+  //         setIsEditMode(true);
+  //         setValue('lessonType', lessonData.lessonType);
+  //         setValue('title', lessonData.title);
+  //         setValue('content', lessonData.content);
+  //         if (lessonData.videoUrl) {
+  //           setValue('videoUrl', lessonData.videoUrl);
+  //         }
+  //         setLessonType(lessonData.lessonType);
+  //       } catch (err) {
+  //         setError('Failed to fetch lesson data. Please try again.');
+  //         console.error('Error fetching lesson:', err);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   fetchLessonData();
+  // }, [selectedLessonId, setValue]);
+
+  const onSubmit = async (data: LessonRequest) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      if (isEditMode && selectedLessonId) {
+        await lessonApi.updateLesson(selectedLessonId, data);
+      } else {
+        await lessonApi.createLesson(data, idCourse);
+      }
+
+      navigate(`/dashboard/courses/${idCourse}`);
+    } catch (err) {
+      setError(
+        isEditMode
+          ? 'Failed to update lesson. Please try again.'
+          : 'Failed to create lesson. Please try again.',
+      );
+      console.error('Error submitting lesson:', err);
+    } finally {
+      setIsLoading(false);
     }
-    navigate(`/dashboard/courses/${idCourse}`);
   };
 
   return (
@@ -86,6 +132,7 @@ const CreateUpdateLesson = () => {
           bgcolor: '#f4f6f8',
           maxWidth: '600px',
           mx: 'auto',
+          mb: 5,
           boxShadow: 3,
         }}
       >
@@ -94,7 +141,7 @@ const CreateUpdateLesson = () => {
         </Typography>
 
         <Controller
-          name="typeLesson"
+          name="lessonType"
           control={control}
           render={({ field }) => (
             <TextField
@@ -103,9 +150,13 @@ const CreateUpdateLesson = () => {
               variant="outlined"
               fullWidth
               {...field}
-              error={!!errors.typeLesson}
-              helperText={errors.typeLesson?.message}
+              error={!!errors.lessonType}
+              helperText={errors.lessonType?.message}
               sx={{ mb: 3 }}
+              onChange={(e) => {
+                field.onChange(e);
+                setLessonType(e.target.value as LessonTypes);
+              }}
             >
               {lessonTypes.map((type) => (
                 <MenuItem key={type.value} value={type.value}>
@@ -150,6 +201,24 @@ const CreateUpdateLesson = () => {
           )}
         />
 
+        {/* {selectedLessonType === LessonTypes.Video && ( */}
+        <Controller
+          name="videoUrl"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label="Video URL"
+              variant="outlined"
+              fullWidth
+              {...field}
+              error={!!errors.videoUrl}
+              helperText={errors.videoUrl?.message}
+              sx={{ mb: 3 }}
+            />
+          )}
+        />
+        {/* )} */}
+
         <Button
           type="submit"
           variant="contained"
@@ -161,6 +230,7 @@ const CreateUpdateLesson = () => {
               bgcolor: '#253494',
             },
           }}
+          disabled={isLoading}
         >
           {isEditMode ? 'Cập nhật bài học' : 'Thêm bài học'}
         </Button>

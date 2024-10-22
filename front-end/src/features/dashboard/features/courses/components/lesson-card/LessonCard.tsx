@@ -11,14 +11,20 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import StarIcon from '@mui/icons-material/Star';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { Lesson } from '@/types/interface/Lesson';
-
+import { LessonResponse as Lesson } from '@/types/interface/Lesson';
+import RoleBasedComponent from '@/components/RoleBasedComponent';
+import { ROLE } from '@/utils/constants/constants';
 interface LessonCardProps {
   lesson: Lesson;
   onMenuOpen: (event: React.MouseEvent<HTMLElement>, lessonId: string) => void;
+  handRouterLessonDetail: (lessonId: string) => void;
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ lesson, onMenuOpen }) => {
+const LessonCard: React.FC<LessonCardProps> = ({
+  lesson,
+  onMenuOpen,
+  handRouterLessonDetail,
+}) => {
   return (
     <Paper elevation={1} sx={{ mb: 2, p: 2 }}>
       <Grid container alignItems="center" spacing={2}>
@@ -45,6 +51,7 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson, onMenuOpen }) => {
           <Typography
             variant="subtitle1"
             sx={{ fontWeight: 'bold', fontSize: '16px', cursor: 'pointer' }}
+            onClick={() => handRouterLessonDetail(lesson.id)}
           >
             {lesson.title}
           </Typography>
@@ -72,9 +79,11 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson, onMenuOpen }) => {
         </Grid>
 
         <Grid item xs={1}>
-          <IconButton onClick={(event) => onMenuOpen(event, lesson.id)}>
-            <MoreVertIcon />
-          </IconButton>
+          <RoleBasedComponent allowedRoles={[ROLE.ADMIN, ROLE.STAFF]}>
+            <IconButton onClick={(event) => onMenuOpen(event, lesson.id)}>
+              <MoreVertIcon />
+            </IconButton>
+          </RoleBasedComponent>
         </Grid>
       </Grid>
     </Paper>
