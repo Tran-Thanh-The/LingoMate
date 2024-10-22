@@ -27,14 +27,17 @@ export default function Header() {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       sx={{
         background: '#fff',
         borderBottom: '2px solid #e5e7eb',
         boxShadow: 'none',
       }}
     >
-      <Container maxWidth="xl" sx={{ background: '#fff', borderBottom: '2px solid e5e7eb' }}>
+      <Container
+        maxWidth="xl"
+        sx={{ background: '#fff', borderBottom: '2px solid e5e7eb' }}
+      >
         <Toolbar disableGutters sx={{ background: '#fff' }}>
           <Box
             component="img"

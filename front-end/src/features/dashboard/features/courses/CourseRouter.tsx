@@ -3,6 +3,7 @@ import CourseList from '@/features/dashboard/features/courses/features/course-li
 import CreateUpdateCourse from '@/features/dashboard/features/courses/features/create-update-course/CreateUpdateCourse';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CreateUpdateLesson from './components/create-update-lesson/CreateUpdateLesson';
+import LessonDetail from './features/lesson-detail/LessonDetail';
 
 export default function CourseRouter() {
   return (
@@ -16,6 +17,10 @@ export default function CourseRouter() {
       <Route
         path="/:idCourse/edit-lesson/:selectedLessonId"
         element={<CreateUpdateLesson />}
+      />
+      <Route
+        path="/:idCourse/lesson/:selectedLessonId"
+        element={<LessonDetail />}
       />
     </Routes>
   );

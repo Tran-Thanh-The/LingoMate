@@ -15,7 +15,7 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface CourseCardProps {
-  id: number;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -77,7 +77,7 @@ const CourseCard = ({
           img: {
             scale: 1.1,
             transition: '0.1s',
-          }
+          },
         },
         width: 300,
       }}

@@ -34,32 +34,35 @@ const DASHBOARD_SIDEBAR = [
     title: 'Quản lý nhân viên',
     icon: <MailIcon />,
     href: '/dashboard/user-management',
-  }
+  },
 ];
 
 export default function Sidebar() {
   const navigate = useNavigate();
   return (
-    <Box sx={{
-      borderRight: '1px solid #e0e0e0',
-      padding: "16px",
-      height: "calc(100vh - 64px)",
-      // overflowY: "hidden",
-    }}>
+    <Box
+      sx={{
+        borderRight: '1px solid #e0e0e0',
+        padding: '16px',
+        height: 'calc(100vh - 64px)',
+        overflow: 'hidden',
+      }}
+    >
       {/* <Divider /> */}
       <List>
         {DASHBOARD_SIDEBAR.map((item) => (
           <ListItem key={item.title} disablePadding>
-            <ListItemButton onClick={() => navigate(item.href)} >
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.title} sx={{
-                "& span": {
-                  fontSize: "14px",
-                  fontWeight: "700",
-                }
-              }} />
+            <ListItemButton onClick={() => navigate(item.href)}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText
+                primary={item.title}
+                sx={{
+                  '& span': {
+                    fontSize: '14px',
+                    fontWeight: '700',
+                  },
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}

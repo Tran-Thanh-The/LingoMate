@@ -19,9 +19,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
 import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
 import LessonCard from '../../components/lesson-card/LessonCard';
-import { LESSONS_PER_PAGE } from '@/utils/constants/constants';
+import { LESSONS_PER_PAGE, ROLE } from '@/utils/constants/constants';
+import RoleBasedComponent from '@/components/RoleBasedComponent';
+import { LessonTypes } from '@/types/enum/LessonType';
+import { CourseResponse } from '@/types/interface/Course';
+import lessonApi from '@/api/lessonApi';
 
-const mockCourseData = {
+const mockCourseData: CourseResponse = {
+  id: '1',
   title: 'React for Beginners',
   description:
     'Learn the basics of React.js and start building your own web applications.',
@@ -32,9 +37,9 @@ const mockCourseData = {
   isMyCourse: true,
   lessons: [
     {
-      id: '01',
+      id: '6d157dd9-950a-4b77-a9a4-398da18c2c04',
       title: 'Lesson 1: Intro to React',
-      typeLesson: 'video',
+      lessonType: LessonTypes.Video,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -43,7 +48,7 @@ const mockCourseData = {
     {
       id: '02',
       title: 'Lesson 2: JSX and Components',
-      typeLesson: 'docs',
+      lessonType: LessonTypes.Docs,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -52,7 +57,7 @@ const mockCourseData = {
     {
       id: '03',
       title: 'Lesson 3: State and Props',
-      typeLesson: 'video',
+      lessonType: LessonTypes.Video,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -61,7 +66,7 @@ const mockCourseData = {
     {
       id: '04',
       title: 'Lesson 4: React Lifecycle',
-      typeLesson: 'exercise',
+      lessonType: LessonTypes.Exercise,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -70,7 +75,7 @@ const mockCourseData = {
     {
       id: '05',
       title: 'Lesson 5: Event Handling',
-      typeLesson: 'docs',
+      lessonType: LessonTypes.Docs,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -79,7 +84,7 @@ const mockCourseData = {
     {
       id: '06',
       title: 'Lesson 6: Hooks in React',
-      typeLesson: 'exercise',
+      lessonType: LessonTypes.Exercise,
       sections: 0,
       totalSections: 1,
       stars: 0,
@@ -97,8 +102,6 @@ export default function CourseDetail() {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const { idCourse } = useParams();
-
-  console.log('id khóa học : ', idCourse);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -121,7 +124,8 @@ export default function CourseDetail() {
   };
 
   const handleEdit = () => {
-    if (selectedLessonId) {
+    if (selectedLessonId && idCourse) {
+      console.log('Edit lesson ID:', selectedLessonId);
       navigate(
         `/dashboard/courses/${idCourse}/edit-lesson/${selectedLessonId}`,
       );
@@ -129,9 +133,10 @@ export default function CourseDetail() {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedLessonId) {
       console.log('Delete lesson ID:', selectedLessonId);
+      await lessonApi.deleteLesson(selectedLessonId);
     }
     handleMenuClose();
   };
@@ -145,15 +150,19 @@ export default function CourseDetail() {
     navigate(`/dashboard/courses/${idCourse}/create-lesson`);
   };
 
+  const handRouterLessonDetail = (lessonId: string) => {
+    navigate(`/dashboard/courses/${idCourse}/lesson/${lessonId}`);
+  };
+
   const getFilteredLessons = () => {
     switch (tabIndex) {
       case 1:
-        return course.lessons.filter((lesson) => lesson.typeLesson === 'video');
+        return course.lessons.filter((lesson) => lesson.lessonType === 'Video');
       case 2:
-        return course.lessons.filter((lesson) => lesson.typeLesson === 'docs');
+        return course.lessons.filter((lesson) => lesson.lessonType === 'Docs');
       case 3:
         return course.lessons.filter(
-          (lesson) => lesson.typeLesson === 'exercise',
+          (lesson) => lesson.lessonType === 'Exercise',
         );
       default:
         return course.lessons;
@@ -229,22 +238,24 @@ export default function CourseDetail() {
         >
           <Typography variant="h5">Danh sách bài học</Typography>
 
-          <IconButton
-            color="primary"
-            sx={{
-              bgcolor: '#f3f7ff',
-            }}
-            onClick={handleAddLesson}
-          >
-            <AddIcon />
-          </IconButton>
+          <RoleBasedComponent allowedRoles={[ROLE.ADMIN, ROLE.STAFF]}>
+            <IconButton
+              color="primary"
+              sx={{
+                bgcolor: '#f3f7ff',
+              }}
+              onClick={handleAddLesson}
+            >
+              <AddIcon />
+            </IconButton>
+          </RoleBasedComponent>
         </Box>
 
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Tabs value={tabIndex} onChange={handleTabChange} centered>
             <Tab label="Tất cả bài học" />
-            <Tab label="Bài học video" />
-            <Tab label="Bài học docs" />
+            <Tab label="Bài học Video" />
+            <Tab label="Bài học Docs" />
             <Tab label="Exercises" />
           </Tabs>
         </Box>
@@ -252,8 +263,8 @@ export default function CourseDetail() {
         <Box>
           <Typography variant="h6" gutterBottom>
             {tabIndex === 0 && 'Danh sách tất cả bài học'}
-            {tabIndex === 1 && 'Danh sách bài học video'}
-            {tabIndex === 2 && 'Danh sách bài học docs'}
+            {tabIndex === 1 && 'Danh sách bài học Video'}
+            {tabIndex === 2 && 'Danh sách bài học Docs'}
             {tabIndex === 3 && 'Danh sách Exercises'}
           </Typography>
           {paginatedFilteredLessons.map((lesson) => (
@@ -261,11 +272,19 @@ export default function CourseDetail() {
               key={lesson.id}
               lesson={lesson}
               onMenuOpen={handleMenuOpen}
+              handRouterLessonDetail={handRouterLessonDetail}
             />
           ))}
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: 2,
+            mb: 2,
+          }}
+        >
           <Pagination
             count={totalFilteredPages}
             page={currentPage}

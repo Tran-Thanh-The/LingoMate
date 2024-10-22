@@ -12,6 +12,7 @@ import { login } from '@/features/auth/slices/authSlice';
 import { RootState } from '@/stores/store';
 import { Account } from '@/types/interface/Account';
 import { AppDispatch } from '@/stores/store';
+import { ROLE } from '@/utils/constants/constants';
 
 const MySwal = withReactContent(Swal);
 
@@ -59,7 +60,14 @@ const LoginFormWithUsername = ({
           confirmButtonText: 'OK',
         });
 
-        navigate('/dashboard');
+        const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+        const role = auth.user?.role?.name;
+
+        if (role == ROLE.USER) {
+          navigate('/');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         MySwal.fire({
           title: 'Đăng nhập thất bại!',

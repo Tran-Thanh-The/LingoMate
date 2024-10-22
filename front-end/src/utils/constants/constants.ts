@@ -9,20 +9,28 @@ export const API_ENDPOINT = {
   VERIFY: '/auth/email/confirm',
   USER: '/user',
   COURSE: '/course',
-};
+} as const;
 
 export const API_LESSON = {
-  CREATE: '',
-  UPDATE: '',
-  READ: '',
-  DELETE: '',
-  SEARCH: '',
-};
+  CREATE: '/lessons',
+  UPDATE: (id: string) => `/lessons/${id}`,
+  READ: (id: string) => `/lessons/${id}`,
+  DELETE: '/lessons',
+  SEARCH: 'lessons/search',
+} as const;
 
 export const ROLE = {
   USER: 'User',
-  ADMIN: ' Admin',
+  ADMIN: 'Admin',
   STAFF: 'Staff',
+} as const;
+
+export const TYPE_LESSON = {
+  VIDEO: 'Video',
+  DOCS: 'Docs',
+  EXAMPLE: 'Example',
 };
+
+export type Role = (typeof ROLE)[keyof typeof ROLE];
 
 export const LESSONS_PER_PAGE = 5;
