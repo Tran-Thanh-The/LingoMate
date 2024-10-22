@@ -17,7 +17,6 @@ import { MailService } from "../../mail/mail.service";
 import { RoleEnum } from "@/domain/roles/roles.enum";
 import { Session } from "@/domain/session/domain/session";
 import { SessionService } from "@/domain/session/session.service";
-import { StatusEnum } from "@/domain/statuses/statuses.enum";
 import { User } from "@/domain/users/domain/user";
 import { UsersService } from "@/domain/users/users.service";
 import { NullableType } from "@/utils/types/nullable.type";
@@ -30,6 +29,7 @@ import { JwtPayloadType } from "./strategies/types/jwt-payload.type";
 import { JwtRefreshPayloadType } from "./strategies/types/jwt-refresh-payload.type";
 import { RedisService } from "@/common/redis/redis.service";
 import { redisConstants } from "@/common/redis/redis.constants";
+import { StatusEnum } from "@/common/enums/status.enum";
 
 @Injectable()
 export class AuthService {
@@ -130,9 +130,10 @@ export class AuthService {
         role: {
           id: RoleEnum.user,
         },
-        status: {
-          id: StatusEnum.inactive,
-        },
+        status: StatusEnum.InActive
+        // status: {
+        //   id: StatusEnum.inactive,
+        // },
       });
 
       const hash = await this.jwtService.signAsync(
@@ -214,7 +215,7 @@ export class AuthService {
 
     if (
       !user ||
-      user?.status?.id?.toString() !== StatusEnum.inactive.toString()
+      user?.status?.toString() !== StatusEnum.InActive.toString()
     ) {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -222,9 +223,7 @@ export class AuthService {
       });
     }
 
-    user.status = {
-      id: StatusEnum.active,
-    };
+    user.status = StatusEnum.Active;
 
     await this.usersService.update(user.id, user);
   }
@@ -264,9 +263,7 @@ export class AuthService {
     }
 
     user.email = newEmail;
-    user.status = {
-      id: StatusEnum.active,
-    };
+    user.status = StatusEnum.Active;
 
     await this.usersService.update(user.id, user);
   }

@@ -3,14 +3,15 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
   // decorators here
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   MinLength,
 } from "class-validator";
 import { FileDto } from "../../../files/dto/file.dto";
 import { RoleDto } from "../../roles/dto/role.dto";
-import { StatusDto } from "../../statuses/dto/status.dto";
 import { lowerCaseTransformer } from "@/utils/transformers/lower-case.transformer";
+import { StatusEnum } from "@/common/enums/status.enum";
 
 export class CreateUserDto {
   @ApiProperty({ example: "test1@example.com", type: String })
@@ -40,10 +41,13 @@ export class CreateUserDto {
   @Type(() => RoleDto)
   role?: RoleDto | null;
 
-  @ApiPropertyOptional({ type: StatusDto })
-  @IsOptional()
-  @Type(() => StatusDto)
-  status?: StatusDto;
+  @ApiPropertyOptional({
+    enum: StatusEnum,
+  })
+  @IsEnum(StatusEnum)
+  status: StatusEnum;
 
+  @ApiPropertyOptional({ type: String})
+  @IsOptional()
   hash?: string | null;
 }

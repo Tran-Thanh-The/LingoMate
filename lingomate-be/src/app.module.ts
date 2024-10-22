@@ -1,23 +1,23 @@
-import { Module } from "@nestjs/common";
-import { UsersModule } from "@/domain/users/users.module";
-import { FilesModule } from "./files/files.module";
 import { AuthModule } from "@/domain/auth/auth.module";
-import databaseConfig from "./database/config/database.config";
 import authConfig from "@/domain/auth/config/auth.config";
-import appConfig from "./config/app.config";
-import mailConfig from "./mail/config/mail.config";
-import fileConfig from "./files/config/file.config";
-import path from "path";
+import { HomeModule } from "@/domain/home/home.module";
+import { SessionModule } from "@/domain/session/session.module";
+import { UsersModule } from "@/domain/users/users.module";
+import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { I18nModule } from "nestjs-i18n/dist/i18n.module";
 import { HeaderResolver } from "nestjs-i18n";
-import { TypeOrmConfigService } from "./database/typeorm-config.service";
-import { MailModule } from "./mail/mail.module";
-import { HomeModule } from "@/domain/home/home.module";
+import { I18nModule } from "nestjs-i18n/dist/i18n.module";
+import path from "path";
 import { DataSource, DataSourceOptions } from "typeorm";
+import appConfig from "./config/app.config";
 import { AllConfigType } from "./config/config.type";
-import { SessionModule } from "@/domain/session/session.module";
+import databaseConfig from "./database/config/database.config";
+import { TypeOrmConfigService } from "./database/typeorm-config.service";
+import fileConfig from "./files/config/file.config";
+import { FilesModule } from "./files/files.module";
+import mailConfig from "./mail/config/mail.config";
+import { MailModule } from "./mail/mail.module";
 import { MailerModule } from "./mailer/mailer.module";
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
@@ -35,21 +35,21 @@ import { CoursesModule } from "@/domain/courses/courses.module";
 
 import { LessonsModule } from "@/domain/lessons/lessons.module";
 
-import { ExercisesModule } from "@/domain/exercises/exercises.module";
-
 import { PracticeExercisesModule } from "@/domain/practice-exercises/practice-exercises.module";
 
-import { InvoicesModule } from "@/domain/invoices/invoices.module";
 import redisConfig from "@/common/redis/config/redis.config";
 import { RedisModule } from "@/common/redis/redis.module";
 import { HttpModule } from "@nestjs/axios";
+import { InvoicesModule } from "./domain/invoices/invoices.module";
+
+import { CategoriesModule } from "@/domain/categories/categories.module";
 
 @Module({
   imports: [
+    CategoriesModule,
     HttpModule,
     InvoicesModule,
     PracticeExercisesModule,
-    ExercisesModule,
     LessonsModule,
     CoursesModule,
     AnswersModule,

@@ -5,7 +5,7 @@ import { Lesson } from "../../domain/lesson";
 
 export abstract class LessonRepository {
   abstract create(
-    data: Omit<Lesson, "id" | "createdAt" | "updatedAt">,
+    data: Omit<Lesson, "id" | "createdAt" | "updatedAt" | "deletedAt">,
   ): Promise<Lesson>;
 
   abstract findAllWithPagination({
@@ -16,10 +16,12 @@ export abstract class LessonRepository {
 
   abstract findById(id: Lesson["id"]): Promise<NullableType<Lesson>>;
 
+  abstract findByTitle(title: Lesson["title"]): Promise<NullableType<Lesson>>;
   abstract update(
     id: Lesson["id"],
     payload: DeepPartial<Lesson>,
   ): Promise<Lesson | null>;
 
   abstract remove(id: Lesson["id"]): Promise<void>;
+  abstract save(lesson: Lesson): Promise<void>;
 }

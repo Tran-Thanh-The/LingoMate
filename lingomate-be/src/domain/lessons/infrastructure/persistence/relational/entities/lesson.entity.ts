@@ -1,11 +1,19 @@
+import { LessonTypesEnum } from "@/common/enums/lesson.enum";
+import { StatusEnum } from "@/common/enums/status.enum";
+import { LessonCourseEntity } from "@/domain/lesson-courses/infrastructure/persistence/relational/entities/lesson-course.entity";
+import { QuestionLessonEntity } from "@/domain/question-lessons/infrastructure/persistence/relational/entities/question-lesson.entity";
+import { UserLessonEntity } from "@/domain/user-lessons/infrastructure/persistence/relational/entities/user-lesson.entity";
+import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
+import { ApiProperty } from "@nestjs/swagger";
 import {
+  Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
-import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({
   name: "lesson",
@@ -15,6 +23,78 @@ export class LessonEntity extends EntityRelationalHelper {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @ApiProperty({
+    type: String,
+  })
+  @Column({ type: String })
+  title: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  @Column({ type: String, nullable: true })
+  content?: string | null;
+
+  @ApiProperty({
+    type: String,
+  })
+  @Column({ type: String, nullable: true })
+  videoUrl?: string | null;
+
+  @ApiProperty({
+    enum: LessonTypesEnum,
+  })
+  @Column({
+    type: "enum",
+    enum: LessonTypesEnum,
+  })
+  lessonType: LessonTypesEnum;
+
+  @ApiProperty({
+    enum: StatusEnum,
+  })
+  @Column({
+    type: "enum",
+    enum: StatusEnum,
+    default: StatusEnum.Active,
+  })
+  status: StatusEnum;
+
+  @OneToMany(
+    () => QuestionLessonEntity,
+    (questionLesson) => questionLesson.lesson,
+    { cascade: true },
+  )
+  questionLesson: QuestionLessonEntity[];
+
+  @OneToMany(() => UserLessonEntity, (userLesson) => userLesson.lesson, {
+    cascade: true,
+  })
+  userLesson: UserLessonEntity[];
+
+  @OneToMany(
+    () => LessonCourseEntity,
+    (lessonCourses) => lessonCourses.lesson,
+    {
+      cascade: true,
+    },
+  )
+  lessonCourses: LessonCourseEntity[];
+
+  @ApiProperty({ type: Number })
+  @Column({
+    type: "decimal",
+    precision: 5,
+    scale: 2,
+    nullable: true,
+    default: 0,
+  })
+  stars?: number | null;
+
+  @ApiProperty({ type: Number })
+  @Column({ type: "int", nullable: true, default: 3 })
+  totalStars?: number | null;
+
   @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
@@ -22,4 +102,8 @@ export class LessonEntity extends EntityRelationalHelper {
   @ApiProperty()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ApiProperty()
+  @DeleteDateColumn()
+  deletedAt?: Date | null;
 }

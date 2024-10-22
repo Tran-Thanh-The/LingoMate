@@ -1,7 +1,6 @@
 import { FileEntity } from "../../../../../../files/infrastructure/persistence/relational/entities/file.entity";
 import { FileMapper } from "../../../../../../files/infrastructure/persistence/relational/mappers/file.mapper";
 import { RoleEntity } from "../../../../../roles/infrastructure/persistence/relational/entities/role.entity";
-import { StatusEntity } from "../../../../../statuses/infrastructure/persistence/relational/entities/status.entity";
 import { User } from "../../../../domain/user";
 import { UserEntity } from "../entities/user.entity";
 
@@ -45,17 +44,12 @@ export class UserMapper {
       photo = null;
     }
 
-    let status: StatusEntity | undefined = undefined;
-
-    if (domainEntity.status) {
-      status = new StatusEntity();
-      status.id = Number(domainEntity.status.id);
-    }
-
+   
     const persistenceEntity = new UserEntity();
     if (domainEntity.id && typeof domainEntity.id === "number") {
       persistenceEntity.id = domainEntity.id;
     }
+    persistenceEntity.status = domainEntity.status;
     persistenceEntity.email = domainEntity.email;
     persistenceEntity.password = domainEntity.password;
     persistenceEntity.previousPassword = domainEntity.previousPassword;
@@ -64,7 +58,6 @@ export class UserMapper {
     persistenceEntity.fullName = domainEntity.fullName;
     persistenceEntity.photo = photo;
     persistenceEntity.role = role;
-    persistenceEntity.status = status;
     persistenceEntity.createdAt = domainEntity.createdAt;
     persistenceEntity.updatedAt = domainEntity.updatedAt;
     persistenceEntity.deletedAt = domainEntity.deletedAt;

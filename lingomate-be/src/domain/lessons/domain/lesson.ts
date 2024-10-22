@@ -1,3 +1,5 @@
+import { LessonTypesEnum } from "@/common/enums/lesson.enum";
+import { StatusEnum } from "@/common/enums/status.enum";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class Lesson {
@@ -6,9 +8,42 @@ export class Lesson {
   })
   id: string;
 
-  @ApiProperty()
-  createdAt: Date;
+  @ApiProperty({
+    type: String,
+  })
+  title: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  content?: string | null;
+
+  @ApiProperty({
+    type: String,
+  })
+  videoUrl?: string | null;
+
+  @ApiProperty({
+    enum: LessonTypesEnum,
+  })
+  lessonType: LessonTypesEnum;
+
+  @ApiProperty({ type: Number })
+  stars?: number | null;
+
+  @ApiProperty({ type: Number })
+  totalStars?: number | null;
+
+  @ApiProperty({
+    enum: StatusEnum,
+  })
+  status: StatusEnum;
 
   @ApiProperty()
+  createdAt: Date;
+  @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt?: Date | null;
 }

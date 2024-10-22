@@ -1,19 +1,19 @@
 import {
-  Column,
   AfterLoad,
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
-  OneToOne,
 } from "typeorm";
-import { RoleEntity } from "../../../../../roles/infrastructure/persistence/relational/entities/role.entity";
-import { StatusEntity } from "../../../../../statuses/infrastructure/persistence/relational/entities/status.entity";
 import { FileEntity } from "../../../../../../files/infrastructure/persistence/relational/entities/file.entity";
+import { RoleEntity } from "../../../../../roles/infrastructure/persistence/relational/entities/role.entity";
 
 import { AuthProvidersEnum } from "@/domain/auth/auth-providers.enum";
 import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
@@ -21,8 +21,13 @@ import { EntityRelationalHelper } from "@/utils/relational-entity-helper";
 // We use class-transformer in ORM entity and domain entity.
 // We duplicate these rules because you can choose not to use adapters
 // in your project and return an ORM entity directly in response.
-import { Exclude, Expose } from "class-transformer";
+import { StatusEnum } from "@/common/enums/status.enum";
+import { UserCourseEntity } from "@/domain/user-courses/infrastructure/persistence/relational/entities/user-course.entity";
+import { UserInvoicesEntity } from "@/domain/user-invoices/infrastructure/persistence/relational/entities/user-invoices.entity";
+import { UserLessonEntity } from "@/domain/user-lessons/infrastructure/persistence/relational/entities/user-lesson.entity";
+import { UserQuestionEntity } from "@/domain/user-questions/infrastructure/persistence/relational/entities/user-question.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { Exclude, Expose } from "class-transformer";
 
 @Entity({
   name: "user",
@@ -106,12 +111,14 @@ export class UserEntity extends EntityRelationalHelper {
   dob?: Date | null;
 
   @ApiProperty({
-    type: () => StatusEntity,
+    enum: StatusEnum,
   })
-  @ManyToOne(() => StatusEntity, {
-    eager: true,
+  @Column({
+    type: "enum",
+    enum: StatusEnum,
+    default: StatusEnum.InActive,
   })
-  status?: StatusEntity;
+  status: StatusEnum;
 
   @ApiProperty()
   @CreateDateColumn()
@@ -124,4 +131,16 @@ export class UserEntity extends EntityRelationalHelper {
   @ApiProperty()
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => UserInvoicesEntity, (userInvoice) => userInvoice.user)
+  userInvoice: UserInvoicesEntity[];
+
+  @OneToMany(() => UserQuestionEntity, (userQuestion) => userQuestion.user)
+  userQuestion: UserQuestionEntity[];
+
+  @OneToMany(() => UserLessonEntity, (userLesson) => userLesson.user)
+  userLesson: UserLessonEntity[];
+
+  @OneToMany(() => UserCourseEntity, (userCourse) => userCourse.user)
+  userCourse: UserCourseEntity[];
 }
