@@ -26,7 +26,10 @@ export abstract class CourseRepository {
   abstract remove(id: Course["id"]): Promise<void>;
   abstract save(course: Course): Promise<void>;
   abstract findOne(id: string, relations?: string[]): Promise<Course | null>;
-  abstract getDetailById(id: string): Promise<CourseWithDetailsDTO | null>;
+  abstract getCourseDetailById(
+    id: string,
+    userId: string,
+  ): Promise<CourseWithDetailsDTO | null>;
 
   abstract getListCourse(params: {
     status?: StatusEnum;

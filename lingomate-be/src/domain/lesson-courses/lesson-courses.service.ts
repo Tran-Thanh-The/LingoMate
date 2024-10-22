@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateLessonCourseDto } from "./dto/create-lesson-course.dto";
 import { UpdateLessonCourseDto } from "./dto/update-lesson-course.dto";
 import { LessonCourseRepository } from "./infrastructure/persistence/lesson-course.repository";
@@ -28,6 +28,26 @@ export class LessonCoursesService {
         limit: paginationOptions.limit,
       },
     });
+  }
+  async getAllLessonsByCourseId(
+    courseId: string,
+    paginationOptions: IPaginationOptions,
+  ) {
+    const lessons =
+      await this.lessonCourseRepository.findLessonByCourseIdWithPagination(
+        courseId,
+        {
+          paginationOptions,
+        },
+      );
+
+    if (!lessons || lessons.length === 0) {
+      throw new NotFoundException(
+        `No lessons found for course with id "${courseId}".`,
+      );
+    }
+
+    return lessons;
   }
 
   findOne(id: LessonCourse["id"]) {

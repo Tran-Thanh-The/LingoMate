@@ -26,17 +26,16 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import { LessonCoursesService } from "../lesson-courses/lesson-courses.service";
 import { Roles } from "../roles/roles.decorator";
 import { RolesGuard } from "../roles/roles.guard";
 import { CoursesService } from "./courses.service";
 import { Course } from "./domain/course";
+import { CourseQueryDto, parseOrderBy } from "./dto/course-query-dto";
+import { CourseListResponseDto } from "./dto/courses-response-dto";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { FindAllCoursesDto } from "./dto/find-all-courses.dto";
 import { UpdateCourseDto } from "./dto/update-course.dto";
-import { LessonCourse } from "../lesson-courses/domain/lesson-course";
-import { CreateLessonCourseDto } from "../lesson-courses/dto/create-lesson-course.dto";
-import { CourseListResponseDto } from "./dto/courses-response-dto";
-import { CourseQueryDto, parseOrderBy } from "./dto/course-query-dto";
 
 @ApiTags("Courses")
 @ApiBearerAuth()
@@ -46,7 +45,10 @@ import { CourseQueryDto, parseOrderBy } from "./dto/course-query-dto";
   version: "1",
 })
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(
+    private readonly coursesService: CoursesService,
+    private readonly lessonCourseService: LessonCoursesService,
+  ) {}
 
   @Roles(RoleEnum.admin, RoleEnum.staff)
   @Post()
@@ -130,8 +132,9 @@ export class CoursesController {
   @ApiOkResponse({
     type: Course,
   })
-  getCourseWithDetails(@Param("id") id: string) {
-    return this.coursesService.getCourseDetails(id);
+  getCourseWithDetails(@Param("id") id: string, @Req() req) {
+    const userId = req.user.id;
+    return this.coursesService.getCourseDetails(id, userId);
   }
 
   @Roles(RoleEnum.admin, RoleEnum.staff)
@@ -158,48 +161,4 @@ export class CoursesController {
   remove(@Param("id") id: string) {
     return this.coursesService.remove(id);
   }
-
-  @Roles(RoleEnum.admin, RoleEnum.staff)
-  @Post(":id/lessons")
-  @ApiParam({
-    name: "id",
-    type: String,
-    required: true,
-  })
-  @ApiCreatedResponse({
-    type: LessonCourse,
-  })
-  addLessonToCourse(
-    @Param("id") id: string,
-    @Body() createLessonCourseDto: CreateLessonCourseDto,
-  ) {
-    return this.coursesService.addLessonToCourse(id, createLessonCourseDto);
-  }
-
-  // @Roles(RoleEnum.admin, RoleEnum.staff)
-  // @Patch(":courseId/lessons/:lessonId/position")
-  // @ApiParam({
-  //   name: "courseId",
-  //   type: String,
-  //   required: true,
-  // })
-  // @ApiParam({
-  //   name: "lessonId",
-  //   type: String,
-  //   required: true,
-  // })
-  // @ApiOkResponse({
-  //   type: LessonCourse,
-  // })
-  // updateLessonPosition(
-  //   @Param("courseId") courseId: string,
-  //   @Param("lessonId") lessonId: string,
-  //   @Body("newPosition") newPosition: number,
-  // ) {
-  //   return this.coursesService.updateLessonPosition(
-  //     courseId,
-  //     lessonId,
-  //     newPosition,
-  //   );
-  // }
 }

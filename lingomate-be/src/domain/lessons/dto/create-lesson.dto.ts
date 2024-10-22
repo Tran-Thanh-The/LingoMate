@@ -1,7 +1,13 @@
 import { LessonTypesEnum } from "@/common/enums/lesson.enum";
 import { StatusEnum } from "@/common/enums/status.enum";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from "class-validator";
 
 export class CreateLessonDto {
   @ApiProperty({ type: String })
@@ -34,4 +40,17 @@ export class CreateLessonDto {
   @IsEnum(StatusEnum)
   @IsOptional()
   status?: StatusEnum;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsUUID()
+  course_id?: string;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  stars?: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  totalStars?: number | null;
 }

@@ -23,4 +23,5 @@ export abstract class LessonRepository {
   ): Promise<Lesson | null>;
 
   abstract remove(id: Lesson["id"]): Promise<void>;
+  abstract save(lesson: Lesson): Promise<void>;
 }
