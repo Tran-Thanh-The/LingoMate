@@ -12,11 +12,11 @@ export const API_ENDPOINT = {
 } as const;
 
 export const API_LESSON = {
-  CREATE: '',
-  UPDATE: '',
-  READ: '',
-  DELETE: '',
-  SEARCH: '',
+  CREATE: '/lessons',
+  UPDATE: (id: string) => `/lessons/${id}`,
+  READ: (id: string) => `/lessons/${id}`,
+  DELETE: '/lessons',
+  SEARCH: 'lessons/search',
 } as const;
 
 export const ROLE = {
@@ -24,6 +24,12 @@ export const ROLE = {
   ADMIN: 'Admin',
   STAFF: 'Staff',
 } as const;
+
+export const TYPE_LESSON = {
+  VIDEO: 'Video',
+  DOCS: 'Docs',
+  EXAMPLE: 'Example',
+};
 
 export type Role = (typeof ROLE)[keyof typeof ROLE];
 
