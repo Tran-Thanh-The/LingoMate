@@ -1,8 +1,8 @@
 import { StatusEnum } from "@/common/enums/status.enum";
 import { CreateCourseDto } from "@/domain/courses/dto/create-course.dto";
 import { CreateUserDto } from "@/domain/users/dto/create-user.dto";
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsEnum, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateUserCourseDto {
   // Don't forget to use the class-validator decorators in the DTO properties.
@@ -17,6 +17,10 @@ export class CreateUserCourseDto {
   })
   @IsNotEmpty()
   course: CreateCourseDto;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  lastPosition?: number | null;
 
   @ApiProperty({
     enum: StatusEnum,

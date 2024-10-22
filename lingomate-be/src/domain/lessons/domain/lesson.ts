@@ -28,6 +28,12 @@ export class Lesson {
   })
   lessonType: LessonTypesEnum;
 
+  @ApiProperty({ type: Number })
+  stars?: number | null;
+
+  @ApiProperty({ type: Number })
+  totalStars?: number | null;
+
   @ApiProperty({
     enum: StatusEnum,
   })

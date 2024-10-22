@@ -1,12 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import { Lesson } from "./../../../../domain/lesson";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LessonEntity } from "../entities/lesson.entity";
 import { NullableType } from "@/utils/types/nullable.type";
-import { Lesson } from "../../../../domain/lesson";
 import { LessonRepository } from "../../lesson.repository";
 import { LessonMapper } from "../mappers/lesson.mapper";
 import { IPaginationOptions } from "@/utils/types/pagination-options";
+import { StatusEnum } from "@/common/enums/status.enum";
 
 @Injectable()
 export class LessonRelationalRepository implements LessonRepository {
@@ -46,7 +47,7 @@ export class LessonRelationalRepository implements LessonRepository {
 
   async findByTitle(title: Lesson["title"]): Promise<NullableType<Lesson>> {
     const entity = await this.lessonRepository.findOne({
-      where: { title },
+      where: { title, status: StatusEnum.Active },
     });
 
     return entity ? LessonMapper.toDomain(entity) : null;
@@ -75,5 +76,11 @@ export class LessonRelationalRepository implements LessonRepository {
 
   async remove(id: Lesson["id"]): Promise<void> {
     await this.lessonRepository.delete(id);
+  }
+  async save(lesson: Lesson): Promise<void> {
+    if (!lesson || !lesson.id) {
+      throw new NotFoundException("Lesson not found");
+    }
+    await this.lessonRepository.save(lesson);
   }
 }

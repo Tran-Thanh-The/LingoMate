@@ -32,4 +32,7 @@ export class CreateCourseDto {
   })
   @IsNotEmpty()
   category_id: string;
+
+  @ApiProperty({ type: Date })
+  creatAt?: Date;
 }

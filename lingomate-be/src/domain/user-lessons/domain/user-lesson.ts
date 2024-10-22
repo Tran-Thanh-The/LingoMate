@@ -19,6 +19,9 @@ export class UserLesson {
   })
   lesson: LessonEntity;
 
+  @ApiProperty({ type: () => Boolean })
+  isCompleted: boolean;
+
   @ApiProperty({
     enum: StatusEnum,
   })

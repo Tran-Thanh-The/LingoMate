@@ -2,10 +2,9 @@ import { Module } from "@nestjs/common";
 import { RelationalLessonCoursePersistenceModule } from "./infrastructure/persistence/relational/relational-persistence.module";
 import { LessonCoursesController } from "./lesson-courses.controller";
 import { LessonCoursesService } from "./lesson-courses.service";
-import { LessonsModule } from "../lessons/lessons.module";
 
 @Module({
-  imports: [RelationalLessonCoursePersistenceModule, LessonsModule],
+  imports: [RelationalLessonCoursePersistenceModule],
   controllers: [LessonCoursesController],
   providers: [LessonCoursesService],
   exports: [LessonCoursesService, RelationalLessonCoursePersistenceModule],

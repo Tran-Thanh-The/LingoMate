@@ -36,6 +36,10 @@ export class UserLessonEntity extends EntityRelationalHelper {
   })
   lesson: LessonEntity;
 
+  @ApiProperty({ type: () => Boolean })
+  @Column({ type: "boolean", default: false })
+  isCompleted: boolean;
+
   @ApiProperty({
     enum: StatusEnum,
   })

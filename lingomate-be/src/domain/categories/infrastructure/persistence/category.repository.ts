@@ -15,7 +15,7 @@ export abstract class CategoryRepository {
   }): Promise<Category[]>;
 
   abstract findById(id: Category["id"]): Promise<NullableType<Category>>;
-
+  abstract findByName(name: Category["name"]): Promise<NullableType<Category>>;
   abstract update(
     id: Category["id"],
     payload: DeepPartial<Category>,

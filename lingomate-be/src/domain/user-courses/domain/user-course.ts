@@ -19,6 +19,9 @@ export class UserCourse {
   })
   course: CourseEntity;
 
+  @ApiProperty({ type: Number })
+  lastPosition?: number | null;
+
   @ApiProperty({
     enum: StatusEnum,
   })

@@ -65,7 +65,9 @@ export class CourseMapper {
     if (dto.photo) {
       model.photo = FileMapper.toPersistence(dto.photo);
     }
-
+    if (dto.creatAt) {
+      model.createdAt = dto.creatAt;
+    }
     return model;
   }
 
@@ -81,6 +83,7 @@ export class CourseMapper {
     if (model.photo) {
       dto.photo = FileMapper.toPersistence(model.photo);
     }
+    dto.creatAt = model.createdAt;
 
     return dto;
   }

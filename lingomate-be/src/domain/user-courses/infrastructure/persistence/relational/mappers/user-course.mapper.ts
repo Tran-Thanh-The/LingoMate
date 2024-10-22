@@ -11,6 +11,7 @@ export class UserCourseMapper {
     domainEntity.user = raw.user;
     domainEntity.course = raw.course;
     domainEntity.status = raw.status;
+    domainEntity.lastPosition = raw.lastPosition;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
 
@@ -24,6 +25,7 @@ export class UserCourseMapper {
     }
     persistenceEntity.user = domainEntity.user;
     persistenceEntity.course = domainEntity.course;
+    persistenceEntity.lastPosition = domainEntity.lastPosition;
     persistenceEntity.status = domainEntity.status;
     persistenceEntity.createdAt = domainEntity.createdAt;
     persistenceEntity.updatedAt = domainEntity.updatedAt;

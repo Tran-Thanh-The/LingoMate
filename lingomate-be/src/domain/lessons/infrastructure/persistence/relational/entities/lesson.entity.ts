@@ -81,6 +81,20 @@ export class LessonEntity extends EntityRelationalHelper {
   )
   lessonCourses: LessonCourseEntity[];
 
+  @ApiProperty({ type: Number })
+  @Column({
+    type: "decimal",
+    precision: 5,
+    scale: 2,
+    nullable: true,
+    default: 0,
+  })
+  stars?: number | null;
+
+  @ApiProperty({ type: Number })
+  @Column({ type: "int", nullable: true, default: 3 })
+  totalStars?: number | null;
+
   @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;

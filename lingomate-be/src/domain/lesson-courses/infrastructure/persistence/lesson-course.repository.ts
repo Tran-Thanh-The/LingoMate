@@ -15,6 +15,11 @@ export abstract class LessonCourseRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<LessonCourse[]>;
 
+  abstract findLessonByCourseIdWithPagination(
+    courseId: string,
+    { paginationOptions }: { paginationOptions: IPaginationOptions },
+  ): Promise<Lesson[]>;
+
   abstract findById(
     id: LessonCourse["id"],
   ): Promise<NullableType<LessonCourse>>;
@@ -23,19 +28,27 @@ export abstract class LessonCourseRepository {
     course_id: string,
   ): Promise<NullableType<LessonCourse[]>>;
 
+  abstract findByLessonId(
+    lesson_id: string,
+  ): Promise<NullableType<LessonCourse>>;
+
   abstract update(
     id: LessonCourse["id"],
     payload: DeepPartial<LessonCourse>,
   ): Promise<LessonCourse | null>;
 
   abstract remove(id: LessonCourse["id"]): Promise<void>;
-
+  abstract save(lessonCourse: LessonCourse): Promise<void>;
   abstract findByCourseAndLesson(
     courseId: string,
     lessonId: string,
   ): Promise<NullableType<LessonCourse>>;
 
-  abstract findLessonByCourseId(
-    course_id: string,
-  ): Promise<NullableType<Lesson[]>>;
+  abstract countActiveLessonsByCourseId(courseId: string): Promise<number>;
+  abstract findActiveLessonsByCourseId(
+    courseId: string,
+  ): Promise<LessonCourse[]>;
+  // abstract findLessonByCourseId(
+  //   course_id: string,
+  // ): Promise<NullableType<Lesson[]>>;
 }

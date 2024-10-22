@@ -12,6 +12,8 @@ export class LessonMapper {
     domainEntity.videoUrl = raw.videoUrl;
     domainEntity.status = raw.status;
     domainEntity.lessonType = raw.lessonType;
+    domainEntity.stars = raw.stars;
+    domainEntity.totalStars = raw.totalStars;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
     domainEntity.deletedAt = raw.deletedAt;
@@ -29,6 +31,8 @@ export class LessonMapper {
     persistenceEntity.videoUrl = domainEntity.videoUrl;
     persistenceEntity.lessonType = domainEntity.lessonType;
     persistenceEntity.status = domainEntity.status;
+    persistenceEntity.stars = domainEntity.stars;
+    persistenceEntity.totalStars = domainEntity.totalStars;
     persistenceEntity.createdAt = domainEntity.createdAt;
     persistenceEntity.updatedAt = domainEntity.updatedAt;
     persistenceEntity.deletedAt = domainEntity.deletedAt;
@@ -43,6 +47,8 @@ export class LessonMapper {
     model.content = dto.content;
     model.videoUrl = dto.videoUrl;
     model.lessonType = dto.lessonType;
+    model.stars = dto.stars;
+    model.totalStars = dto.totalStars;
     model.status = dto.status ?? StatusEnum.InActive;
     return model;
   }
@@ -54,6 +60,8 @@ export class LessonMapper {
     dto.content = model.content;
     dto.videoUrl = model.videoUrl;
     dto.lessonType = model.lessonType;
+    dto.stars = model.stars;
+    dto.totalStars = model.totalStars;
     dto.status = model.status;
     return dto;
   }

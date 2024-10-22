@@ -3,12 +3,14 @@ import { Lesson } from "@/domain/lessons/domain/lesson";
 import { LessonEntity } from "@/domain/lessons/infrastructure/persistence/relational/entities/lesson.entity";
 import { NullableType } from "@/utils/types/nullable.type";
 import { IPaginationOptions } from "@/utils/types/pagination-options";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LessonCourseRepository } from "../../lesson-course.repository";
 import { LessonCourseEntity } from "../entities/lesson-course.entity";
 import { LessonCourseMapper } from "../mappers/lesson-course.mapper";
+import { StatusEnum } from "@/common/enums/status.enum";
+import { LessonMapper } from "@/domain/lessons/infrastructure/persistence/relational/mappers/lesson.mapper";
 
 @Injectable()
 export class LessonCourseRelationalRepository
@@ -20,6 +22,26 @@ export class LessonCourseRelationalRepository
     @InjectRepository(LessonEntity)
     private readonly lessonRepository: Repository<LessonEntity>,
   ) {}
+
+  async findLessonByCourseIdWithPagination(
+    courseId: string,
+    { paginationOptions }: { paginationOptions: IPaginationOptions },
+  ): Promise<Lesson[]> {
+    const { page, limit } = paginationOptions;
+
+    const [lessonCourses] = await this.lessonCourseRepository.findAndCount({
+      where: { course: { id: courseId } },
+      relations: ["lesson"],
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+
+    const items = lessonCourses.map((lessonCourse) =>
+      LessonMapper.toModel(lessonCourse.lesson),
+    );
+
+    return items;
+  }
 
   async create(data: LessonCourse): Promise<LessonCourse> {
     const persistenceModel = LessonCourseMapper.toPersistence(data);
@@ -93,17 +115,11 @@ export class LessonCourseRelationalRepository
     return entity ? LessonCourseMapper.toDomain(entity) : null;
   }
 
-  async findLessonByCourseId(
-    course_id: string,
-  ): Promise<NullableType<Lesson[]>> {
-    const lessons = await this.lessonRepository
-      .createQueryBuilder("lesson")
-      .leftJoinAndSelect("lesson.lessonCourses", "lessonCourses")
-      .leftJoinAndSelect("lessonCourses.course", "course")
-      .where("course.id = :course_id", { course_id })
-      .getMany();
-
-    return lessons.length ? lessons : null;
+  async save(lessonCourse: LessonCourse): Promise<void> {
+    if (!lessonCourse || !lessonCourse.id) {
+      throw new NotFoundException("LessonCourse not found");
+    }
+    await this.lessonCourseRepository.save(lessonCourse);
   }
 
   async findByCourseId(
@@ -118,5 +134,38 @@ export class LessonCourseRelationalRepository
     return lessonCourses.length
       ? lessonCourses.map(LessonCourseMapper.toDomain)
       : null;
+  }
+  async findByLessonId(lesson_id: string): Promise<NullableType<LessonCourse>> {
+    const lessonCourseEntity = await this.lessonCourseRepository.findOne({
+      where: {
+        lesson: { id: lesson_id },
+      },
+      relations: ["lesson", "course"],
+    });
+    if (!lessonCourseEntity) {
+      throw new NotFoundException(
+        `No lesson course found for lesson with id "${lesson_id}".`,
+      );
+    }
+    return LessonCourseMapper.toDomain(lessonCourseEntity) || null;
+  }
+
+  async countActiveLessonsByCourseId(courseId: string): Promise<number> {
+    return this.lessonCourseRepository.count({
+      where: {
+        course: { id: courseId },
+        status: StatusEnum.Active,
+      },
+    });
+  }
+
+  async findActiveLessonsByCourseId(courseId: string): Promise<LessonCourse[]> {
+    return this.lessonCourseRepository.find({
+      where: {
+        course: { id: courseId },
+        status: StatusEnum.Active,
+      },
+      relations: ["lesson"],
+    });
   }
 }

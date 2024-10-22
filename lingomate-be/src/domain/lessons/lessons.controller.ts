@@ -8,6 +8,9 @@ import {
   Delete,
   UseGuards,
   Query,
+  ConflictException,
+  InternalServerErrorException,
+  NotFoundException,
 } from "@nestjs/common";
 import { LessonsService } from "./lessons.service";
 import { CreateLessonDto } from "./dto/create-lesson.dto";
@@ -27,10 +30,13 @@ import {
 } from "@/utils/dto/infinity-pagination-response.dto";
 import { infinityPagination } from "@/utils/infinity-pagination";
 import { FindAllLessonsDto } from "./dto/find-all-lessons.dto";
+import { RolesGuard } from "../roles/roles.guard";
+import { RoleEnum } from "../roles/roles.enum";
+import { Roles } from "../roles/roles.decorator";
 
 @ApiTags("Lessons")
 @ApiBearerAuth()
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), RolesGuard)
 @Controller({
   path: "lessons",
   version: "1",
@@ -38,14 +44,30 @@ import { FindAllLessonsDto } from "./dto/find-all-lessons.dto";
 export class LessonsController {
   constructor(private readonly lessonsService: LessonsService) {}
 
-  @Post()
+  @Roles(RoleEnum.admin, RoleEnum.staff)
+  @Post(":courseId")
   @ApiCreatedResponse({
     type: Lesson,
   })
-  create(@Body() createLessonDto: CreateLessonDto) {
-    return this.lessonsService.create(createLessonDto);
+  async create(
+    @Param("courseId") courseId: string,
+    @Body() createLessonDto: CreateLessonDto,
+  ) {
+    try {
+      return await this.lessonsService.create(courseId, createLessonDto);
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException("Conflict title");
+      }
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        "An error occurred while creating the lesson. Please try again later.",
+      );
+    }
   }
-
+  @Roles(RoleEnum.admin, RoleEnum.staff, RoleEnum.user)
   @Get()
   @ApiOkResponse({
     type: InfinityPaginationResponse(Lesson),
@@ -70,6 +92,7 @@ export class LessonsController {
     );
   }
 
+  @Roles(RoleEnum.admin, RoleEnum.staff, RoleEnum.user)
   @Get(":id")
   @ApiParam({
     name: "id",
@@ -83,6 +106,7 @@ export class LessonsController {
     return this.lessonsService.findOne(id);
   }
 
+  @Roles(RoleEnum.admin, RoleEnum.staff)
   @Patch(":id")
   @ApiParam({
     name: "id",
@@ -92,10 +116,23 @@ export class LessonsController {
   @ApiOkResponse({
     type: Lesson,
   })
-  update(@Param("id") id: string, @Body() updateLessonDto: UpdateLessonDto) {
-    return this.lessonsService.update(id, updateLessonDto);
+  async update(
+    @Param("id") id: string,
+    @Body() updateLessonDto: UpdateLessonDto,
+  ) {
+    try {
+      return await this.lessonsService.update(id, updateLessonDto);
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(
+        "An error occurred while updating the lesson. Please try again later.",
+      );
+    }
   }
 
+  @Roles(RoleEnum.admin, RoleEnum.staff)
   @Delete(":id")
   @ApiParam({
     name: "id",

@@ -36,6 +36,10 @@ export class UserCourseEntity extends EntityRelationalHelper {
   })
   course: CourseEntity;
 
+  @ApiProperty({ type: Number })
+  @Column({ type: "int", nullable: true })
+  lastPosition?: number | null;
+
   @ApiProperty({
     enum: StatusEnum,
   })

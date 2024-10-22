@@ -7,20 +7,17 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { LessonCourse } from "../lesson-courses/domain/lesson-course";
-import { CreateLessonCourseDto } from "../lesson-courses/dto/create-lesson-course.dto";
 import { LessonCourseRepository } from "../lesson-courses/infrastructure/persistence/lesson-course.repository";
-import { LessonCourseMapper } from "../lesson-courses/infrastructure/persistence/relational/mappers/lesson-course.mapper";
 import { UserCourseRepository } from "../user-courses/infrastructure/persistence/user-course.repository";
 import { UserEntity } from "../users/infrastructure/persistence/relational/entities/user.entity";
 import { UserRepository } from "../users/infrastructure/persistence/user.repository";
 import { Course } from "./domain/course";
 import { CourseWithDetailsDTO } from "./dto/course-details-dto";
+import { CourseListResponseDto } from "./dto/courses-response-dto";
 import { CreateCourseDto } from "./dto/create-course.dto";
 import { UpdateCourseDto } from "./dto/update-course.dto";
 import { CourseRepository } from "./infrastructure/persistence/course.repository";
 import { CourseMapper } from "./infrastructure/persistence/relational/mappers/course.mapper";
-import { CourseListResponseDto } from "./dto/courses-response-dto";
 
 @Injectable()
 export class CoursesService {
@@ -56,57 +53,6 @@ export class CoursesService {
     return course;
   }
 
-  async addLessonToCourse(
-    id: string,
-    createLessonCourseDto: CreateLessonCourseDto,
-  ): Promise<LessonCourse> {
-    createLessonCourseDto.course_id = id;
-    const existingLessons =
-      await this.lessonCourseRepository.findLessonByCourseId(id);
-    const lessons = existingLessons ?? [];
-    const newPosition = lessons.length + 1;
-    createLessonCourseDto.position = newPosition;
-
-    const lessonCourse = LessonCourseMapper.toModel(createLessonCourseDto);
-    return await this.lessonCourseRepository.create(lessonCourse);
-  }
-
-  // async updateLessonPosition(
-  //   courseId: string,
-  //   lessonId: string,
-  //   newPosition: number,
-  // ): Promise<LessonCourse> {
-  //   const lessonCourse = await this.findLessonCourse(courseId, lessonId);
-  //   if (!lessonCourse) {
-  //     throw new NotFoundException("LessonCourse not found");
-  //   }
-
-  //   const updatedLessonCourse: Partial<LessonCourse> = {
-  //     position: newPosition,
-  //   };
-
-  //   const result = await this.lessonCourseRepository.update(
-  //     lessonCourse.id,
-  //     updatedLessonCourse,
-  //   );
-
-  //   if (!result) {
-  //     throw new Error("Failed to update LessonCourse");
-  //   }
-
-  //   return result;
-  // }
-
-  // private async findLessonCourse(
-  //   courseId: string,
-  //   lessonId: string,
-  // ): Promise<LessonCourse | null> {
-  //   return this.lessonCourseRepository.findByCourseAndLesson(
-  //     courseId,
-  //     lessonId,
-  //   );
-  // }
-
   findAllWithPagination({
     paginationOptions,
   }: {
@@ -120,13 +66,24 @@ export class CoursesService {
     });
   }
 
-  async getCourseDetails(id: string): Promise<CourseWithDetailsDTO> {
-    const courseDetails = await this.courseRepository.getDetailById(id);
-
+  async getCourseDetails(
+    id: string,
+    userId: string,
+  ): Promise<CourseWithDetailsDTO> {
+    const courseExists = await this.findOne(id);
+    if (!courseExists) {
+      throw new NotFoundException(`Course with ID ${id} not found`);
+    }
+    const courseDetails = await this.courseRepository.getCourseDetailById(
+      id,
+      userId,
+    );
+    console.log(`courseExists: ${courseExists.id}`);
+    console.log(`courseDetails: ${courseDetails}`);
     if (!courseDetails) {
       throw new NotFoundException(`Course with ID ${id} not found`);
     }
-
+    courseDetails.isMyCourse = true;
     return courseDetails;
   }
 
