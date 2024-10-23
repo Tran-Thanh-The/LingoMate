@@ -57,7 +57,6 @@ const customTheme: ThemeOptions = createTheme({
           textTransform: 'none',
           borderWidth: '0.5px',
           '&:hover': { borderWidth: '0.5px' },
-          width: '100%',
         },
         sizeSmall: {
           padding: '0.75rem 1.25rem',
@@ -261,6 +260,7 @@ const customTheme: ThemeOptions = createTheme({
           },
           '&:hover': {
             backgroundColor: '#fff',
+            borderRadius: '0.75rem!important',
           },
         },
       },
