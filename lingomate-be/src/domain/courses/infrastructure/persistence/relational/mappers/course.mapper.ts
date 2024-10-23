@@ -58,7 +58,7 @@ export class CourseMapper {
     model.name = dto.name;
     model.price = dto.price;
     model.description = dto.description;
-    model.status = dto.status ?? StatusEnum.InActive;
+    model.status = dto.status ?? StatusEnum.IN_ACTIVE;
     const category = new CategoryEntity();
     category.id = dto.category_id;
     model.category = category;
@@ -76,7 +76,7 @@ export class CourseMapper {
     dto.name = model.name;
     dto.price = model.price;
     dto.description = model.description;
-    dto.status = model.status ?? StatusEnum.InActive;
+    dto.status = model.status ?? StatusEnum.IN_ACTIVE;
     const category = new CategoryEntity();
     category.id = model.id;
     dto.category_id = model.id;

@@ -184,8 +184,8 @@ npm run seed:run:relational
               name: 'User',
             }),
             status: this.repositoryStatus.create({
-              id: StatusEnum.active,
-              name: 'Active',
+              id: StatusEnum.ACTIVE,
+              name: 'ACTIVE',
             }),
           });
         };

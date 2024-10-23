@@ -36,7 +36,7 @@ export class UserSeedService {
             id: RoleEnum.admin,
             name: "Admin",
           },
-          status: StatusEnum.Active,
+          status: StatusEnum.ACTIVE,
         }),
       );
     }
@@ -62,7 +62,7 @@ export class UserSeedService {
             id: RoleEnum.staff,
             name: "Staff",
           },
-          status: StatusEnum.Active
+          status: StatusEnum.ACTIVE
         }),
       );
     }

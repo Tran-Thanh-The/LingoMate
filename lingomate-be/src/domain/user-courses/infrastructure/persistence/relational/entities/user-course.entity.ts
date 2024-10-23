@@ -46,7 +46,7 @@ export class UserCourseEntity extends EntityRelationalHelper {
   @Column({
     type: "enum",
     enum: StatusEnum,
-    default: StatusEnum.InActive,
+    default: StatusEnum.IN_ACTIVE,
   })
   status: StatusEnum;
 

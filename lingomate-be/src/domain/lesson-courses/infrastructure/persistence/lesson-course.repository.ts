@@ -44,8 +44,8 @@ export abstract class LessonCourseRepository {
     lessonId: string,
   ): Promise<NullableType<LessonCourse>>;
 
-  abstract countActiveLessonsByCourseId(courseId: string): Promise<number>;
-  abstract findActiveLessonsByCourseId(
+  abstract countACTIVELessonsByCourseId(courseId: string): Promise<number>;
+  abstract findACTIVELessonsByCourseId(
     courseId: string,
   ): Promise<LessonCourse[]>;
   // abstract findLessonByCourseId(

@@ -42,7 +42,7 @@ export class UserQuestionEntity extends EntityRelationalHelper {
   @Column({
     type: "enum",
     enum: StatusEnum,
-    default: StatusEnum.InActive,
+    default: StatusEnum.IN_ACTIVE,
   })
   status: StatusEnum;
 

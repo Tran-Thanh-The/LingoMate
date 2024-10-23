@@ -42,7 +42,7 @@ export class LessonCourseMapper {
     const course = new CourseEntity();
     course.id = dto.course_id;
     model.course = course;
-    model.status = dto.status ?? StatusEnum.InActive;
+    model.status = dto.status ?? StatusEnum.IN_ACTIVE;
     model.position = dto.position;
     return model;
   }

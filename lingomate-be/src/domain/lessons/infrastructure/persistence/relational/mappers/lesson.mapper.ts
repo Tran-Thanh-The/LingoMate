@@ -49,7 +49,7 @@ export class LessonMapper {
     model.lessonType = dto.lessonType;
     model.stars = dto.stars;
     model.totalStars = dto.totalStars;
-    model.status = dto.status ?? StatusEnum.InActive;
+    model.status = dto.status ?? StatusEnum.IN_ACTIVE;
     return model;
   }
 
