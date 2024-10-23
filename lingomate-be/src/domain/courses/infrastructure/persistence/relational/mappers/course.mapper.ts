@@ -37,11 +37,9 @@ export class CourseMapper {
     let photo: FileEntity | undefined | null = undefined;
 
     if (domainEntity.photo) {
-      photo = new FileEntity();
-      photo.id = domainEntity.photo.id;
-      photo.path = domainEntity.photo.path;
-    } else if (domainEntity.photo === null) {
-      photo = null;
+      persistenceEntity.photo = FileMapper.toPersistence(domainEntity.photo);
+    } else {
+      persistenceEntity.photo = null;
     }
 
     persistenceEntity.status = domainEntity.status;
