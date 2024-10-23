@@ -130,9 +130,9 @@ export class AuthService {
         role: {
           id: RoleEnum.user,
         },
-        status: StatusEnum.InActive
+        status: StatusEnum.IN_ACTIVE
         // status: {
-        //   id: StatusEnum.inactive,
+        //   id: StatusEnum.IN_ACTIVE,
         // },
       });
 
@@ -215,7 +215,7 @@ export class AuthService {
 
     if (
       !user ||
-      user?.status?.toString() !== StatusEnum.InActive.toString()
+      user?.status?.toString() !== StatusEnum.IN_ACTIVE.toString()
     ) {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
@@ -223,7 +223,7 @@ export class AuthService {
       });
     }
 
-    user.status = StatusEnum.Active;
+    user.status = StatusEnum.ACTIVE;
 
     await this.usersService.update(user.id, user);
   }
@@ -263,7 +263,7 @@ export class AuthService {
     }
 
     user.email = newEmail;
-    user.status = StatusEnum.Active;
+    user.status = StatusEnum.ACTIVE;
 
     await this.usersService.update(user.id, user);
   }

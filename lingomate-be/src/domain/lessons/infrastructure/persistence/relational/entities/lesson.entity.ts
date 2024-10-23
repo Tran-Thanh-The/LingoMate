@@ -56,7 +56,7 @@ export class LessonEntity extends EntityRelationalHelper {
   @Column({
     type: "enum",
     enum: StatusEnum,
-    default: StatusEnum.Active,
+    default: StatusEnum.ACTIVE,
   })
   status: StatusEnum;
 

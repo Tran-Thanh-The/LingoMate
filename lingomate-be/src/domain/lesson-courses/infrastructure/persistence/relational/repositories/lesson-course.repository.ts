@@ -150,20 +150,20 @@ export class LessonCourseRelationalRepository
     return LessonCourseMapper.toDomain(lessonCourseEntity) || null;
   }
 
-  async countActiveLessonsByCourseId(courseId: string): Promise<number> {
+  async countACTIVELessonsByCourseId(courseId: string): Promise<number> {
     return this.lessonCourseRepository.count({
       where: {
         course: { id: courseId },
-        status: StatusEnum.Active,
+        status: StatusEnum.ACTIVE,
       },
     });
   }
 
-  async findActiveLessonsByCourseId(courseId: string): Promise<LessonCourse[]> {
+  async findACTIVELessonsByCourseId(courseId: string): Promise<LessonCourse[]> {
     return this.lessonCourseRepository.find({
       where: {
         course: { id: courseId },
-        status: StatusEnum.Active,
+        status: StatusEnum.ACTIVE,
       },
       relations: ["lesson"],
     });

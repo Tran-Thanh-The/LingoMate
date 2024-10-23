@@ -37,20 +37,20 @@ export class LessonsService {
     }
 
     const model = LessonMapper.toModel(createLessonDto);
-    model.status = StatusEnum.Active;
+    model.status = StatusEnum.ACTIVE;
     const savedLesson = await this.lessonRepository.create(model);
     if (courseId) {
-      const activeCount =
-        await this.lessonCourseRepository.countActiveLessonsByCourseId(
+      const ACTIVECount =
+        await this.lessonCourseRepository.countACTIVELessonsByCourseId(
           courseId,
         );
-      const newPosition = activeCount + 1;
+      const newPosition = ACTIVECount + 1;
 
       const lessonCourse = LessonCourseMapper.toModel({
         course_id: courseId,
         lesson_id: savedLesson.id,
         position: newPosition,
-        status: StatusEnum.Active,
+        status: StatusEnum.ACTIVE,
       });
       await this.lessonCourseRepository.create(lessonCourse);
     }
@@ -92,19 +92,19 @@ export class LessonsService {
       );
     }
 
-    lessonCourse.status = StatusEnum.InActive;
+    lessonCourse.status = StatusEnum.IN_ACTIVE;
     const lesson = await this.lessonRepository.findById(id);
     if (!lesson) {
       throw new NotFoundException(
         `No lesson found for lesson with id "${id}".`,
       );
     }
-    lesson.status = StatusEnum.InActive;
+    lesson.status = StatusEnum.IN_ACTIVE;
     await this.lessonRepository.save(lesson);
     await this.lessonCourseRepository.save(lessonCourse);
 
     const remainingLessons =
-      await this.lessonCourseRepository.findActiveLessonsByCourseId(
+      await this.lessonCourseRepository.findACTIVELessonsByCourseId(
         lessonCourse.course.id,
       );
 
