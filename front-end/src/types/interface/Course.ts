@@ -2,7 +2,7 @@ import { LessonResponse } from './Lesson';
 
 export interface CourseResponse {
   id: string;
-  title: string;
+  name: string;
   description: string;
   price: number;
   createdAt: Date;

@@ -17,7 +17,6 @@ createRoot(document.getElementById('root')!).render(
           <App />
         </AuthProvider>
       </ThemeProvider>
-      ,
     </PersistGate>
-  </Provider>,
+  </Provider>
 );

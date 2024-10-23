@@ -73,7 +73,7 @@ const HeaderAction = () => {
 
   return (
     <Grid container alignItems="center" justifyContent="flex-end" spacing={2}>
-      <Grid>
+      <Grid className="button-action">
         {!user ? (
           <Button
             variant="contained"
