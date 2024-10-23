@@ -41,6 +41,10 @@ export class CreateUserDto {
   @Type(() => RoleDto)
   role?: RoleDto | null;
 
+  @ApiPropertyOptional({ type: Date })
+  @IsOptional()
+  dob?: Date | null;
+
   @ApiPropertyOptional({
     enum: StatusEnum,
   })

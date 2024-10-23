@@ -46,7 +46,7 @@ export class CoursesService {
     const userCourse = new UserCourse();
     userCourse.user = user as UserEntity;
     userCourse.course = course as CourseEntity;
-    userCourse.status = StatusEnum.Active;
+    userCourse.status = StatusEnum.ACTIVE;
 
     await this.userCourseRepository.create(userCourse);
 
@@ -130,14 +130,14 @@ export class CoursesService {
       throw new NotFoundException("Course not found");
     }
 
-    course.status = StatusEnum.InActive;
+    course.status = StatusEnum.IN_ACTIVE;
 
     const userCourses = await this.userCourseRepository.findByCourseId(id);
     if (userCourses) {
       await Promise.all(
         userCourses.map((userCourse) =>
           this.userCourseRepository.update(userCourse.id, {
-            status: StatusEnum.InActive,
+            status: StatusEnum.IN_ACTIVE,
           }),
         ),
       );
@@ -148,7 +148,7 @@ export class CoursesService {
       await Promise.all(
         lessonCourses.map((lessonCourse) =>
           this.lessonCourseRepository.update(lessonCourse.id, {
-            status: StatusEnum.InActive,
+            status: StatusEnum.IN_ACTIVE,
           }),
         ),
       );

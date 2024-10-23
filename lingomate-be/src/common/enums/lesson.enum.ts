@@ -1,5 +1,5 @@
 export enum LessonTypesEnum {
-  Video = "Video",
-  Docs = "Docs",
-  Exercise = "Exercise",
+  VIDEO = "VIDEO",
+  DOCS = "DOCS",
+  EXERCISE = "EXERCISE",
 }

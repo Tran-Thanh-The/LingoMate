@@ -1,7 +1,7 @@
 export enum QuestionTypesEnum {
-  Choice = "Choice",
-  Paragraph = "Paragraph",
-  Sentence = "Sentence",
-  Audio_sentence = "Audio_sentence",
-  Audio_paragraph = "Audio_paragraph",
+  CHOICE = "CHOICE",
+  PARAGRAPH = "PARAGRAPH",
+  SENTENCE = "SENTENCE",
+  AUDIO_SENTENCE = "AUDIO_SENTENCE",
+  AUDIO_PARAGRAPH = "AUDIO_PARAGRAPH",
 }
