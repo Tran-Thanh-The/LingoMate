@@ -1,14 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography } from '@mui/material';
-import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
-import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import courseApi from '@/api/courseApi';
 import CourseCard from '@/features/dashboard/features/courses/features/course-list/components/course-card/CourseCard';
 import CourseFilter from '@/features/dashboard/features/courses/features/course-list/components/course-filter/CourseFilter';
+import CreateCourseModal from '@/features/dashboard/features/courses/features/course-list/components/create-course-modal/CreateCourseModal';
+import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
+import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import { Box, Button, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 
 interface Course {
   id: string;
-  title: string;
+  name: string;
   description: string;
   price: number;
   createdAt: Date;
@@ -17,54 +18,31 @@ interface Course {
   isMyCourse: boolean;
 }
 
-const mockCourseDataArray: Course[] = [
-  {
-    id: '9766febf-037e-4a3d-8962-17d0fa9a74b3',
-    title: 'React for Beginners',
-    description:
-      'Learn the basics of React.js and start building your own web applications.',
-    price: 49.99,
-    createdAt: new Date('2023-10-01T12:00:00Z'),
-    totalLesson: 10,
-    completedLesson: 4,
-    isMyCourse: true,
-  },
-  {
-    id: '2',
-    title: 'Advanced JavaScript',
-    description:
-      'Master advanced JavaScript concepts like closures, async/await, and ES6+ features.',
-    price: 59.99,
-    createdAt: new Date('2023-08-15T09:30:00Z'),
-    totalLesson: 12,
-    completedLesson: 12,
-    isMyCourse: true,
-  },
-  {
-    id: '3',
-    title: 'CSS Flexbox & Grid',
-    description: 'Learn modern layout techniques using CSS Flexbox and Grid.',
-    price: 29.99,
-    createdAt: new Date('2023-09-10T14:00:00Z'),
-    totalLesson: 8,
-    completedLesson: 5,
-    isMyCourse: false,
-  },
-  {
-    id: '4',
-    title: 'Node.js Crash Course',
-    description:
-      'Get up and running with Node.js and build backend applications.',
-    price: 39.99,
-    createdAt: new Date('2023-07-22T10:00:00Z'),
-    totalLesson: 15,
-    completedLesson: 7,
-    isMyCourse: false,
-  },
-];
-
 export default function CourseList() {
-  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const [courses, setCourses] = React.useState<Course[]>([]);
+  const [reload, setReload] = React.useState(false);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [reload]);
+
+  const triggerReload = () => {
+    setReload(!reload);
+  }
+
+  const fetchCourses = async () => {
+    try {
+      const response = await courseApi.getCourses();
+      setCourses(response.data.data);
+    } catch (error) {
+      console.error('Failed to fetch courses:', error);
+    }
+  };
+
+  const handleCreateCourse = () => {
+    setOpen(true);
+  };
 
   return (
     <FeatureLayout>
@@ -84,7 +62,7 @@ export default function CourseList() {
           <CourseFilter />
           <Button
             variant="contained"
-            onClick={() => navigate('/dashboard/courses/create')}
+            onClick={handleCreateCourse}
             sx={{
               width: 'unset',
             }}
@@ -98,21 +76,24 @@ export default function CourseList() {
         </Typography>
 
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-          {mockCourseDataArray.map((course) => (
+          {(courses ?? []).map((course) => (
             <CourseCard
               key={course.id}
               id={course.id}
-              title={course.title}
+              title={course.name}
               description={course.description}
               price={course.price}
               createdAt={course.createdAt}
-              totalLesson={course.totalLesson}
-              completedLesson={course.completedLesson}
-              isMyCourse={course.isMyCourse}
+              totalLesson={14}
+              completedLesson={4}
+              isMyCourse={false}
+              onDeleted={triggerReload}
             />
           ))}
         </Box>
       </Box>
+
+      <CreateCourseModal open={open} onClose={setOpen} onOk={triggerReload} />
     </FeatureLayout>
   );
 }

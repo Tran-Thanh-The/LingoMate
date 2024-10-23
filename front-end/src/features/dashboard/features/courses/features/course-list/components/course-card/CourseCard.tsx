@@ -13,6 +13,8 @@ import {
   Typography,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Swal from 'sweetalert2';
+import courseApi from '@/api/courseApi';
 
 interface CourseCardProps {
   id: string;
@@ -23,6 +25,7 @@ interface CourseCardProps {
   totalLesson: number;
   completedLesson: number;
   isMyCourse: boolean;
+  onDeleted: () => void;
 }
 
 const CourseCard = ({
@@ -34,6 +37,7 @@ const CourseCard = ({
   totalLesson,
   completedLesson,
   isMyCourse,
+  onDeleted
 }: CourseCardProps) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,7 +65,20 @@ const CourseCard = ({
 
   const handleDelete = (event) => {
     event.stopPropagation();
-    console.log(`Deleting course with id: ${id}`);
+    Swal.fire({
+      title: 'Xác nhận xóa khóa học?',
+      showCancelButton: true,
+      showDenyButton: true,
+      showConfirmButton: false,
+      cancelButtonText: 'Hủy',
+      denyButtonText: 'Xóa',
+    }).then(async (result) => {
+      if (result.isDenied) {
+        await courseApi.deleteCourse(id);
+        onDeleted();
+        Swal.fire('Xóa thành công!', '', 'success');
+      }
+    });
     handleMenuClose();
   };
 
@@ -97,7 +114,7 @@ const CourseCard = ({
           {description}
         </Typography>
         <Typography variant="subtitle1" color="primary" sx={{ mb: 1 }}>
-          ${price.toFixed(2)}
+          ${price}
         </Typography>
         <Typography
           variant="caption"

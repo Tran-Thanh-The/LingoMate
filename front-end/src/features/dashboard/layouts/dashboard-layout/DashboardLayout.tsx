@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }) {
           display: 'flex',
           flexDirection: 'row',
           paddingTop: '64px',
-          height: 'calc(100vh - 64px)',
+          height: '100vh',
           overflow: 'hidden',
         }}
       >
