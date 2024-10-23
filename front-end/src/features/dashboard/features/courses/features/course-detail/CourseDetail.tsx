@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import courseApi from '@/api/courseApi';
+import lessonApi from '@/api/lessonApi';
+import RoleBasedComponent from '@/components/RoleBasedComponent';
+import Breadcrumb from '@/features/dashboard/components/breadcrumb/Breadcrumb';
+import CreateCourseModal from '@/features/dashboard/features/courses/features/course-list/components/create-course-modal/CreateCourseModal';
+import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import { LessonTypes } from '@/types/enum/LessonType';
+import { CourseResponse } from '@/types/interface/Course';
+import { LESSONS_PER_PAGE, ROLE } from '@/utils/constants/constants';
+import AddIcon from '@mui/icons-material/Add';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import {
   Box,
+  Breadcrumbs,
+  Button,
   Card,
   CardContent,
   CardMedia,
-  Chip,
-  LinearProgress,
+  IconButton,
   Menu,
   MenuItem,
-  Typography,
-  Tabs,
-  Tab,
   Pagination,
-  IconButton,
+  Tab,
+  Tabs,
+  Typography
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import FeatureHeader from '@/features/dashboard/layouts/feature-layout/components/feature-header/FeatureHeader';
-import FeatureLayout from '@/features/dashboard/layouts/feature-layout/FeatureLayout';
+import Swal from 'sweetalert2';
 import LessonCard from '../../components/lesson-card/LessonCard';
-import { LESSONS_PER_PAGE, ROLE } from '@/utils/constants/constants';
-import RoleBasedComponent from '@/components/RoleBasedComponent';
-import { LessonTypes } from '@/types/enum/LessonType';
-import { CourseResponse } from '@/types/interface/Course';
-import lessonApi from '@/api/lessonApi';
-import courseApi from '@/api/courseApi';
 
 const MOCK_LESSONS = [
   {
@@ -92,6 +95,8 @@ export default function CourseDetail() {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const { idCourse } = useParams();
+  const [openCourseForm, setOpenCourseForm] = useState(false);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (!idCourse) {
@@ -104,7 +109,11 @@ export default function CourseDetail() {
         lessons: MOCK_LESSONS,
       });
     });
-  }, [idCourse]);
+  }, [idCourse, reload]);
+
+  const triggerReload = () => {
+    setReload(!reload);
+  };
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
@@ -179,27 +188,55 @@ export default function CourseDetail() {
   };
 
   const filteredLessons = getFilteredLessons();
+
   const paginatedFilteredLessons = filteredLessons?.slice(
     (currentPage - 1) * LESSONS_PER_PAGE,
     currentPage * LESSONS_PER_PAGE,
   );
+
   const totalFilteredPages = Math.ceil(
     filteredLessons?.length / LESSONS_PER_PAGE,
   );
 
+  const handleUpdateCourse = () => {
+    setOpenCourseForm(true);
+  };
+
+  const handleDeleteCourse = () => {
+    if (idCourse) {
+      Swal.fire({
+        title: 'Bạn có chắc chắn muốn xóa khóa học này?',
+        showDenyButton: true,
+        confirmButtonText: `Xóa`,
+        denyButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await courseApi.deleteCourse(idCourse);
+          navigate('/dashboard/courses');
+        }
+      });
+    }
+  };
+
   return (
     <FeatureLayout>
-      <FeatureHeader
-        title="Chi tiết khóa học"
-        backPath="/dashboard/courses/course-list"
-      />
+      <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumb
+          component="a"
+          href="#"
+          label="Khóa học"
+          icon={<LibraryBooksIcon fontSize="small" />}
+        />
+        <Breadcrumb label={course?.name} component="a" href="#" />
+      </Breadcrumbs>
+
       {course?.id && (
         <Box sx={{ padding: 3 }}>
           <Card sx={{ marginBottom: 3 }}>
             <CardMedia
               component="img"
               sx={{ width: '100%', height: 250 }}
-              image="https://via.placeholder.com/400x200"
+              image="https://ebest.edu.vn/wp-content/uploads/2021/09/Banner-khoa-hoc-8-min.png"
               alt={course.name}
             />
             <CardContent>
@@ -217,25 +254,33 @@ export default function CourseDetail() {
               <Typography variant="caption" color="text.secondary">
                 Created at: {new Date(course.createdAt).toLocaleDateString()}
               </Typography>
-              {/* <Box sx={{ marginTop: 2 }}>
-                <Typography variant="caption">
-                  Progress: {course.completedLesson}/{course.totalLesson} lessons
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={(course.completedLesson / course.totalLesson) * 100}
-                  sx={{ marginTop: 1, height: 8, borderRadius: 5 }}
-                />
-              </Box>
-              {course.isMyCourse && (
-                <Chip
-                  label="Purchased"
-                  color="success"
-                  size="small"
-                  sx={{ marginTop: 2 }}
-                />
-              )} */}
             </CardContent>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                justifyContent: 'flex-end',
+                padding: 2,
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="error"
+                size="small"
+                onClick={handleDeleteCourse}
+              >
+                Xóa khóa học
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={handleUpdateCourse}
+              >
+                Sửa khóa học
+              </Button>
+            </Box>
           </Card>
 
           <Box
@@ -309,6 +354,12 @@ export default function CourseDetail() {
           </Menu>
         </Box>
       )}
+      <CreateCourseModal
+        data={course}
+        open={openCourseForm}
+        onClose={setOpenCourseForm}
+        onOk={triggerReload}
+      />
     </FeatureLayout>
   );
 }

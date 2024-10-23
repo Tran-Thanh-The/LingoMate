@@ -11,7 +11,7 @@ const courseApi = {
     return axiosInstance.post<any>('/courses', data);
   },
   updateCourse: (id: string, data: any) => {
-    return axiosInstance.put<any>(`/courses/${id}`, data);
+    return axiosInstance.patch<any>(`/courses/${id}`, data);
   },
   deleteCourse: (id: string) => {
     return axiosInstance.delete<any>(`/courses/${id}`);

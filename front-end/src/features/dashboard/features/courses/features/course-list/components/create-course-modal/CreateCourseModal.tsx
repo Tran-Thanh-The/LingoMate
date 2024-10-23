@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function CreateCourseModal({ open, onClose, onOk }) {
+export default function CreateCourseModal({ open, onClose, onOk, data = null }) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -35,14 +35,36 @@ export default function CreateCourseModal({ open, onClose, onOk }) {
   }, []);
 
   useEffect(() => {
-    if (!open) {
+    if (data?.id) {
       setFormData({
-        name: '',
-        description: '',
-        price: '',
+        name: data.name,
+        description: data.description,
+        price: data.price,
         image: null,
-        category_id: '',
+        category_id: data.category.id,
       });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (!open) {
+      if (data?.id) {
+        setFormData({
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          image: null,
+          category_id: data.category.id,
+        });
+      } else {
+        setFormData({
+          name: '',
+          description: '',
+          price: '',
+          image: null,
+          category_id: '',
+        });
+      }
     }
   }, [open]);
 
@@ -76,8 +98,13 @@ export default function CreateCourseModal({ open, onClose, onOk }) {
       return;
     }
 
-    await courseApi.createCourse(formData);
-    toast.success('Tạo khóa học thành công!');
+    if (data?.id) {
+      await courseApi.updateCourse(data.id, formData);
+      toast.success('Cập nhật khóa học thành công!');
+    } else {
+      await courseApi.createCourse(formData);
+      toast.success('Tạo khóa học thành công!');
+    }
     onOk();
     onClose(false);
   };
