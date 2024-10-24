@@ -1,0 +1,237 @@
+// Enum definitions
+Enum StatusEnum {
+  ACTIVE
+  IN_ACTIVE
+}
+
+Enum AnswerTypesEnum {
+  CHOICE
+  PARAGRAPH
+  SENTENCE
+  AUDIO_SENTENCE
+  AUDIO_PARAGRAPH
+}
+
+Enum LessonTypesEnum {
+  VIDEO
+  DOCS
+  EXERCISE
+}
+
+Enum QuestionTypesEnum {
+  CHOICE
+  PARAGRAPH
+  SENTENCE
+  AUDIO_SENTENCE
+  AUDIO_PARAGRAPH
+}
+
+Enum AuthProvidersEnum {
+  email
+  facebook
+  google
+  twitter
+  apple
+}
+
+Table answer {
+  id uuid [pk]
+  answerType AnswerTypesEnum
+  answerAudio string
+  answerText string
+  isCorrect boolean
+  position int
+  status StatusEnum
+  question_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table category {
+  id uuid [pk]
+  name string
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table course_invoices {
+  id uuid [pk]
+  course_id uuid
+  user_invoices_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table course {
+  id uuid [pk]
+  photo_id uuid
+  category_id uuid
+  name string
+  price decimal
+  description string
+  status StatusEnum
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+Table invoice {
+  id uuid [pk]
+  name string
+  description string
+  money decimal
+  status StatusEnum
+  course_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+Table lesson_course {
+  id uuid [pk]
+  status StatusEnum
+  position int
+  lesson_id uuid
+  course_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table lesson {
+  id uuid [pk]
+  title string
+  content string
+  videoUrl string
+  lessonType LessonTypesEnum
+  stars decimal
+  totalStars int
+  status StatusEnum
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+Table practice_exercise {
+  id uuid [pk]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table question_lesson {
+  id uuid [pk]
+  status StatusEnum
+  position int
+  lesson_id uuid
+  question_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table question {
+  id uuid [pk]
+  title string
+  description string
+  audioUrl string
+  questionType QuestionTypesEnum
+  status StatusEnum
+  category_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table role {
+  id int [pk]
+  name string
+}
+
+Table session {
+  id int [pk]
+  hash string
+  user_id int
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+Table user_course {
+  id uuid [pk]
+  status StatusEnum
+  user_id int
+  course_id uuid
+  lastPositon int
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table user_invoices {
+  id uuid [pk]
+  user_id int
+  invoice_id uuid
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+Table user_lesson {
+  id uuid [pk]
+  status StatusEnum
+  user_id int
+  lesson_id uuid
+  isCompleted boolean
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table user_question {
+  id uuid [pk]
+  status StatusEnum
+  user_id int
+  question_id uuid
+  answerPick string
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table file {
+  id uuid [pk]
+  path string
+}
+
+Table user {
+  id int [pk]
+  email string
+  password string
+  provider AuthProvidersEnum
+  socialId string
+  photo_id uuid
+  role_id int
+  fullName string
+  dob date
+  status StatusEnum
+  createdAt timestamp
+  updatedAt timestamp
+  deletedAt timestamp
+}
+
+// Relationships
+Ref: answer.question_id > question.id
+Ref: course_invoices.course_id > course.id
+Ref: course_invoices.user_invoices_id > user_invoices.id
+Ref: course.photo_id > file.id
+Ref: course.category_id > category.id
+Ref: lesson_course.lesson_id > lesson.id
+Ref: lesson_course.course_id > course.id
+Ref: question_lesson.lesson_id > lesson.id
+Ref: question_lesson.question_id > question.id
+Ref: question.category_id > category.id
+Ref: session.user_id > user.id
+Ref: user_course.user_id > user.id
+Ref: user_course.course_id > course.id
+Ref: user_invoices.user_id > user.id
+Ref: user_invoices.invoice_id > invoice.id
+Ref: user_lesson.user_id > user.id
+Ref: user_lesson.lesson_id > lesson.id
+Ref: user_question.user_id > user.id
+Ref: user_question.question_id > question.id
+Ref: user.photo_id > file.id
+Ref: user.role_id > role.id

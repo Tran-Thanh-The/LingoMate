@@ -19,6 +19,9 @@ export class MailerService {
         user: configService.get("mail.user", { infer: true }),
         pass: configService.get("mail.password", { infer: true }),
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
   }
 

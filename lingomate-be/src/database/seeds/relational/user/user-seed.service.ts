@@ -9,6 +9,7 @@ import { StatusEnum } from "@/common/enums/status.enum";
 
 @Injectable()
 export class UserSeedService {
+  private dateCreatedSeed = new Date();
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
@@ -37,6 +38,7 @@ export class UserSeedService {
             name: "Admin",
           },
           status: StatusEnum.ACTIVE,
+          dob: this.dateCreatedSeed,
         }),
       );
     }
@@ -62,7 +64,35 @@ export class UserSeedService {
             id: RoleEnum.staff,
             name: "Staff",
           },
-          status: StatusEnum.ACTIVE
+          status: StatusEnum.ACTIVE,
+          dob: this.dateCreatedSeed,
+        }),
+      );
+    }
+
+    const countUser = await this.repository.count({
+      where: {
+        role: {
+          id: RoleEnum.user,
+        },
+      },
+    });
+
+    if (!countUser) {
+      const salt = await bcrypt.genSalt();
+      const password = await bcrypt.hash("string", salt);
+
+      await this.repository.save(
+        this.repository.create({
+          fullName: "user",
+          email: "user1@gmail.com",
+          password,
+          role: {
+            id: RoleEnum.user,
+            name: "User",
+          },
+          status: StatusEnum.ACTIVE,
+          dob: this.dateCreatedSeed,
         }),
       );
     }
