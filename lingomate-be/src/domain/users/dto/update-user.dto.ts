@@ -39,7 +39,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiPropertyOptional({ type: Date })
   @IsOptional()
   dob?: Date | null;
-  
+
   @ApiPropertyOptional({ type: () => RoleDto })
   @IsOptional()
   @Type(() => RoleDto)
@@ -51,7 +51,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsEnum(StatusEnum)
   status: StatusEnum;
 
-  @ApiPropertyOptional({ type: String})
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   hash?: string | null;
 }

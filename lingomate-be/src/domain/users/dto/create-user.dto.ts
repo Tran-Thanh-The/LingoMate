@@ -51,7 +51,7 @@ export class CreateUserDto {
   @IsEnum(StatusEnum)
   status: StatusEnum;
 
-  @ApiPropertyOptional({ type: String})
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   hash?: string | null;
 }

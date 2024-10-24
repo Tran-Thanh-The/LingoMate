@@ -44,7 +44,6 @@ export class UserMapper {
       photo = null;
     }
 
-   
     const persistenceEntity = new UserEntity();
     if (domainEntity.id && typeof domainEntity.id === "number") {
       persistenceEntity.id = domainEntity.id;

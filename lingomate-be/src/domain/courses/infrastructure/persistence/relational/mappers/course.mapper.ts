@@ -34,7 +34,7 @@ export class CourseMapper {
     persistenceEntity.price = domainEntity.price;
     persistenceEntity.description = domainEntity.description;
 
-    let photo: FileEntity | undefined | null = undefined;
+    const photo: FileEntity | undefined | null = undefined;
 
     if (domainEntity.photo) {
       persistenceEntity.photo = FileMapper.toPersistence(domainEntity.photo);

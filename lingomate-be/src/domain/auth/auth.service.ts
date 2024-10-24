@@ -130,7 +130,7 @@ export class AuthService {
         role: {
           id: RoleEnum.user,
         },
-        status: StatusEnum.IN_ACTIVE
+        status: StatusEnum.IN_ACTIVE,
         // status: {
         //   id: StatusEnum.IN_ACTIVE,
         // },
@@ -213,10 +213,7 @@ export class AuthService {
 
     const user = await this.usersService.findById(userId);
 
-    if (
-      !user ||
-      user?.status?.toString() !== StatusEnum.IN_ACTIVE.toString()
-    ) {
+    if (!user || user?.status?.toString() !== StatusEnum.IN_ACTIVE.toString()) {
       throw new NotFoundException({
         status: HttpStatus.NOT_FOUND,
         error: `notFound`,
